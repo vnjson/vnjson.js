@@ -1,4 +1,4 @@
-RenJs.prototype.keywords['show'] = function(show){
+ren.keywords["show"] = function(show){
 			this.layers.show.style.display = 'block'
 
 			if(typeof(show)==='string'){

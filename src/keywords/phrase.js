@@ -1,6 +1,7 @@
-RenJs.prototype.keywords['text'] = function(text){
-
-	var speed = this.game.options.textSpeed;
+ren.keywords["phrase"] = function(text){
+		ren.layers.textBox.innerHTML = text;
+		/*
+			var speed = this.game.options.textSpeed;
 	var i = 0;
 	var _this = this;
 	
@@ -21,4 +22,5 @@ else {
 	this.layers.text_box.innerHTML = text;
 }
 
+		*/
 }

@@ -1,31 +1,35 @@
-RenJs.prototype.parse = function(){
-	var label = this.game.labels[this.label]
-	this.interator = label[this.i];
-	var	key = null;
+ren.parse = function(param){
 
+	
+
+switch(param){
+	case 'prev':
+		this.i--;
+		break;
+	case 'current':
+		this.i = this.i;
+		break;
+	default:
 		this.i++;
-
-//game.define + this.keywords
-/* Склеиваю пользовательские ключевые слова с основными*/
-function concat(keywords,functions){
-var c = {},
-	key;
-	for (key in keywords) {
-		c[key] = keywords[key];
-	}
-	for(key in functions){
-		c[key] = functions[key]
-	}
-	return c;
 }
+this.scene = this.game.labels[this.label];
+//получаю текущий объект из массива label
+this.iterator = this.scene[this.i];
+//Перебираю	объект this.iterator на наличие ключевых слов
+	for(var key in this.iterator){
+		//Если это персонаж то:
+		if(typeof this.keys[key]==='object'){
+			if('name' in this.keys[key]){
 
-var keywords = concat(this.keywords,this.game.define)
+				/*this is character*/
+			this.keywords.character(this.game.characters[key]);
+			this.keywords.phrase(this.iterator[key])
+			}
+		}
+		//Если это функция то вызвыаются ключевые слова.
+		if(typeof this.keys[key]==='function'){
+			this.keys[key].call(this,this.iterator[key]);
+		}
 
-/*перебераю методы объекта interator {aliase:'pr',text:'hello'}*/
-	for(key in this.interator){
-		keywords[key].call(this,this.interator[key])
 	}
-
-/*Конец новеллы*/
-//this.i===undefined/*>label.length*/&&alert('Конец')
 }

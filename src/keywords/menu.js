@@ -1,4 +1,5 @@
-RenJs.prototype.keywords['menu'] = function(menu){
+ren.keywords['menu'] = function(menu){
+	/*
 			var menuLi = []
 			var _this = this;
 
@@ -32,5 +33,3 @@ RenJs.prototype.keywords['menu'] = function(menu){
 	
 				/*-- Отсюда могу кликать по нижнему слою и новелла идет дальше..*/
 }
-
-
