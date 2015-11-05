@@ -12,6 +12,16 @@ var ren = {
 };
 
 
+
+
+
+
+
+
+	
+
+
+
 ren.reg = {
 	getImage:function(img){
 		var reg = VerEx()
@@ -310,7 +320,6 @@ switch(param){
 	}
 
 }
-
 
 $(document).ready(function($){
 	ren.loadGame();
