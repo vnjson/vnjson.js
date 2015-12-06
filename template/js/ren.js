@@ -84,9 +84,9 @@ $.when(
 
 .then(function(){
 	ren.event.jump(ren.game.options.startLabel)
-})
+});
 
-}
+};
 ren.createLayers = function(){
 
 this.game.layers.forEach(function(layer){
@@ -295,15 +295,15 @@ switch(param){
 				//Если это слой*layer
 				else{
 					this.event["layer"].call(this,name,value)
-				};
+				}
 
-			break
+			break;
 			case "function":
 				key.call(this,value);
-			break
+			break;
 			case "undefined":
 				this.event["undefined"].call(this,name,value);
-			break
+			break;
 		}
 
 		
@@ -313,6 +313,7 @@ switch(param){
 
 
 $(document).ready(function($){
+	$.ajaxSetup({dataType:'text'});
 	ren.loadGame();
 
 

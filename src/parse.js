@@ -15,7 +15,7 @@ switch(param){
 
 	ren.currentObject = ren.game.scenes[ren.label][ren.i];
 
-	console.log(this.i)
+
 	if(ren.currentObject===undefined){
 		console.error('Конец сцены i:'+this.i);
 	}
@@ -43,13 +43,13 @@ switch(param){
 					this.event["layer"].call(this,name,value)
 				};
 
-			break
+			break;
 			case "function":
 				key.call(this,value);
-			break
+			break;
 			case "undefined":
 				this.event["undefined"].call(this,name,value);
-			break
+			break;
 		}
 
 		
