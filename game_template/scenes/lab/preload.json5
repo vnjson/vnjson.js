@@ -1,0 +1,23 @@
+[
+	'assets/backgrounds/error.png',
+	'assets/backgrounds/kitchen.png',
+	'assets/backgrounds/lab_11.png',
+	'assets/backgrounds/room_hero.png',
+	'assets/backgrounds/the_door.png',
+	'assets/backgrounds/tuchka.png',
+	'assets/characters/cap.png',
+	'assets/characters/hero.png',
+	'assets/characters/konn.png',
+	'assets/characters/ladhya.png',
+	'assets/characters/ladya2.png',
+	'assets/characters/lusil.png',
+	'assets/characters/peshkee.png',
+	'assets/characters/prof.png',
+	'assets/characters/rl.png',
+	'assets/characters/tuchka_zadira.png',
+	'assets/ui/cursor.png',
+	'assets/ui/old_textbox.png',
+	'assets/ui/textbox.png',
+	'game/assets/audio/cosmic.wav',
+	'game/assets/audio/peshera.wav'
+]

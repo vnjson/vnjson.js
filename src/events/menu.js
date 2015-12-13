@@ -1,4 +1,4 @@
-ren.event.menu = function(param){
+/*ren.event.menu = function(param){
 		
 
 			$('#scene').append('<section id="menu"></section>');
@@ -44,4 +44,4 @@ ren.event.menu = function(param){
 					ren.event.jump($(this).attr('data-label'))
 				})
 	
-}
+}*/

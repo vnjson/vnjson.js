@@ -1,0 +1,32 @@
+{
+  "name": "renjs",
+  "version": "0.2.7",
+  "description": "Visual novell for web",
+  "main": "dest/ren.min.js",
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "howler": "^1.1.28",
+    "jquery": "^2.1.4",
+    "json5": "^0.4.0",
+    "mustache": "^2.2.0",
+    "store": "^1.3.17"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kserks/renjs.git"
+  },
+  "keywords": [
+    "visual",
+    "novel",
+    "game",
+    "story"
+  ],
+  "author": "kserks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kserks/renjs/issues"
+  },
+  "homepage": "https://github.com/kserks/renjs#readme"
+}

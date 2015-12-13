@@ -1,14 +1,22 @@
 ren.createLayers = function(){
+	ren.parent = "#"+ren.game.config.parent;
 
-this.game.layers.forEach(function(layer){
-	$('#'+layer.parent).append('<section id='+layer.id+'></section>')
-	$("#"+layer.id).css(layer.style);
-	ren.layers[layer.id] = layer.style;
+var Layers = {};
+ren.game.layers.forEach(function(layer){
+	if(layer.parent === "config.parent"){
+		$(ren.parent).append('<section id='+layer.id+'></section>');
+		$("#"+layer.id).css(layer.style);
+		
+	}
+	else{
+		$('#'+layer.parent).append('<section id='+layer.id+'></section>');
+		$("#"+layer.id).css(layer.style);
+		
+	}
+	ren.event[layer.id] = layer.style;
 
-})
+});
 
-	$('#scene').bind("mousedown",function(){
-		ren.parse('next');
-	});
+ren.event.jump(ren.game.config.startLabel);
 
-}
+};

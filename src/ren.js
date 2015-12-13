@@ -1,13 +1,18 @@
+/**
+* @version 0.2.9
+* @author kserks
+* @license MIT license
+*/
+
+/** @global */
 var ren = {
-	game:{},
-	i:0,
-	//event:{},
-	label:"String",
-	currentObject:null,
-	plugin:{},
-	layers:{},
-	reg:{},
-	images:{},
-	audio:{}
+			ext:{},
+
 };
 
+/**
+ * @todo Написать посимвольный вывод текста
+ * @todo Сделать загрузчик сцен
+ * @todo Анимация внутри dialog-box в конце текста.
+ 
+ */

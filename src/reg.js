@@ -1,4 +1,4 @@
-ren.reg = {
+/*ren.reg = {
 	getImage:function(img){
 		var reg = VerEx()
 				
@@ -19,10 +19,9 @@ ren.reg = {
 		return audio.match(reg)[0].split('.')[0]
 		
 	},
-	getLayer:function(layer){
+	getLayer:function(layer){*/
 		//show:$('#show')
 				//.css('background-image')
 					//.replace(/.*\s?url\([\'\"]?/, '')
-					//	.replace(/[\'\"]?\).*/, '')
-	}
-}
+					//	.replace(/[\'\"]?\).*///, '')
+	//}
