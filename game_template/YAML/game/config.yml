@@ -1,0 +1,8 @@
+{
+	parent:'game',
+	startLabel:"start/start",
+	width:600,
+	height:400,
+	debug:true,
+	lazyLoad:false // Если тру то будет в фоне подгружать сцены.
+}

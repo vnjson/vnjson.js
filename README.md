@@ -1,12 +1,34 @@
 
 ##renjs
 Visual novel engin for web
-
+>You can write a script for Visual Novel on JSON5 or YALM!
 ###How to use it?
 
 ####Define characters.
+
+```yaml
+#YAML
+# game/{{scene}}/{{label}}/characters.yml
+pr:
+  name: Профессор
+  color: green
+la:
+  name: Ладья
+  color: blue
+al:
+  name: Алиса
+  color: red
+ki:
+  name: Кирон
+  color: gold
+
+```
+
+or
+
 ```javascript
-//game/characters.json5
+//JSON5
+//game/{{scene}}/{{label}}/characters.json5
 {
 	pr:{ 
 		name:'Professor',
@@ -21,8 +43,24 @@ Visual novel engin for web
 ```
 
 #### Open the start file
+```yaml
+# game/{{scene}}/{{label}}/labels/start.yml
+-
+  pr: Привет Алиса
+   scene: room_41
+   audio: room_41
+   left: prof
+- al: Здравствуйте профессор
+   right: alice
+- pr: Хорошая погодка, не правда ли?
+- al: Да соглашусь с этим
+- pr: Ладно пошли в лабалаторию
+   jump:lab/lab
+
+```
+or
 ```javascript
-//game/scenes/start.json5
+//game/{{scene}}/{{label}}/labels/start.json5
 [
 	{pr:'Привет Алиса',scene:'room_41',audio:'room_41',left:'prof'},
 	{al:'Здравствуйте профессор',right:'alice'},
@@ -32,35 +70,3 @@ Visual novel engin for web
 ]
 ```
 
-```javascript
-//game/scenes/lab/lab.json
-[
-	{al:'Вот мы и тут',scene:'labBg',audio:'hlopDver'},
-	{
-		pr:'Ну что начнем?!',
-		menu:{
-			'Приступить к эксперименту':'lab/startExpiroment',
-			'Обсудить детали':'lab/details',
-		}
-	}
-]
-```
-
-```javascript
-//game/scenes/lab/startExpiroment.json5
-[
-	{al:'Профессор! Эти ошибки...'},
-	{pr:'Не дрейфь, если мы не продолжим, то другой такой шанс еще не скоро представится.'}
-]
-```
-
-```javascript
-//game/scenes/lab/details.json5
-[
-	{pr:'Уже не первое тысячелетие, мы броздим безкрайние просторы бездны..'},
-	{pr:'Снова и снова мы рождаемся и умираем, в этих телах.'}
-]
-```
-
-
-MIT license
