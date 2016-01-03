@@ -1,7 +1,7 @@
 
 ##renjs
 Visual novel engin for web
->You can write a script for Visual Novel on JSON5 or YALM!
+>You can write a script for Visual Novel on JSON5 or YAML!
 
 ###How to use it?
 
