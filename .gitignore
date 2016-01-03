@@ -1,4 +1,6 @@
 /node_modules
+/bower_components
+/dev_game_tpl
 *.jpg
 *.png
 *.wav

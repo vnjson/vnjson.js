@@ -1,0 +1,28 @@
+{
+  "name": "renjs",
+  "description": "Visual novel for web",
+  "main": "dist/ren.min.js",
+  "authors": [
+    "kserks"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "visual",
+    "novel",
+    "game",
+    "story"
+  ],
+  "homepage": "https://github.com/kserks/renjs",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "yaml.js": "jeremyfa/yaml.js#~0.2.4"
+  }
+}
