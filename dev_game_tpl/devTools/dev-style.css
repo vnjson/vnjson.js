@@ -1,0 +1,28 @@
+.dev_view{
+	font-size: 16pt;
+	color: #607d8b;
+
+}
+.key{
+	color:#2196f3;
+}
+.value{
+	color:#00c853;
+}
+.property{
+	margin-left: 30px;
+}
+.param{
+	color: #673ab7;
+}
+.content{
+	color:#2196f3;
+}
+.current-object{
+	position:absolute;
+	left:300px;
+}
+.current-item{
+	position:absolute;
+	left:20px;
+}

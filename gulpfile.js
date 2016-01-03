@@ -6,7 +6,7 @@ var source = require('./source'),
 	server = require('./server'),
 	dist = 'dev_game_tpl/vendors';//'./dist';	
 
-gulp.task('min', function() {
+gulp.task('min', function(){
   return gulp.src(source.ren)
     .pipe(uglify())
     .pipe(concat('ren.min.js'))

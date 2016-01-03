@@ -1,0 +1,10 @@
+[
+	{
+		menu:{
+			'New game':'start/start',
+			'about':'start/about',
+			'options':'start/options'
+		}
+	}
+
+]

@@ -33,7 +33,7 @@ function load(ext){
 		ren.game.layers = layers[0];
 		ren.game.config = config[0];
 
-	//ren.createLayers();
+	ren.createLayers();
 	
 	});	
 }
