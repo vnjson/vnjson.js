@@ -1,4 +1,5 @@
 var express = require('express');
+var livereload = require('./watch');
 var path = {
 	public:'dev_game_tpl/'
 };
@@ -10,5 +11,7 @@ var app = express();
 		res.sendfile(path.public+'index.html');
 	});
 
-app.listen('8080');
+app.listen('8080',function(){
+	livereload.run();
+});
 };

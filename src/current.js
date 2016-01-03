@@ -1,7 +1,7 @@
 ren.current = {
-	array:[],
-	object:{pr:'Привет Алиса',scene:'scene',jump:'lab/lab'},
+	arr:[],
+	obj:{},
+	num:0,
 	scene:null,
 	label:null,
-	item:0
 };

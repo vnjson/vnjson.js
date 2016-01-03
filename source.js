@@ -1,7 +1,7 @@
 module.exports = {
 	ren:[
 		"src/ren.js",
-	//	"src/game.js",
+		"src/game.js",
 	//	"src/router.js",
 		"src/current.js",
 	//	"src/events/createLayers.js",
@@ -10,7 +10,8 @@ module.exports = {
 	//	"src/events/extend.js",
 	//	"src/getScene.js",
 	//	"src/parse.js",
-	//	"src/init.js",
+		"src/config.js",
+		"src/init.js",
 
 	],
 	vendors:[	
@@ -19,5 +20,6 @@ module.exports = {
 		"bower_components/json5/yaml.js/dist/yalm.min.js",
 		"bower_components/store/store.min.js",
 		"bower_components/howler.js/howler.min.js",
+		"bower_components/mustache.js/mustache.min.js"
 	]
 };

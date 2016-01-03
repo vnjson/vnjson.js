@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 var source = require('./source'),
 	server = require('./server'),
-	dist = './dist';	
+	dist = 'dev_game_tpl/vendors';//'./dist';	
 
 gulp.task('min', function() {
   return gulp.src(source.ren)
@@ -33,6 +33,4 @@ gulp.watch(['src/*.js','src/**/*.js','gulpfile.js','source.js'],function(){
 });
 gulp.task('default',function(){
 	server.start();
-	//gulp.run('renjs');
-	//gulp.run('libs');
 });
