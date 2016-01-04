@@ -13,15 +13,9 @@ Visual novel engin for web
 pr:
   name: Профессор
   color: green
-la:
-  name: Ладья
-  color: blue
 al:
   name: Алиса
   color: red
-ki:
-  name: Кирон
-  color: gold
 
 ```
 
