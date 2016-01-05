@@ -4,38 +4,36 @@
 	
 	<meta charset="utf-8">
 	<title></title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link rel="stylesheet" type="text/css" href="devTools/dev-style.css">
 	<!--<script  src="http://localhost:35729/livereload.js?snipver=1"></script>-->
 	<script  src="vendors/vendors.js"></script>
 	<script  src="vendors/ren.js"></script>
 	
-	<script  src="devtools/dev.js"></script>
-	<style type="text/css">
-	body{
-		-webkit-user-select:none;
-		-moz-user-select:none;
-		user-select:none;
-		width:600px;
-		margin:0px;
-		padding:0px;
-	}
-	#game{
-		border:1px solid grey;
-		width:600px;
-		height:400px;
+	<!--<script  src="devtools/dev.js"></script>-->
 
-	}
-	</style>
 </head>
 <body>
-<section id="game">
+<section id="scene">
 
+<section id="character-contaner">
+	<div class="ch-left"></div>
+	<div class="ch-center"></div>
+	<div class="ch-right"></div>
+</section>
+	<section id="name-box">{{name}}</section>
+	<section id='dialog-box'>
+		<div id="character-images"></div>
+		<div id="text-contaner">
+				<span id="text">{{reply}}</span>
+				<span id="dote-animation">.</span>
+		</div>
+	</section>
 </section>
 <script type="text/javascript">
 
 	$(document).ready(function($){
 		ren.init();
-		//devTools();
 
 	});
 </script>

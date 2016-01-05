@@ -1,4 +1,4 @@
 ren.config = {
-	dataType:'text',
-	ext:'.json5'
+	/*dataType:'text',
+	ext:'.json5',*/
 };

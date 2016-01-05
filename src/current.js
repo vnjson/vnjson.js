@@ -1,7 +1,7 @@
 ren.current = {
-	arr:[],
-	obj:{},
-	num:0,
+	Array:[],
+	Object:{},
+	Number:0,
 	scene:null,
 	label:null,
 };

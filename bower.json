@@ -22,7 +22,6 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4",
-    "yaml.js": "jeremyfa/yaml.js#~0.2.4"
+    "jquery": "~2.1.4"
   }
 }
