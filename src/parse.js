@@ -1,5 +1,31 @@
 ren.parse = function(){
 
+if(ren.current.Array.length<=ren.current.Number){
+	console.warn('end chapter');
+}else{
+	ren.route();
+	ren.current.Object = ren.current.Array[ren.current.Number];	
+
+	$.each(ren.current.Object,function(key,value){
+			
+			ren.keyMaster(ren.event[key],ren.current.Object[key],key);
+	});
+
+	ren.current.Number ++
+
+}
+
+}//ren.parse()
+
+ren.keyMaster = function(key,value,name){
+	//console.log( $.type(key) )
+	switch(typeof key){
+			case "object":
+				ren.event["name"](key);
+				ren.event["reply"](value, key);
+			break;
+	}		
+}
 /*
 ren.current.object = ren.current.array[ren.current.item];
 
@@ -19,8 +45,8 @@ ren.current.object = ren.current.array[ren.current.item];
 
 
 function func(key,value,name){
-	
-
+	//.isCharacter()
+	//.isFn()
 		switch(typeof key){
 			case "object":
 				if('name' in key){
@@ -46,7 +72,7 @@ function func(key,value,name){
 	ren.dev();
 */
 	
-}
+
 
 
 /*	ren.parse = function(param){

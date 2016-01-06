@@ -2,5 +2,6 @@
 	"startLabel":"start/start",
 	"debug":false,
 	"lazyLoad":false,
-	"parallax":false
+	"parallax":false,
+	"parent":"#scene"
 }

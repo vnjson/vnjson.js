@@ -3,27 +3,18 @@ var dir = ren.path.scenes;
 
 
 var labelPath = [dir,scene,label].join('/').concat('.json');
-
-/*
+/**
+ * Загружаю сцену
+ */
 $.get(labelPath,function(data){
-	
-			ren.game.scenes[scene] = data;
-			console.log(ren.game.scenes)
-			
-			console.log(data)
-})	
-*/
-$.ajax({
-	url:labelPath,
-	dataType:"json",
-	type:"GET"
-})
-.done(function(data){
-		console.log(data)
-	})
-.fail(function(error){
-	console.group(labelPath);
-	console.error("Ошибка загрузки сцены");
-})
+		ren.game.scenes[scene] = data;
+		ren.current.Array = data[scene];
+		ren.extend();
+		ren.parse();
+		$(ren.game.config.parent).on('click',function(){
+			ren.parse();
+		})
+});
+
 	
 };

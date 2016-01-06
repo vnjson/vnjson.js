@@ -1,14 +1,14 @@
 ren.event = {
 	name:function(character){
 	
-		$('#nameBox')
+		$('#name-box')
 			.html(character.name+': ')
 			.css('color',character.color);
 
 	
 	},
 	reply:function(text,character){	
-		$('#dialogBox')
+		$('#text')
 				.html(text)
 				.css('color',character.color);
 	},

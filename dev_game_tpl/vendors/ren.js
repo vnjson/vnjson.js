@@ -22,14 +22,13 @@ ren.game = {
 ren.route = function(){
 
 location.hash = [
-					'#',
+					'#!',
 					ren.current.scene,
 					ren.current.label,
-					ren.current.item
+					ren.current.Number
 				].join('/');
 
-
-};
+};//ren.route()
 ren.current = {
 	Array:[],
 	Object:{},
@@ -40,14 +39,14 @@ ren.current = {
 ren.event = {
 	name:function(character){
 	
-		$('#nameBox')
+		$('#name-box')
 			.html(character.name+': ')
 			.css('color',character.color);
 
 	
 	},
 	reply:function(text,character){	
-		$('#dialogBox')
+		$('#text')
 				.html(text)
 				.css('color',character.color);
 	},
@@ -104,7 +103,7 @@ else{
 
 };
 ren.extend = function(){
-	var characters = ren.game.characters[ren.current.scene];
+	var characters= ren.game.scenes[ren.current.scene]['characters']
 	/**
 	*concat keywords
 	@param {object} event - ren.event object
@@ -120,33 +119,50 @@ var dir = ren.path.scenes;
 
 
 var labelPath = [dir,scene,label].join('/').concat('.json');
-
-/*
+/**
+ * Загружаю сцену
+ */
 $.get(labelPath,function(data){
-	
-			ren.game.scenes[scene] = data;
-			console.log(ren.game.scenes)
-			
-			console.log(data)
-})	
-*/
-$.ajax({
-	url:labelPath,
-	dataType:"json",
-	type:"GET"
-})
-.done(function(data){
-		console.log(data)
-	})
-.fail(function(error){
-	console.group(labelPath);
-	console.error("Ошибка загрузки сцены");
-})
+		ren.game.scenes[scene] = data;
+		ren.current.Array = data[scene];
+		ren.extend();
+		ren.parse();
+		$(ren.game.config.parent).on('click',function(){
+			ren.parse();
+		})
+});
+
 	
 };
 
 ren.parse = function(){
 
+if(ren.current.Array.length<=ren.current.Number){
+	console.warn('end chapter');
+}else{
+	ren.route();
+	ren.current.Object = ren.current.Array[ren.current.Number];	
+
+	$.each(ren.current.Object,function(key,value){
+			
+			ren.keyMaster(ren.event[key],ren.current.Object[key],key);
+	});
+
+	ren.current.Number ++
+
+}
+
+}//ren.parse()
+
+ren.keyMaster = function(key,value,name){
+	//console.log( $.type(key) )
+	switch(typeof key){
+			case "object":
+				ren.event["name"](key);
+				ren.event["reply"](value, key);
+			break;
+	}		
+}
 /*
 ren.current.object = ren.current.array[ren.current.item];
 
@@ -166,8 +182,8 @@ ren.current.object = ren.current.array[ren.current.item];
 
 
 function func(key,value,name){
-	
-
+	//.isCharacter()
+	//.isFn()
 		switch(typeof key){
 			case "object":
 				if('name' in key){
@@ -193,7 +209,7 @@ function func(key,value,name){
 	ren.dev();
 */
 	
-}
+
 
 
 /*	ren.parse = function(param){
@@ -264,13 +280,15 @@ ren.config = {
 
 ren.init = function(){
 var configPath = [ren.path.scenes,ren.path.config].join('/');
-
-
-$.ajax({
-	url:configPath,
-	dataType:"json",
-	type:"get"
+$.ajaxSetup({
+	dataType:"text",
+	dataFilter:function(data){
+		return JSON.parse(data);
+	},
+	chache:false
 })
+
+$.ajax(configPath)
 	.done(function(data){
 			ren.game.config = data;
 	})

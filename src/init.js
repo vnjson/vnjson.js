@@ -1,13 +1,15 @@
 
 ren.init = function(){
 var configPath = [ren.path.scenes,ren.path.config].join('/');
-
-
-$.ajax({
-	url:configPath,
-	dataType:"json",
-	type:"get"
+$.ajaxSetup({
+	dataType:"text",
+	dataFilter:function(data){
+		return JSON.parse(data);
+	},
+	chache:false
 })
+
+$.ajax(configPath)
 	.done(function(data){
 			ren.game.config = data;
 	})
