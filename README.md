@@ -8,6 +8,7 @@ Visual novel engin for web
 
 ####Define characters.
 
+
 ```yaml
 #YAML
 # game/{{scene}}/{{label}}/characters.yml
