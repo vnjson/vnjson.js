@@ -1,6 +1,6 @@
 ren.parse = function(){
 
-
+/*
 ren.current.object = ren.current.array[ren.current.item];
 
 	ren.current.item++;
@@ -44,7 +44,7 @@ function func(key,value,name){
 
 		}
 	ren.dev();
-
+*/
 	
 }
 

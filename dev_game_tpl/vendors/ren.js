@@ -1,5 +1,5 @@
 /**
-* @version 0.3.2
+* @version 0.3.3
 * @author kserks
 * @license MIT license
 */
@@ -87,17 +87,16 @@ ren.event.jump = function(pathname){
 
 ren.current.scene =  pathname.split('/')[0];
 ren.current.label =  pathname.split('/')[1];
-ren.current.item = 0;	
+ren.current.Number = 0;
 if(ren.game.scenes[ren.current.scene]){
 	console.warn('Сцена уже загружена');
-	//parse()
 }
 else{
 	/**
-	*load scene resourse 	
-	@param {string} scene - current scene
-	@param {string} label - current label
-	*/
+	 * load scene resourse 	
+	 * @param {string} scene - current scene
+	 * @param {string} label - current label
+	 */
 	ren.getScene(ren.current.scene,ren.current.label);
 
 }
@@ -117,69 +116,38 @@ ren.extend = function(){
 	ren.event = $.extend(ren.event,characters);
 };
 ren.getScene = function(scene,label){
+var dir = ren.path.scenes;
 
-var labelContent = ['scenes',scene,'labels',label].join('/').concat('.json5');
-var characters = ['scenes',scene,'characters.json5'].join('/');
-var preload =  ['scenes',ren.current.scene,'preload.json5'].join('/');
 
-$.when(
-	$.get(labelContent),
-	$.get(characters),
-	$.get(preload)
-).then(function(labelContent,characters,preload){
+var labelPath = [dir,scene,label].join('/').concat('.json');
 
-	ren.game.scenes[scene] = {};
-	ren.game.scenes[scene][label] = labelContent[0];
-
-	ren.game.characters[scene] = {};
-	ren.game.characters[scene] = characters[0];
-	ren.game.preload[scene] = {};
-	ren.game.preload[scene] = preload[0];
-	//concat keys
-	ren.extend();	
-}).then(function(){
-	/**
-	@type {array}
-	*/
-	ren.current.array = ren.game.scenes[ren.current.scene][ren.current.label];
+/*
+$.get(labelPath,function(data){
 	
-	ren.parse();
-	$(ren.parent).on('click',function(){
-		ren.parse();
-		
-	});
-});
-
-
-
-
+			ren.game.scenes[scene] = data;
+			console.log(ren.game.scenes)
+			
+			console.log(data)
+})	
+*/
+$.ajax({
+	url:labelPath,
+	dataType:"json",
+	type:"GET"
+})
+.done(function(data){
+		console.log(data)
+	})
+.fail(function(error){
+	console.group(labelPath);
+	console.error("Ошибка загрузки сцены");
+})
+	
 };
 
-
-/*ren.switch = true;
-ren.getScene = function(){
-	ren.game.scenes = ren.game.scenes||{};
-	$.get("game/"+ren.label+".json5",function(data){
-	
-		ren.game.scenes[ren.label] = JSON5.parse(data);
-
-		console.log('ren.switch: ' +ren.switch);
-		if(ren.switch){
-			
-			ren.parse('current');
-			ren.switch = false;
-		}
-		else {
-			ren.parse('prev');
-			//ren.switch = 'next';
-		}
-		
-	});
-
-};*/
 ren.parse = function(){
 
-
+/*
 ren.current.object = ren.current.array[ren.current.item];
 
 	ren.current.item++;
@@ -223,7 +191,7 @@ function func(key,value,name){
 
 		}
 	ren.dev();
-
+*/
 	
 }
 
@@ -287,27 +255,31 @@ switch(param){
 
 }*/
 ren.path = {
-	layers:'/game/layers.json',
-	config:'/game/config.json'
+	scenes:'/scenes',
+	config:'config.json',
 };
 ren.config = {
-	/*dataType:'text',
-	ext:'.json5',*/
+
 };
 
 ren.init = function(){
-	$.when(
-		$.get(ren.path.layers),
-		$.get(ren.path.config)
-	).then(function(layers,config){
-				ren.game.layers = layers[0];
-				ren.game.config = config[0];
-	}).then(function(){
-				/**
-				@param parent 
-				@param start
-				*/
-				ren.createLayers(ren.game.config.parent,ren.game.config.startLabel);
+var configPath = [ren.path.scenes,ren.path.config].join('/');
+
+
+$.ajax({
+	url:configPath,
+	dataType:"json",
+	type:"get"
+})
+	.done(function(data){
+			ren.game.config = data;
+	})
+	.fail(function(err){
+			console.error(err);
+	})
+	.then(function(){
+		var startLabel = ren.game.config.startLabel;
+		ren.event.jump(startLabel);
 	});
 
 };//ren.init()

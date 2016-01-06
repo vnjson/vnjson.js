@@ -1,4 +1,4 @@
 ren.path = {
-	layers:'/game/layers.json',
-	config:'/game/config.json'
+	scenes:'/scenes',
+	config:'config.json',
 };
