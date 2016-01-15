@@ -1,7 +1,7 @@
 ren.getScene = function(scene,label){
 var dir = ren.path.scenes;
 
-
+//require(labelpath)
 var labelPath = [dir,scene,label].join('/').concat('.json');
 /**
  * Загружаю сцену
