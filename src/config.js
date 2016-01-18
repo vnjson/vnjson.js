@@ -1,4 +1,5 @@
 ren.config = {
 	chache:false,
-	dataType:"text"
+	dataType:"text",
+	parent:"#game"
 };

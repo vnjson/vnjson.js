@@ -13,18 +13,18 @@ $.ajax(ren.path.init)
 	.done(function(data){
 
 			ren.game = data;
-			/**
-			 * @param global object
-			 * @param layers array
-			 */
+
 			
 	})
 	.fail(function(err){
 			console.error(err);
 	})
 	.then(function(){
-		ren.createLayers(ren.game.global,ren.game.layers);
-		//ren.event.jump(startLabel);
+		/**
+		 * @param layers array
+		 */
+		ren.createLayers(ren.game.layers);
+
 	});
 
 };//ren.init()
