@@ -1,7 +1,7 @@
 var express = require('express');
 var livereload = require('./watch');
 var path = {
-	public:'dev_game_tpl/'
+	public:'../game/build/'
 };
 
 module.exports.start = function(){

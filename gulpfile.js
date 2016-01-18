@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 var source = require('./source'),
 	server = require('./server'),
-	dist = 'dev_game_tpl/vendors';//'./dist';	
+	dist = '..game/build/vendors';//'./dist';	
 
 gulp.task('min', function(){
   return gulp.src(source.ren)
