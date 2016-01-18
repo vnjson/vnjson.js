@@ -1,24 +1,30 @@
 
 ren.init = function(){
-var configPath = [ren.path.scenes,ren.path.config].join('/');
+//setup	
 $.ajaxSetup({
-	dataType:"text",
+	dataType:ren.config.dataType,
 	dataFilter:function(data){
 		return JSON.parse(data);
 	},
-	chache:false
-})
-
-$.ajax(configPath)
+	chache:ren.config.chache
+});
+//init load
+$.ajax(ren.path.init)
 	.done(function(data){
-			ren.game.config = data;
+
+			ren.game = data;
+			/**
+			 * @param global object
+			 * @param layers array
+			 */
+			
 	})
 	.fail(function(err){
 			console.error(err);
 	})
 	.then(function(){
-		var startLabel = ren.game.config.startLabel;
-		ren.event.jump(startLabel);
+		ren.createLayers(ren.game.global,ren.game.layers);
+		//ren.event.jump(startLabel);
 	});
 
 };//ren.init()

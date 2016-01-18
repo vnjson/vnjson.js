@@ -4,15 +4,15 @@ var gulp = require('gulp'),
 
 var source = require('./source'),
 	server = require('./server'),
-	dist = '..game/build/vendors';//'./dist';	
-
+	dist = '../game/build/vendors';//'./dist';	
+/*
 gulp.task('min', function(){
   return gulp.src(source.ren)
     .pipe(uglify())
     .pipe(concat('ren.min.js'))
     .pipe(gulp.dest(dist));
 });
-
+*/
 gulp.task('renjs',function(){
 gulp.src(source.ren)
 	.pipe(concat('ren.js'))

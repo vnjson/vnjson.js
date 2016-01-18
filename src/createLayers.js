@@ -1,0 +1,15 @@
+ren.createLayers = function(g,layers){
+	$("#"+g.parent)
+	.html("urod")
+	.css({
+		background:"url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAlCAYAAADIgFBEAAAABGdBTUEAALGeYUxB9wAAACBjSFJNAACHEAAAjBIAAP1NAACBPgAAWesAARIPAAA85gAAGc66ySIyAAABK2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAACjPY2BgMnB0cXJlEmBgyM0rKQpyd1KIiIxSYD/PwMbAzAAGicnFBY4BAT4gdl5+XioDBvh2jYERRF/WBZnFQBrgSi4oKgHSf4DYKCW1OJmBgdEAyM4uLykAijPOAbJFkrLB7A0gdlFIkDOQfQTI5kuHsK+A2EkQ9hMQuwjoCSD7C0h9OpjNxAE2B8KWAbFLUitA9jI45xdUFmWmZ5QoGFpaWio4puQnpSoEVxaXpOYWK3jmJecXFeQXJZakpgDVQtwHBoIQhaAQ0wBqtNBkoDIAxQOE9TkQHL6MYmcQYgiQXFpUBmUyMhkT5iPMmCPBwOC/lIGB5Q9CzKSXgWGBDgMD/1SEmJohA4OAPgPDvjkAwMZP/eeaqagAAAIPSURBVFhH7VjZigJBDIzH/3+WeN8o4pO3qIiCeGt2KxBp3FXSm33YhWkIGcbMTE0lncqY2u12TI6VyWRotVrRdruVu2SzWbrf72LpdJpSqZT97p8XsccOhwMPh0NuNBpcq9W42WyKr1QqD49jixE71/l85vF4zPV6ncvlsjy0WCxyPp/nUqkUZaDTxQyun06nwgzAwAAGVq1WTYwoa25mbrcbTyYTYQZMAIx6AIxhxw3mdDpJzYCFQqHweDhAKUArIHeaQjBITZgmS9GGMW5mLpfLlwIGE8/AtI7e+V8BMxqNJE0AAa/saEFbfQLmFVMJMwkz1l2kcX+rZrxCeb1eeT6fi1DmcjlRa7wpxghYDDt0PB7ZY+v1mtH0ut2uzDKwdrvNrVZLAOo5iyfcyGODwUDkAOwsFgteLpfiZ7OZqDnOW43Qvj3W6XTkofv9XuYiXRgtoFvwViOrvL+Kw4uAGai3d1GszD/Hoy6QBhQyFlhQhvTYukncYFCoqJEQgDIUps3CmhsMti5qBoM52FGGLA9/jqGYPvBdLHoJdg5SghWyEc1MAuZFDpM0vSruhJn/wYxXmzAuQA4gitpntOfENj53B8b3dCiUaHShPll1CXFk+ex8F4OhCR1YmYllI4wnHQ9/6jHhIU0YIfB20CYAU52K8dTv99ljvV5PhHKz2YhhDIXh+PN/vsd5/f2d/wCUHjIhrfvsTwAAAABJRU5ErkJggg==')",
+ 		width:g.width+"px",
+		height:g.height+"px",
+		border:"2px dotted grey",
+		WebkitUserSelect:"none",
+		MozUserSelect:"none",
+		userSelect:"none"
+ 	});
+
+//console.log("#"+g.parent)
+};
