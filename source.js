@@ -7,7 +7,6 @@ module.exports = {
 		"src/events/event.js",
 		"src/events/jump.js",		
 		"src/events/extend.js",
-		"src/createLayers.js",
 		"src/getScene.js",
 		"src/parse.js",
 		"src/path.js",

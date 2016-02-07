@@ -13,7 +13,7 @@ $.get(labelPath,function(data){
 		ren.parse();
 		$(ren.game.config.parent).on('click',function(){
 			ren.parse();
-		})
+		});
 });
 
 	
