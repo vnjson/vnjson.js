@@ -1,20 +1,23 @@
 ren.getScene = function(scene,label){
+
 var dir = ren.path.scenes;
 
 //require(labelpath)
-var labelPath = [dir,scene,label].join('/').concat('.json');
+var scenePath = [dir,scene].join('/').concat('.json');
 /**
  * Загружаю сцену
  */
-$.get(labelPath,function(data){
+
+$.get(scenePath,function(data){
 		ren.game.scenes[scene] = data;
-		ren.current.Array = data[scene];
+		ren.current.Array = data[label];
 		ren.extend();
 		ren.parse();
-		$(ren.game.config.parent).on('click',function(){
-			ren.parse();
-		});
+		
+
 });
+
+
 
 	
 };

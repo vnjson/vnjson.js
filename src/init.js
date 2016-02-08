@@ -10,12 +10,15 @@ $.ajax({
 	url:ren.path.init,
 	dataType:"json",
 	success:function(data){
-		ren.game = data;
+		$.extend(ren.game,data);
+		ren.event.jump(ren.game.config.startLabel);
 	},
 	error:function(err){
 		console.error(err);
 	}
 });
-
+$(ren.config.parent).on('click',function(){
+			ren.parse();
+		});
 
 };//ren.init()

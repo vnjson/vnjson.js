@@ -1,5 +1,5 @@
 ren.extend = function(){
-	var characters= ren.game.scenes[ren.current.scene]['characters']
+	var characters= ren.game.characters;
 	/**
 	*concat keywords
 	@param {object} event - ren.event object

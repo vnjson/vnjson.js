@@ -1,4 +1,7 @@
 ren.parse = function(){
+//console.info("parse")
+//ren.route();
+
 
 if(ren.current.Array.length<=ren.current.Number){
 	console.warn('end chapter');
@@ -11,11 +14,11 @@ if(ren.current.Array.length<=ren.current.Number){
 			ren.keyMaster(ren.event[key],ren.current.Object[key],key);
 	});
 
-	ren.current.Number ++
+	ren.current.Number++;
 
 }
 
-}//ren.parse()
+};//ren.parse()
 
 ren.keyMaster = function(key,value,name){
 	//console.log( $.type(key) )
@@ -24,8 +27,11 @@ ren.keyMaster = function(key,value,name){
 				ren.event["name"](key);
 				ren.event["reply"](value, key);
 			break;
+			case "function":
+				ren.event[name](value);
+			break;
 	}		
-}
+};
 /*
 ren.current.object = ren.current.array[ren.current.item];
 
