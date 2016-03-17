@@ -1,5 +1,16 @@
+#####include js
+```html
+<script src="/vendors/libs.min.js"></script>
+<script src="/vendors/vnjson.min.js"></script>
+<sciprt>
+window.onload = vn.init();
+</script>
+
+```
+
 
 #####file structure
+```batch
 game
 ├── assets
 │   ├── images
@@ -15,3 +26,4 @@ game
 ├── style.css
 ├── layers.html
 └── init.json
+```
