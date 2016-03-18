@@ -1,7 +1,7 @@
 
 ren.init = function(){
 
-$.get('/game/layers.html',function(layers){
+$.get('./game/layers.html',function(layers){
 	$(ren.config.parent).append(layers);
 });
 

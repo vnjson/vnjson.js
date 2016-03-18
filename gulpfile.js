@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 
 var source = require('./source'),
 	server = require('./server'),
-	dist = '../game/build/vendors';//'./dist';	
+	dist = '../renjs-cli/vn_tpl/vendors';//'./dist';	
 /*
 gulp.task('min', function(){
   return gulp.src(source.ren)
@@ -13,9 +13,9 @@ gulp.task('min', function(){
     .pipe(gulp.dest(dist));
 });
 */
-gulp.task('renjs',function(){
-gulp.src(source.ren)
-	.pipe(concat('ren.js'))
+gulp.task('vnjson',function(){
+gulp.src(source.vnjson)
+	.pipe(concat('vnjson.js'))
 	.pipe(gulp.dest(dist))
 	
 });
@@ -28,7 +28,7 @@ gulp.src(source.vendors)
 
 
 gulp.watch(['src/*.js','src/**/*.js','gulpfile.js','source.js'],function(){
-	gulp.run('renjs');
+	gulp.run('vnjson');
 	gulp.run('vendors');
 });
 gulp.task('default',function(){

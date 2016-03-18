@@ -1,6 +1,6 @@
 module.exports = {
-	ren:[
-		"src/ren.js",
+	vnjson:[
+		"src/vn.js",
 		"src/game.js",
 		"src/router.js",
 		"src/current.js",
@@ -11,7 +11,7 @@ module.exports = {
 		"src/parse.js",
 		"src/path.js",
 		"src/config.js",
-		"src/init.js",
+		"src/init.js"
 
 	],
 	vendors:[	
