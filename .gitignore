@@ -1,7 +1,9 @@
 /node_modules
 /bower_components
-/dev_notes
 *.jpg
 *.png
 *.wav
 npm-debug.log
+.versionFilesList.json
+
+.versionFilesList.json

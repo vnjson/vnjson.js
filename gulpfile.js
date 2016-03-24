@@ -3,27 +3,29 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify');
 
 var source = require('./source'),
-	server = require('./server'),
-	dist = '../renjs-cli/vn_tpl/vendors';//'./dist';	
-/*
+	server = require('./server');	
+
 gulp.task('min', function(){
   return gulp.src(source.ren)
     .pipe(uglify())
-    .pipe(concat('ren.min.js'))
-    .pipe(gulp.dest(dist));
+    .pipe(concat('vnjson.min.js'))
+	.pipe(gulp.dest('../renjs-cli/vn_tpl/vendors'))
+	.pipe(gulp.dest('dist'))
 });
-*/
+
 gulp.task('vnjson',function(){
 gulp.src(source.vnjson)
 	.pipe(concat('vnjson.js'))
-	.pipe(gulp.dest(dist))
+	.pipe(gulp.dest('../renjs-cli/vn_tpl/vendors'))
+	.pipe(gulp.dest('dist'))
 	
 });
 
 gulp.task('vendors',function(){
 gulp.src(source.vendors)
 	.pipe(concat('vendors.js'))
-	.pipe(gulp.dest(dist))
+	.pipe(gulp.dest('../renjs-cli/vn_tpl/vendors'))
+	.pipe(gulp.dest('dist'))
 });
 
 

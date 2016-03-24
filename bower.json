@@ -1,7 +1,7 @@
 {
-  "name": "renjs",
-  "description": "Visual novel for web",
-  "main": "dist/ren.min.js",
+  "name": "vnjs",
+  "description": "Visual novel engine for web",
+  "main": "dist/vnjson.min.js",
   "authors": [
     "kserks"
   ],
@@ -12,7 +12,7 @@
     "game",
     "story"
   ],
-  "homepage": "https://github.com/kserks/renjs",
+  "homepage": "https://github.com/kserks/vnjson",
   "moduleType": [],
   "ignore": [
     "**/.*",
