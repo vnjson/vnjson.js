@@ -1,4 +1,4 @@
 ren.path = {
-	init:'/game/init.json',
-	scenes:'/game/scenes'
+	init:'./game/init.json',
+	scenes:'./game/scenes'
 };

@@ -100,7 +100,8 @@ var scenePath = [dir,scene].join('/').concat('.json');
 /**
  * Загружаю сцену
  */
-$.get("./"+scenePath,function(data){
+
+$.get(scenePath,function(data){
 		ren.game.scenes[scene] = data;
 		ren.current.Array = data[label];
 		ren.extend();
@@ -256,8 +257,8 @@ switch(param){
 
 }*/
 ren.path = {
-	init:'/game/init.json',
-	scenes:'/game/scenes'
+	init:'./game/init.json',
+	scenes:'./game/scenes'
 };
 ren.config = {
 	chache:false,
