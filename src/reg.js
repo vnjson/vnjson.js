@@ -1,4 +1,4 @@
-/*ren.reg = {
+/*vn.reg = {
 	getImage:function(img){
 
 		

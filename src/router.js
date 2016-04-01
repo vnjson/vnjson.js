@@ -1,10 +1,10 @@
-ren.route = function(){
+vn.route = function(){
 
 location.hash = [
 					'#!',
-					ren.current.scene,
-					ren.current.label,
-					ren.current.Number
+					vn.current.scene,
+					vn.current.label,
+					vn.current.Number
 				].join('/');
 
-};//ren.route()
+};//vn.route()

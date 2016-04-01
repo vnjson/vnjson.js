@@ -1,49 +1,49 @@
-ren.parse = function(){
+vn.parse = function(){
 //console.info("parse")
-//ren.route();
+//vn.route();
 
 
-if(ren.current.Array.length<=ren.current.Number){
+if(vn.current.Array.length<=vn.current.Number){
 	console.warn('end chapter');
 }else{
-	ren.route();
-	ren.current.Object = ren.current.Array[ren.current.Number];	
+	vn.route();
+	vn.current.Object = vn.current.Array[vn.current.Number];	
 
-	$.each(ren.current.Object,function(key,value){
+	$.each(vn.current.Object,function(key,value){
 			
-			ren.keyMaster(ren.event[key],ren.current.Object[key],key);
+			vn.keyMaster(vn.event[key],vn.current.Object[key],key);
 	});
 
-	ren.current.Number++;
+	vn.current.Number++;
 
 }
 
-};//ren.parse()
+};//vn.parse()
 
-ren.keyMaster = function(key,value,name){
+vn.keyMaster = function(key,value,name){
 	//console.log( $.type(key) )
 	switch(typeof key){
 			case "object":
-				ren.event["name"](key);
-				ren.event["reply"](value, key);
+				vn.event["name"](key);
+				vn.event["reply"](value, key);
 			break;
 			case "function":
-				ren.event[name](value);
+				vn.event[name](value);
 			break;
 	}		
 };
 /*
-ren.current.object = ren.current.array[ren.current.item];
+vn.current.object = vn.current.array[vn.current.item];
 
-	ren.current.item++;
-	ren.route();
-	if(ren.current.object===undefined){
+	vn.current.item++;
+	vn.route();
+	if(vn.current.object===undefined){
 		console.error('Конец сцены i:'+this.i);
 	}
 	else{
 		//Перебираю методы текущего объекта и вызываю
-		$.each(ren.current.object,function(key,value){
-			func(ren.event[key],value,key);
+		$.each(vn.current.object,function(key,value){
+			func(vn.event[key],value,key);
 			//console.log(key+": "+value);
 		});
 	}
@@ -56,12 +56,12 @@ function func(key,value,name){
 		switch(typeof key){
 			case "object":
 				if('name' in key){
-					ren.event["name"](key);
-					ren.event["reply"](value, key);
+					vn.event["name"](key);
+					vn.event["reply"](value, key);
 				}
 				//Если это слой*layer
 				else{
-					ren.event["layer"](name, value);
+					vn.event["layer"](name, value);
 		
 				}
 
@@ -71,17 +71,17 @@ function func(key,value,name){
 			break;
 			case "undefined":
 
-				ren.event["undefined"](name,value);
+				vn.event["undefined"](name,value);
 			break;
 
 		}
-	ren.dev();
+	vn.dev();
 */
 	
 
 
 
-/*	ren.parse = function(param){
+/*	vn.parse = function(param){
 	
 	//this.iterator(param);
 switch(param){
@@ -96,16 +96,16 @@ switch(param){
 }
 
 	
-	ren.currentObject = ren.game.scenes[ren.label][ren.i];
+	vn.currentObject = vn.game.scenes[vn.label][vn.i];
 
 	console.log(this.i)
-	if(ren.currentObject===undefined){
+	if(vn.currentObject===undefined){
 		console.error('Конец сцены i:'+this.i);
 	}
 	else{
 		//Перебираю методы текущего объекта и вызываю
 		$.each(this.currentObject,function(key,value){
-			func.call(ren,ren.event[key],value,key);
+			func.call(vn,vn.event[key],value,key);
 		});
 	}
 	

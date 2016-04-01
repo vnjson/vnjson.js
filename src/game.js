@@ -1,4 +1,4 @@
-ren.game = {
+vn.game = {
 	scenes:{},
 	package:{},
 	config:{},

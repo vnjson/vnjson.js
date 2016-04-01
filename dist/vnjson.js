@@ -3,32 +3,32 @@
 */
 
 /** @global */
-var ren = {};
+var vn = {};
 
-ren.game = {
+vn.game = {
 	scenes:{},
 	package:{},
 	config:{},
 	characters:{}
 };
-ren.route = function(){
+vn.route = function(){
 
 location.hash = [
 					'#!',
-					ren.current.scene,
-					ren.current.label,
-					ren.current.Number
+					vn.current.scene,
+					vn.current.label,
+					vn.current.Number
 				].join('/');
 
-};//ren.route()
-ren.current = {
+};//vn.route()
+vn.current = {
 	Array: [],
 	Object: {},
 	Number: 0,
 	scene: null,
 	label: null
 };
-ren.event = {
+vn.event = {
 	name:function(character){
 		$('#name_box')
 			.html(character.name)
@@ -57,15 +57,15 @@ ren.event = {
 };
 
 
-ren.event.jump = function(pathname){
+vn.event.jump = function(pathname){
 console.info("jump: "+pathname);
-ren.current.scene =  pathname.split('/')[0];
-ren.current.label =  pathname.split('/')[1];
-ren.current.Number = 0;
-if(ren.game.scenes[ren.current.scene]){
+vn.current.scene =  pathname.split('/')[0];
+vn.current.label =  pathname.split('/')[1];
+vn.current.Number = 0;
+if(vn.game.scenes[vn.current.scene]){
 	//console.warn('Сцена уже загружена');
-	ren.current.Number =-1;
-	ren.current.Array = ren.game.scenes[ren.current.scene][ren.current.label]
+	vn.current.Number =-1;
+	vn.current.Array = vn.game.scenes[vn.current.scene][vn.current.label]
 }
 else{
 	/**
@@ -74,26 +74,26 @@ else{
 	 * @param {string} label - current label
 	 */
 	
-	ren.getScene(ren.current.scene,ren.current.label);
+	vn.getScene(vn.current.scene,vn.current.label);
 }
 
 
 };
-ren.extend = function(){
-	var characters= ren.game.characters;
+vn.extend = function(){
+	var characters= vn.game.characters;
 	/**
 	*concat keywords
-	@param {object} event - ren.event object
+	@param {object} event - vn.event object
 	@param {object} characters - game characters
 	@type {object} event - total object
 	@todo extentions, layers
 	*/
 
-	ren.event = $.extend(ren.event,characters);
+	vn.event = $.extend(vn.event,characters);
 };
-ren.getScene = function(scene,label){
+vn.getScene = function(scene,label){
 
-var dir = ren.path.scenes;
+var dir = vn.path.scenes;
 
 //require(labelpath)
 var scenePath = [dir,scene].join('/').concat('.json');
@@ -102,10 +102,10 @@ var scenePath = [dir,scene].join('/').concat('.json');
  */
 
 $.get(scenePath,function(data){
-		ren.game.scenes[scene] = data;
-		ren.current.Array = data[label];
-		ren.extend();
-		ren.parse();
+		vn.game.scenes[scene] = data;
+		vn.current.Array = data[label];
+		vn.extend();
+		vn.parse();
 		
 
 });
@@ -115,52 +115,52 @@ $.get(scenePath,function(data){
 	
 };
 
-ren.parse = function(){
+vn.parse = function(){
 //console.info("parse")
-//ren.route();
+//vn.route();
 
 
-if(ren.current.Array.length<=ren.current.Number){
+if(vn.current.Array.length<=vn.current.Number){
 	console.warn('end chapter');
 }else{
-	ren.route();
-	ren.current.Object = ren.current.Array[ren.current.Number];	
+	vn.route();
+	vn.current.Object = vn.current.Array[vn.current.Number];	
 
-	$.each(ren.current.Object,function(key,value){
+	$.each(vn.current.Object,function(key,value){
 			
-			ren.keyMaster(ren.event[key],ren.current.Object[key],key);
+			vn.keyMaster(vn.event[key],vn.current.Object[key],key);
 	});
 
-	ren.current.Number++;
+	vn.current.Number++;
 
 }
 
-};//ren.parse()
+};//vn.parse()
 
-ren.keyMaster = function(key,value,name){
+vn.keyMaster = function(key,value,name){
 	//console.log( $.type(key) )
 	switch(typeof key){
 			case "object":
-				ren.event["name"](key);
-				ren.event["reply"](value, key);
+				vn.event["name"](key);
+				vn.event["reply"](value, key);
 			break;
 			case "function":
-				ren.event[name](value);
+				vn.event[name](value);
 			break;
 	}		
 };
 /*
-ren.current.object = ren.current.array[ren.current.item];
+vn.current.object = vn.current.array[vn.current.item];
 
-	ren.current.item++;
-	ren.route();
-	if(ren.current.object===undefined){
+	vn.current.item++;
+	vn.route();
+	if(vn.current.object===undefined){
 		console.error('Конец сцены i:'+this.i);
 	}
 	else{
 		//Перебираю методы текущего объекта и вызываю
-		$.each(ren.current.object,function(key,value){
-			func(ren.event[key],value,key);
+		$.each(vn.current.object,function(key,value){
+			func(vn.event[key],value,key);
 			//console.log(key+": "+value);
 		});
 	}
@@ -173,12 +173,12 @@ function func(key,value,name){
 		switch(typeof key){
 			case "object":
 				if('name' in key){
-					ren.event["name"](key);
-					ren.event["reply"](value, key);
+					vn.event["name"](key);
+					vn.event["reply"](value, key);
 				}
 				//Если это слой*layer
 				else{
-					ren.event["layer"](name, value);
+					vn.event["layer"](name, value);
 		
 				}
 
@@ -188,17 +188,17 @@ function func(key,value,name){
 			break;
 			case "undefined":
 
-				ren.event["undefined"](name,value);
+				vn.event["undefined"](name,value);
 			break;
 
 		}
-	ren.dev();
+	vn.dev();
 */
 	
 
 
 
-/*	ren.parse = function(param){
+/*	vn.parse = function(param){
 	
 	//this.iterator(param);
 switch(param){
@@ -213,16 +213,16 @@ switch(param){
 }
 
 	
-	ren.currentObject = ren.game.scenes[ren.label][ren.i];
+	vn.currentObject = vn.game.scenes[vn.label][vn.i];
 
 	console.log(this.i)
-	if(ren.currentObject===undefined){
+	if(vn.currentObject===undefined){
 		console.error('Конец сцены i:'+this.i);
 	}
 	else{
 		//Перебираю методы текущего объекта и вызываю
 		$.each(this.currentObject,function(key,value){
-			func.call(ren,ren.event[key],value,key);
+			func.call(vn,vn.event[key],value,key);
 		});
 	}
 	
@@ -256,36 +256,12 @@ switch(param){
 	}
 
 }*/
-ren.path = {
+vn.path = {
 	init:'./game/init.json',
 	scenes:'./game/scenes'
 };
-ren.config = {
+vn.config = {
 	chache:false,
 	dataType:"text",
 	parent:"#game"
 };
-
-ren.init = function(){
-
-$.get('./game/layers.html',function(layers){
-	$(ren.config.parent).append(layers);
-});
-
-//init load
-$.ajax({
-	url:ren.path.init,
-	dataType:"json",
-	success:function(data){
-		$.extend(ren.game,data);
-		ren.event.jump(ren.game.config.startLabel);
-	},
-	error:function(err){
-		console.error(err);
-	}
-});
-$(ren.config.parent).on('click',function(){
-			ren.parse();
-		});
-
-};//ren.init()

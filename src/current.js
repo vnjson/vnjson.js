@@ -1,4 +1,4 @@
-ren.current = {
+vn.current = {
 	Array: [],
 	Object: {},
 	Number: 0,

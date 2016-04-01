@@ -1,6 +1,6 @@
-ren.getScene = function(scene,label){
+vn.getScene = function(scene,label){
 
-var dir = ren.path.scenes;
+var dir = vn.path.scenes;
 
 //require(labelpath)
 var scenePath = [dir,scene].join('/').concat('.json');
@@ -9,10 +9,10 @@ var scenePath = [dir,scene].join('/').concat('.json');
  */
 
 $.get(scenePath,function(data){
-		ren.game.scenes[scene] = data;
-		ren.current.Array = data[label];
-		ren.extend();
-		ren.parse();
+		vn.game.scenes[scene] = data;
+		vn.current.Array = data[label];
+		vn.extend();
+		vn.parse();
 		
 
 });

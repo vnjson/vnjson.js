@@ -1,17 +1,19 @@
-var express = require('express');
-var livereload = require('./watch');
-var path = {
-	public:'../game/build/'
+'use strict'
+const express = require('express'),
+	open = require('open');
+const port = '8089';
+const path = {
+	public:'../renjs-cli/YAML_tpl/build/www'
 };
 
 module.exports.start = function(){
-var app = express();
+const app = express();
 	app.use('/', express.static(path.public));
 	app.get("/", function(req, res){
-		res.sendfile(path.public+'index.html');
+		res.sendfile(path.public+'/index.html');
 	});
 
-app.listen('8080',function(){
-	//livereload.run();
+app.listen(port,function(){
+	open(`http://localhost:${port}`,'chrome');
 });
 };

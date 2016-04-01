@@ -10,8 +10,7 @@ module.exports = {
 		"src/getScene.js",
 		"src/parse.js",
 		"src/path.js",
-		"src/config.js",
-		"src/init.js"
+		"src/config.js"
 
 	],
 	vendors:[	

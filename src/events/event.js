@@ -1,4 +1,4 @@
-ren.event = {
+vn.event = {
 	name:function(character){
 		$('#name_box')
 			.html(character.name)
