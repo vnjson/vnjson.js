@@ -1,3 +1,6 @@
+/**
+ * @keywords
+ */
 vn.event = {
 	name:function(character){
 		$('#name_box')
@@ -15,13 +18,19 @@ vn.event = {
 			
 	},
 	center:function(value){
-		console.debug('center: '+value);
+		console.log('center: '+value);
 	},
 	audio:function(value){
-		console.debug("audio: "+value);
+		console.log("audio: "+value+".mp3");
+	},
+	sound:function(value){
+		console.log("sound: "+value+".mp3");
 	},
 	scene:function(value){
-		console.debug("scene: "+value);
+
+		//console.warn(typeof value);//{ext:"jpg"}
+		$('#scene')
+			.css('background-image','url(./game/assets/'+value+'.png)');
 	}
 
 };

@@ -2,7 +2,6 @@
 var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	source = require('./source'),
-	server = require('./server'),	
 	destCli = '../renjs-cli/YAML_tpl/build/www/vendors/';
 
 gulp.task('vnjson',function(){
@@ -32,5 +31,5 @@ gulp.watch(['src/*.js','src/**/*.js','gulpfile.js','source.js','init.js'],functi
 	gulp.run('init');
 });
 gulp.task('default',function(){
-	server.start();
+	gulp.run('vnjson');
 });

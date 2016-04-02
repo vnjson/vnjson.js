@@ -1,7 +1,4 @@
 vn.parse = function(){
-//console.info("parse")
-//vn.route();
-
 
 if(vn.current.Array.length<=vn.current.Number){
 	console.warn('end chapter');
