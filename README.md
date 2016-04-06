@@ -1,7 +1,8 @@
 ###vnjson
 >Visual novel engine for web
 
-[http://kserks.ru/demo/riteres| demo]
+####[demo](http://kserks.ru/demo/riteres)
+
 #####include js
 ```html
 <head>
