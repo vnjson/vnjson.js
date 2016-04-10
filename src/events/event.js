@@ -18,13 +18,34 @@ vn.event = {
 			
 	},
 	center:function(value){
-		console.log('center: '+value);
+		$('#center')
+			.css('background-image','url(./game/assets/'+value+'.png)');
+
+	},
+	left:function(value){
+		$('#left')
+			.css('background-image','url(./game/assets/'+value+'.png)');
+
+	},
+	right:function(value){
+		$('#right')
+			.css('background-image','url(./game/assets/'+value+'.png)');
+
 	},
 	audio:function(value){
-		console.log("audio: "+value+".mp3");
+		var song = "./game/assets/"+value+".mp3";
+		var sound = new Howl({
+  			urls: [song],
+  			autoplay:true,
+  			loop:true
+		}).play();
 	},
 	sound:function(value){
-		console.log("sound: "+value+".mp3");
+		var song = "./game/assets/"+value+".mp3";
+		var sound = new Howl({
+  			urls: [song],
+  			autoplay:true
+		}).play();
 	},
 	scene:function(value){
 

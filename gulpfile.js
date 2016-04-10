@@ -2,7 +2,7 @@
 var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	source = require('./source'),
-	destCli = '../renjs-cli/YAML_tpl/build/www/vendors/';
+	destCli = '../vnjson-cli/YAML_tpl/build/www/vendors/';
 
 gulp.task('vnjson',function(){
 gulp.src(source.vnjson)
