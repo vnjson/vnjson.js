@@ -20,8 +20,11 @@ vn.event = {
 	center:function(value){
 		$('#center')
 			.css('background-image','url(./game/assets/'+value+'.png)');
-
 	},
+	show:function(value){
+		$('#center')
+			.css('background-image','url(./game/assets/'+value+'.png)');
+	},	
 	left:function(value){
 		$('#left')
 			.css('background-image','url(./game/assets/'+value+'.png)');
@@ -49,9 +52,20 @@ vn.event = {
 	},
 	scene:function(value){
 
-		//console.warn(typeof value);//{ext:"jpg"}
 		$('#scene')
 			.css('background-image','url(./game/assets/'+value+'.png)');
+	},
+	shake:function(elem) {
+		$("#"+elem).animate({"left":"+=8px"}, 50)
+					.animate({"left":"-=8px"}, 50)
+					.animate({"left":"+=8px"}, 50)
+					.animate({"left":"-=8px"}, 50);
+      },
+	bump:function(elem) {
+		$("#"+elem).animate({"bottom":"+=8px"}, 50)
+                    .animate({"bottom":"-=8px"}, 50)
+                    .animate({"bottom":"+=8px"}, 50)
+                    .animate({"bottom":"-=8px"}, 50);
 	}
 
 };

@@ -5,5 +5,3 @@
 *.wav
 npm-debug.log
 .versionFilesList.json
-
-.versionFilesList.json

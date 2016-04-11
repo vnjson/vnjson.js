@@ -7,6 +7,8 @@ module.exports = {
 		"./src/events/event.js",
 		"./src/events/jump.js",		
 		"./src/events/extend.js",
+		"./src/is.js",
+		"./src/imagePreload.js",
 		"./src/getScene.js",
 		"./src/parse.js",
 		"./src/path.js",

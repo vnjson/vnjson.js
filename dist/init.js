@@ -12,6 +12,7 @@ $.ajax({
 	success:function(data){
 		$.extend(vn.game,data);
 		vn.event.jump(vn.game.config.startLabel);
+
 	},
 	error:function(err){
 		console.error(err);

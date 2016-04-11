@@ -12,12 +12,8 @@ $.get(scenePath,function(data){
 		vn.game.scenes[scene] = data;
 		vn.current.Array = data[label];
 		vn.extend();
-	//	vn.parse();
-	/*data['preload'].forEach(function(item){
-   "/assets/chasy.mp3",
-    "/assets/hero_room.png"
-	})	*/
-vn.imagePreload(data['preload']);
+
+	vn.imagePreload(data['preload']);
 
 });
 
