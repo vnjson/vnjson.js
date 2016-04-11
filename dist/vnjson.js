@@ -135,8 +135,12 @@ $.get(scenePath,function(data){
 		vn.game.scenes[scene] = data;
 		vn.current.Array = data[label];
 		vn.extend();
-		vn.parse();
-		
+	//	vn.parse();
+	/*data['preload'].forEach(function(item){
+   "/assets/chasy.mp3",
+    "/assets/hero_room.png"
+	})	*/
+vn.imagePreload(data['preload']);
 
 });
 
@@ -163,6 +167,10 @@ if(vn.current.Array.length<=vn.current.Number){
 }
 
 };//vn.parse()
+/*
+vn.current.object = vn.current.array[vn.current.item];
+
+*/
 
 vn.keyMaster = function(key,value,name){
 	//console.log( $.type(key) )

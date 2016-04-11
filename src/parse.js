@@ -16,6 +16,10 @@ if(vn.current.Array.length<=vn.current.Number){
 }
 
 };//vn.parse()
+/*
+vn.current.object = vn.current.array[vn.current.item];
+
+*/
 
 vn.keyMaster = function(key,value,name){
 	//console.log( $.type(key) )
