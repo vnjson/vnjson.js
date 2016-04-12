@@ -4,6 +4,7 @@ module.exports = {
 		"./src/game.js",
 		"./src/router.js",
 		"./src/current.js",
+		"./src/events/autorun.js",
 		"./src/events/event.js",
 		"./src/events/jump.js",		
 		"./src/events/extend.js",

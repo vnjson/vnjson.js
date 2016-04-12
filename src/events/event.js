@@ -55,18 +55,8 @@ vn.event = {
 		$('#scene')
 			.css('background-image','url(./game/assets/'+value+'.png)');
 	},
-	shake:function(elem) {
-		$("#"+elem).animate({"left":"+=8px"}, 50)
-					.animate({"left":"-=8px"}, 50)
-					.animate({"left":"+=8px"}, 50)
-					.animate({"left":"-=8px"}, 50);
-      },
-	bump:function(elem) {
-		$("#"+elem).animate({"bottom":"+=8px"}, 50)
-                    .animate({"bottom":"-=8px"}, 50)
-                    .animate({"bottom":"+=8px"}, 50)
-                    .animate({"bottom":"-=8px"}, 50);
-	}
+
+
 
 };
 
