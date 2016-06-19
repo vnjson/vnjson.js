@@ -28,6 +28,9 @@ vn.current = {
 	scene: null,
 	label: null
 };
+vn.autorun = {
+	
+}
 /**
  * @keywords
  */
@@ -85,18 +88,8 @@ vn.event = {
 		$('#scene')
 			.css('background-image','url(./game/assets/'+value+'.png)');
 	},
-	shake:function(elem) {
-		$("#"+elem).animate({"left":"+=8px"}, 50)
-					.animate({"left":"-=8px"}, 50)
-					.animate({"left":"+=8px"}, 50)
-					.animate({"left":"-=8px"}, 50);
-      },
-	bump:function(elem) {
-		$("#"+elem).animate({"bottom":"+=8px"}, 50)
-                    .animate({"bottom":"-=8px"}, 50)
-                    .animate({"bottom":"+=8px"}, 50)
-                    .animate({"bottom":"-=8px"}, 50);
-	}
+
+
 
 };
 
@@ -220,10 +213,7 @@ if(vn.current.Array.length<=vn.current.Number){
 }
 
 };//vn.parse()
-/*
-vn.current.object = vn.current.array[vn.current.item];
 
-*/
 
 vn.keyMaster = function(key,value,name){
 	//console.log( $.type(key) )
