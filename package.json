@@ -3,27 +3,24 @@
   "version": "0.3.8",
   "description": "Visual novel engine for web",
   "main": "dist/vnjson.js",
-  "dependencies": {},
+  "dependencies": {
+    "qwest": "^4.4.5"
+  },
   "devDependencies": {
-    "express": "^4.13.3",
     "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-uglify": "^1.5.1",
-    "open": "0.0.5"
+    "gulp-concat": "^2.6.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "min": "gulp min",
-    "vendors": "gulp vendors"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kserks/vnjson.git"
+    "url": "git+https://github.com/vnjson/vnjson.js.git"
   },
   "author": "kserks",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kserks/vnjson/issues"
+    "url": "https://github.com/vnjson/vnjson.js/issues"
   },
-  "homepage": "https://github.com/kserks/vnjson#readme"
+  "homepage": "https://github.com/vnjson/vnjson.js#readme"
 }
