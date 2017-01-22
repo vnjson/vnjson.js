@@ -5,4 +5,5 @@
 *.wav
 npm-debug.log
 .versionFilesList.json
-_dist
+/demo
+.babelrc

@@ -1,26 +1,39 @@
-vnjs.getScene = function(scene){
-	/* qwest - it is small ajax lib */
-	qwest.get('./game/scenes/'+vnjs.game.init.config.local+"/"+scene+'.json', null, {dataType:'json'})
-	.catch(function(err){
-		console.error('Ошибка при загрузке сцены',err);
-	})
-	.then(function(xhr, res){
+'use strict';
+import parse          from './parse';
+import catalog        from './catalog';
+import game           from './game';
+import current        from './current';
+import ajax           from './utils/ajax';
+
+
+function getScene(scene){
+
+const pathToScene = `./game/scenes/${game.init.config.local}/${scene}.json`;
+
+ajax(pathToScene, (data)=>{
 		/**
 		 * @Set {scene} to {game}
 		 */
-		vnjs.game.scenes[scene] = new Object();
-		vnjs.game.scenes[scene] = res;
+		game.scenes[scene] = new Object();
+		game.scenes[scene] = data;
 		/**
- 		 * @conat characters whith plugins
+ 		 * @concat characters whith plugins
 		 */
-		vnjs.catalog = vnjs.catalog.concat(vnjs.game.scenes[scene].characters);
-		console.info(scene+"/"+vnjs.current.label);
 
-	}).complete(function(){
-		vnjs.parse();
+		//put(game.scenes[scene].characters);
+		console.log(catalog);
+		/**
+		 * @parse
+		 */
+		//  console.log(cat);
+		parse();
 		document.getElementById('scene')
 		.addEventListener('mousedown',function(){
-			vnjs.parse();
+			parse();
 		});
-	});
+});
+
 };
+
+export default getScene;
+

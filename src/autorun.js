@@ -1,5 +1,8 @@
-vnjs.autorun = function(){
-	vnjs.catalog.forEach(function(obj){
+
+import catalog from './catalog';
+
+function autorun(){
+	/*catalog.map((obj)=>{
 		if(obj.hasOwnProperty('autorun')){
 			if(obj.autorun===true){
 				
@@ -7,5 +10,8 @@ vnjs.autorun = function(){
 			}
 		}
 		
-	});
+	});*/
 };
+
+
+export default autorun;

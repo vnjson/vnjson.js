@@ -1,9 +1,20 @@
-vnjs.on = function(event, handler, flag){
-	var tmpObj = {
-		event: event,
-		handler: handler,
-		autorun: flag || false
+
+import init             from './init';
+import Event            from './Event';
+import current          from './current';
+
+function on(event, handler, flag){
+	if(event&&handler){
+		new Event(event, handler, flag);
+	}else{
+		init();
 	};
-	this.catalog.push(tmpObj);
+	
+};
+
+
+export {
+	on,
+	current,
 
 };

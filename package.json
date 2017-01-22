@@ -1,26 +1,19 @@
 {
-  "name": "vnjson",
-  "version": "0.3.8",
-  "description": "Visual novel engine for web",
-  "main": "dist/vnjson.js",
-  "dependencies": {
-    "qwest": "^4.4.5"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vnjson/vnjson.js.git"
-  },
+  "name": "vnjson.js",
+  "version": "0.4.17",
+  "description": "",
+  "main": "webpack.config.js",
   "author": "kserks",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vnjson/vnjson.js/issues"
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
-  "homepage": "https://github.com/vnjson/vnjson.js#readme"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "webpack": "^1.13.2"
+  }
 }

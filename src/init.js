@@ -1,24 +1,32 @@
+import game          from './game';
+import autorun       from './autorun';
+import jump          from './jump';
+import ajax          from './utils/ajax';
 
-vnjs.init = function(){
-	/* 
-	 * @qwest - it is small ajax lib 
-	 */
-	qwest.get('./game/init.json', null, {dataType:'json'})
-	.then(function(xhr, res){
+
+function init(){
+
+
+
+
+ajax('./game/init.json', (data)=>{
 		/**
 		 * @start autorun
 		 */
-		vnjs.autorun();
+		 
+		autorun();
 		/**
  		 * @game[init.json]
 		 */
-		vnjs.game.init = res;
+		game.init = data;
 		/*
 		 * @jump to start Label
 		 */
-		vnjs.jump(res.config.startLabel);
-	
-	});
+		
+
+		jump(data.config.startLabel);
+});
 
 	
 };
+export default init;

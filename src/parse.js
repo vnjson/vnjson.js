@@ -1,21 +1,29 @@
-vnjs.parse = function(){
-	var scene = this.game.scenes[this.current.scene];
-	var label = scene[this.current.label];
-	var currentObject = label[this.current.num++];
-	this.current.obj = currentObject;
+import aliase              from './catalog/aliase';
+import current             from './current';
+import game                from './game';
+import catalog             from './catalog';
+
+function parse(){
+
+
+
+	const scene = game.scenes[current.scene];
+	const label = scene[current.label];
+	const currentObject = label[current.num++];
+	current.obj = currentObject;
 	/**
  	 * @filter
 	 */
-	for(var param in currentObject){
-		vnjs.catalog.forEach(function(obj){
+	for(let param in currentObject){
+		catalog.map(function(obj){
 			/**
-			 * @Определяю тип объктов по их свойствам.
+			 * @Определяю тип объектов по их свойствам.
 			 * т.е Персонаж это или Плагин
 			 */
 
 			if( obj.hasOwnProperty('aliase') ){
 				if(obj.aliase === param){
-					vnjs.aliase(obj, currentObject[param]);			
+					aliase(obj, currentObject[param]);			
 				}
 			}else if( obj.hasOwnProperty('event') ){
 				
@@ -25,7 +33,12 @@ vnjs.parse = function(){
 			}else{
 				console.log('неизвесный элемент: '+ param);
 			}
-		});//forEach
+		});//map
 	};
 
 };
+
+
+
+
+export default parse;
