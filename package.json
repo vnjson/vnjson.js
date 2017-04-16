@@ -1,9 +1,13 @@
 {
   "name": "vnjson.js",
-  "version": "0.4.17",
+  "version": "0.4.19",
   "description": "",
   "main": "webpack.config.js",
   "author": "kserks",
+  "scripts": {
+      "start": "http-server demo/ -p8080"
+
+  },
   "babel": {
     "presets": [
       "es2015"

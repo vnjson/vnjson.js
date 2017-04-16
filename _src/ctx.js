@@ -1,5 +1,5 @@
 
-const current = {
+const ctx = {
 	pathname:'scene/label',
 	scene:'scene',
 	label:'label',
@@ -8,4 +8,4 @@ const current = {
 };
 
 
-export default current;
+export default ctx;

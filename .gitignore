@@ -6,4 +6,5 @@
 npm-debug.log
 .versionFilesList.json
 /demo
+/exp
 .babelrc

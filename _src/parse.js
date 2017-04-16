@@ -1,5 +1,5 @@
 import aliase              from './catalog/aliase';
-import current             from './current';
+import ctx                 from './ctx';
 import game                from './game';
 import catalog             from './catalog';
 
@@ -7,14 +7,14 @@ function parse(){
 
 
 
-	const scene = game.scenes[current.scene];
-	const label = scene[current.label];
-	const currentObject = label[current.num++];
-	current.obj = currentObject;
+	const scene = game.scenes[ctx.scene];
+	const label = scene[ctx.label];
+	const ctxObject = label[ctx.num++];
+	ctx.obj = ctxObject;
 	/**
  	 * @filter
 	 */
-	for(let param in currentObject){
+	for(let param in ctxObject){
 		catalog.map(function(obj){
 			/**
 			 * @Определяю тип объектов по их свойствам.
@@ -23,12 +23,12 @@ function parse(){
 
 			if( obj.hasOwnProperty('aliase') ){
 				if(obj.aliase === param){
-					aliase(obj, currentObject[param]);			
+					aliase(obj, ctxObject[param]);			
 				}
 			}else if( obj.hasOwnProperty('event') ){
 				
 				if(obj.event === param){
-					obj.handler(currentObject[param]);
+					obj.handler(ctxObject[param]);
 				}
 			}else{
 				console.log('неизвесный элемент: '+ param);

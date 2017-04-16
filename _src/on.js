@@ -1,11 +1,12 @@
 
 import init             from './init';
 import Event            from './Event';
-import current          from './current';
+import ctx              from './ctx';
 
 function on(event, handler, flag){
 	if(event&&handler){
-		new Event(event, handler, flag);
+		//new Event(event, handler, flag);
+    console.log(event);
 	}else{
 		init();
 	};
@@ -15,6 +16,6 @@ function on(event, handler, flag){
 
 export {
 	on,
-	current,
-
+	ctx,
+  init
 };

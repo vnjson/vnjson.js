@@ -1,8 +1,9 @@
 
 module.exports = {
   entry: {
-  	'dist/vnjson': './src/on',
-    'demo/js/vnjson': './src/on'
+  	//'dist/vnjson': './src/on',
+    'demo/js/vnjson': './src/vnjson',
+    //'exp/vnjson': './src/on'
   },
 
   output: {
