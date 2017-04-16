@@ -1,15 +1,8 @@
-import ajax       from './utils/ajax';
-import aliase     from './aliase';
-/*
- * @api
- */
 
-export {
-  on,
-  ctx,
-  init,
-  catalog
-};
+import parse            from './parse';
+import memoryCard       from './memory-card';
+
+
 /**
  * Глобальное хранилище вызываемых методов из
  * пользовательского скрипта
@@ -23,13 +16,42 @@ var catalog = [
       {
         event: "left",
         handler: function (data, event){
-          console.log(event+": "+data);
+           let left = document.getElementById('left');
+           //left.innerHTML = `<img src="/game/assets/${data}.png"`;
+        }
+      },
+      {
+        event: "right",
+        handler: function (data, event){
+          let right = document.getElementById('right');
+          // right.innerHTML = `<img src="/game/assets/${data}.png"`;
         }
       },
       {
         event: "sound",
         handler: function (data, event){
           console.log(event+": "+data);
+        }
+      },
+      {
+        event: "audio",
+        handler: function (data, event){
+          console.log(event+": "+data);
+        }
+      },
+      {
+        event: "scene",
+        handler: function (data, event){
+          let scene = document.getElementById('scene');
+          // scene.innerHTML = `<img src="/game/assets/${data}.png"`;
+
+        }
+      },      
+      {
+        event: "center",
+        handler: function (data, event){
+          let center = document.getElementById('center');
+          // center.innerHTML = `<img src="/game/assets/${data}.png"`;
         }
       }
 ];
@@ -38,22 +60,41 @@ var catalog = [
  * game
  */
 
-const game = {
+var game = {
     init: {},
     scenes: {}
 };
 
 /*
  * context
+ * Значение объекта равно состоянию приложения.
  */
-const ctx = {
-  pathname:'scene/label',
+var ctx = {
   scene:'scene',
   label:'label',
   arr: [],
   obj: null,
   num: 0,
 };
+/*
+ * memory card
+ * Набросал грубый вид сохраненок в игре
+ */
+function saveGame(title){
+  let data = {
+    scene: ctx.scene,
+    label: ctx.label,
+    num: ctx.num,
+    title: title,
+    gameTitle: 'demo'
+  }
+  memoryCard.save(data);
+};
+function loadGame(title){
+
+  memoryCard.load(title);
+}
+
 /**
  * plugins
  */
@@ -68,32 +109,74 @@ function on(event, handler, flag){
 function init(param){
   game.init = param;
 
-  jump(game.init.entry);
+marmottajax('/game/layers.html').success(function(body) {
+     document.getElementById('game').innerHTML = body;
+     jump(game.init.entry);
+});
+ 
+};
+/*
+ * click handler
+ */
+function emitEvent(){
+    let screen = document.getElementById(game.init.screen);
+        //parse(ctx, catalog);
+    screen.addEventListener('mousedown',function(){
+        parse(ctx, catalog);
+    });
 };
 
+
+
 function jump(pathname){
-  ctx.pathname = pathname;
+ /*
+  * Если есть слэш в пути прыжка
+  * то это сцена, значит надо подружать
+  * ресурсы и т.д.
+  */
+let isScene = /\/\w+/gi.test(pathname);
+
+if(isScene){
+   console.info(`[ ${pathname} ]`);
   const pathArr = pathname.split('/');
-  
-if(pathArr.length<2){
-  //ctx.arr = pathArr[0];
-  /* let screen = document.getElementById(game.init.screen);
-    screen.addEventListener('mousedown',function(){
-        parse();
-    });*/
-}else{
+  ctx.num = 0;
   ctx.scene = pathArr[0];
   ctx.label  = pathArr[1];
+ 
   getScene(ctx.scene);
+
+ 
 }
+  /*
+   * Если слэша нет, то это значит лабел.
+   * поэтому не надо делать лишних телодвижений
+   * а просто выполнить уже загруженный массив
+   */
+else{
+ 
+   ctx.num = 0;
+   ctx.label = pathname;
+   ctx.arr = game.scenes[ctx.scene].labels[ctx.label];
+   console.warn('[ is label ]: '+pathname);
+   parse(ctx, catalog);
 };
+};
+
+/*
+ * getScene
+ */
 
 function getScene(scene){
 
 const pathToScene = `game/${game.init.scenes}/${game.init.local}/${scene}.json`;
 
-ajax(pathToScene)
-  .then((data)=>{
+marmottajax({
+    url: pathToScene,
+    json: true
+}).success(function(data) {
+    // result
+
+
    
     game.scenes[ctx.scene] = data;
 
@@ -105,7 +188,6 @@ ajax(pathToScene)
      * Логирую для удобства разработки
      *
      */
-    console.info(ctx.pathname);
     console.log('---------assets---------------');
     console.log(_SCENE.assets);
 
@@ -124,53 +206,19 @@ ajax(pathToScene)
     /**
       * click
       */
-    let screen = document.getElementById(game.init.screen);
-    screen.addEventListener('mousedown',function(){
-        parse();
-    });
+     emitEvent();
  });
 };
 
-function Обработчик(){
-
-  for(let key in ctx.obj){
-    catalog.forEach((item)=>{
-      if(item.hasOwnProperty('aliase')){
-          if(item.aliase===key){
-              let reply = ctx.obj[item.aliase]; 
-              aliase(item, reply);
-          }
-      }
-      else if(item.hasOwnProperty('event')){
-          if(item.hasOwnProperty('event')){
-            if(item.event===key){
-              item.handler(ctx.obj[key], key);
-            }
-          }
-      }else{
-         console.log('неизвесный элемент: '+ key);
-      }   
-    });//catalog.forEach
-  }//for
-
-
-}
-
-
-
-
-function parse(){
-  
-  ctx.obj = ctx.arr[ctx.num];
-  
-  if(ctx.arr.length<ctx.num){
-    ctx.num = 0;
-    console.warn("Массив закончен", ctx.num);
-
-  }else{
-    Обработчик()
-    
-   
-  }
-  ctx.num+=1;
-}
+/*
+ * @api
+ */
+export {
+  on,
+  ctx,
+  init,
+  game,
+  catalog,
+  loadGame,
+  saveGame
+};
