@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>vnjson</title>
+	<script src="/vendor/localforage.js"></script>
+	<script src="/vendor/marmottajax.js"></script>
+	<script src="/debug/dat.gui.min.js"></script>
+	<script src="/js/vnjson.js"></script>
+	<script src="../game/plugins/alias.js"></script>
+	<script src="../game/plugins/audio.js"></script>
+	<script src="../game/plugins/center.js"></script>
+	<script src="../game/plugins/left.js"></script>
+	<script src="../game/plugins/right.js"></script>
+	<script src="../game/plugins/scene.js"></script>
+	<script src="../game/plugins/sound.js"></script>
+	<script src="../game/plugins/jump.js"></script>
+	<script src="../game/plugins/debug.js"></script>
+	<!--<script  src="./js/plugins.js"></script>-->
+	<link rel="stylesheet" type="text/css" href="/game/style.css">
+</head>
+<body>
+<section  id="game">
+	
+</section>
+
+
+<script type="text/javascript">
+
+window.onload = function(){
+	vnjs.init({
+		scenes: 'scenes',
+		screen: 'game',
+		local: 'ru-RU',
+		entry: 'start/chapter1'
+	});
+
+
+}
+</script>
+
+</body>
+</html>

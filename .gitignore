@@ -1,11 +1,10 @@
 /node_modules
 /bower_components
-*.jpg
-*.png
-*.wav
+
 npm-debug.log
 .versionFilesList.json
-/demo
+
 /exp
 .babelrc
 /_src
+/dist

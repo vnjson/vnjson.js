@@ -1,0 +1,60 @@
+#scene{
+	width:600px;
+	height:400px;
+	border:2px dashed #999;
+	user-select:none;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	cursor:pointer;
+	margin:0px;
+background: url('/game/assets/background.png');
+	
+	cursor:url('/game/assets/cursor.png'), default;
+}
+#name_box{
+	width: 200px;
+	height:30px;
+	background:rgba(0,0,0,0.7);
+	position:relative;
+	top:66%;
+	left: 0px;
+	color:grey;
+	font-size:16pt;
+	font-family:'Comic Sans MS';
+	margin:0px;
+}
+#dialog_box{
+	width:600px;
+	height:100px;
+	background:rgba(0,0,0,0.7);
+	position:relative;
+	top:68%;
+	left:0px;
+	color:grey;
+	font-size:16pt;
+	font-family:'Comic Sans MS';
+}
+.background{
+
+}
+#center{
+	width: 200px;
+	height:400px;
+	position: absolute;
+	top:5px;
+	left: 200px;
+}
+#left{
+	width: 200px;
+	height:400px;
+	position: absolute;
+	top:5px;
+	left: 0px;
+}
+#right{
+	width: 200px;
+	height:400px;
+	position: absolute;
+	top:5px;
+	left: 400px;
+}

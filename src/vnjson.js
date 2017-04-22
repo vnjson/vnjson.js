@@ -2,7 +2,6 @@
 import parse            from './parse';
 import memoryCard       from './memory-card';
 
-
 /**
  * Глобальное хранилище вызываемых методов из
  * пользовательского скрипта
@@ -12,49 +11,42 @@ var catalog = [
       { 
         event: 'jump',
         handler: jump
-      },
-      {
-        event: "left",
-        handler: function (data, event){
-           let left = document.getElementById('left');
-           //left.innerHTML = `<img src="/game/assets/${data}.png"`;
-        }
-      },
-      {
-        event: "right",
-        handler: function (data, event){
-          let right = document.getElementById('right');
-          // right.innerHTML = `<img src="/game/assets/${data}.png"`;
-        }
-      },
-      {
-        event: "sound",
-        handler: function (data, event){
-          console.log(event+": "+data);
-        }
-      },
-      {
-        event: "audio",
-        handler: function (data, event){
-          console.log(event+": "+data);
-        }
-      },
-      {
-        event: "scene",
-        handler: function (data, event){
-          let scene = document.getElementById('scene');
-          // scene.innerHTML = `<img src="/game/assets/${data}.png"`;
-
-        }
-      },      
-      {
-        event: "center",
-        handler: function (data, event){
-          let center = document.getElementById('center');
-          // center.innerHTML = `<img src="/game/assets/${data}.png"`;
-        }
       }
 ];
+/**
+ * @plugins
+ * Регистратор пользовательских событий
+ */
+class Event {
+  constructor(event, handler, flag){
+    this.event = event;
+    this.handler = handler;
+    this.flag = flag;
+  }
+  add(){
+    const _event = {
+      event: this.event,
+      handler: this.handler
+    };
+    catalog.push(_event);
+
+  }
+}; 
+/*
+ * @autorun
+ * vnjs.on(function(){});
+ */
+var autorun = [];
+
+function on(event, handler){
+
+  if(event&&handler){
+     let userEvent = new Event(event, handler);
+     userEvent.add();
+  }else if(event){
+    autorun.push(event);
+  }
+};
 
 /*
  * game
@@ -64,7 +56,9 @@ var game = {
     init: {},
     scenes: {}
 };
-
+var config = {
+      audio: true
+};
 /*
  * context
  * Значение объекта равно состоянию приложения.
@@ -95,23 +89,20 @@ function loadGame(title){
   memoryCard.load(title);
 }
 
-/**
- * plugins
- */
-function on(event, handler, flag){
-   console.log("plugin: "+event);
-  
-};
+
 
 /**
  * init
  */
 function init(param){
   game.init = param;
-
+  autorun.forEach(function(item){
+    item();
+  });
 marmottajax('/game/layers.html').success(function(body) {
      document.getElementById('game').innerHTML = body;
      jump(game.init.entry);
+
 });
  
 };
@@ -120,7 +111,7 @@ marmottajax('/game/layers.html').success(function(body) {
  */
 function emitEvent(){
     let screen = document.getElementById(game.init.screen);
-        //parse(ctx, catalog);
+        parse(ctx, catalog);
     screen.addEventListener('mousedown',function(){
         parse(ctx, catalog);
     });
@@ -210,6 +201,7 @@ marmottajax({
  });
 };
 
+
 /*
  * @api
  */
@@ -220,5 +212,9 @@ export {
   game,
   catalog,
   loadGame,
-  saveGame
+  saveGame,
+  getScene,
+  parse,
+  autorun,
+  config
 };

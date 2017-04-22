@@ -13,9 +13,17 @@
 
 ###Плагины
 
+#####Самовызывающиеся плагины [ autorun ]
+```javascript
+  vnjs.on(function(){
+    console.log('autorun');
+  });
+
+```
+#####Вызываются из пользовательского скрипта
 ```javascript
   vnjs.on('alert', function(param, ctx){
-    //ctx.num = 3
+    alert(ctx.scene)
   })
 
 ```
@@ -84,5 +92,39 @@
   ]
 }
 
+
+```
+####Структура визуальной новеллы
+
+```plane_text
+public/game
+├── assets
+│   ├── room_hero.png
+│   ├── prof_norm.png
+│   └── errors.mp3
+├── icons
+│   ├── favicon.ico 
+│   └── logo32x32.png
+├── plugins
+│   ├── aliase.js
+│   ├── debug.js
+│   ├── audio.js
+│   ├── sound.js
+│   ├── center.js
+│   ├── right.js
+│   ├── scene.js
+│   ├── show.js
+│   ├── snake.js
+│   ├── blimb.js
+│   └── left.js
+├── scenes
+│   ├── ru-RU
+│   │   ├── start.json
+│   │   └── lab.json
+│   └── en-US
+│       ├── start.json
+│       └── lab.json
+├── style.css
+└── layers.html
 
 ```
