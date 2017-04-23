@@ -1,7 +1,7 @@
-###vnjson.js
+### vnjson.js
 
 
-###Инициализация
+### Инициализация
 ```javascript
   vnjs.init({
     scenesDirectory: 'scenes',
@@ -11,16 +11,16 @@
 
 ```
 
-###Плагины
+### Плагины
 
-#####Самовызывающиеся плагины [ autorun ]
+##### Самовызывающиеся плагины [ autorun ]
 ```javascript
   vnjs.on(function(){
     console.log('autorun');
   });
 
 ```
-#####Вызываются из пользовательского скрипта
+##### Вызываются из пользовательского скрипта
 ```javascript
   vnjs.on('alert', function(param, ctx){
     alert(ctx.scene)
@@ -28,7 +28,7 @@
 
 ```
 
-###Структура сцены *.json
+### Структура сцены *.json
 >./scenes/ru-RU/start.json
 
 ```json
