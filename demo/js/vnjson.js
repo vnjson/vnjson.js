@@ -50,9 +50,11 @@ var vnjs =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.autorun = exports.parse = exports.getScene = exports.saveGame = exports.loadGame = exports.catalog = exports.game = exports.init = exports.ctx = exports.on = undefined;
+	exports.jump = exports.config = exports.autorun = exports.parse = exports.getScene = exports.saveGame = exports.loadGame = exports.catalog = exports.game = exports.init = exports.ctx = exports.on = undefined;
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @deps [ marmottajax, localforge, howler]
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 	
 	var _parse = __webpack_require__(1);
 	
@@ -65,6 +67,20 @@ var vnjs =
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/**
+	 * init
+	 */
+	function init(param) {
+	
+	  game.init = param;
+	
+	  marmottajax('/game/layers.html').success(function (body) {
+	    document.getElementById('game').innerHTML = body;
+	
+	    jump(game.init.entry);
+	  });
+	};
 	
 	/**
 	 * Глобальное хранилище вызываемых методов из
@@ -104,7 +120,12 @@ var vnjs =
 	}();
 	
 	;
+	/*
+	 * @autorun
+	 * vnjs.on(function(){});
+	 */
 	var autorun = [];
+	
 	function on(event, handler) {
 	
 	  if (event && handler) {
@@ -114,6 +135,7 @@ var vnjs =
 	    autorun.push(event);
 	  }
 	};
+	
 	/*
 	 * game
 	 */
@@ -122,7 +144,9 @@ var vnjs =
 	  init: {},
 	  scenes: {}
 	};
-	
+	var config = {
+	  audio: true
+	};
 	/*
 	 * context
 	 * Значение объекта равно состоянию приложения.
@@ -154,28 +178,12 @@ var vnjs =
 	}
 	
 	/**
-	 * init
+	 * @TODO Сделать разновидность jump'a
+	 * только что бы можно было переходить
+	 * на конкретную строку. jumpTo("start/chapter1/14")
+	 * А так же разобраться с навигатором. Что б. можно было
+	 * скролить новелу назад и вперед.
 	 */
-	function init(param) {
-	  game.init = param;
-	  autorun.forEach(function (item) {
-	    item();
-	  });
-	  marmottajax('/game/layers.html').success(function (body) {
-	    document.getElementById('game').innerHTML = body;
-	    jump(game.init.entry);
-	  });
-	};
-	/*
-	 * click handler
-	 */
-	function emitEvent() {
-	  var screen = document.getElementById(game.init.screen);
-	  (0, _parse2.default)(ctx, catalog);
-	  screen.addEventListener('mousedown', function () {
-	    (0, _parse2.default)(ctx, catalog);
-	  });
-	};
 	
 	function jump(pathname) {
 	  /*
@@ -186,7 +194,7 @@ var vnjs =
 	  var isScene = /\/\w+/gi.test(pathname);
 	
 	  if (isScene) {
-	    console.info('[ ' + pathname + ' ]');
+	
 	    var pathArr = pathname.split('/');
 	    ctx.num = 0;
 	    ctx.scene = pathArr[0];
@@ -204,7 +212,6 @@ var vnjs =
 	      ctx.num = 0;
 	      ctx.label = pathname;
 	      ctx.arr = game.scenes[ctx.scene].labels[ctx.label];
-	      console.warn('[ is label ]: ' + pathname);
 	      (0, _parse2.default)(ctx, catalog);
 	    };
 	};
@@ -223,33 +230,24 @@ var vnjs =
 	  }).success(function (data) {
 	    // result
 	
-	
 	    game.scenes[ctx.scene] = data;
 	
 	    var _SCENE = game.scenes[ctx.scene];
 	
 	    ctx.arr = _SCENE.labels[ctx.label];
-	    /*
-	     * Логирую для удобства разработки
-	     *
-	     */
-	    console.log('---------assets---------------');
-	    console.log(_SCENE.assets);
+	    ctx.assets = game.scenes[ctx.scene].assets;
 	
-	    console.log('---------characters-----------');
-	    console.log(_SCENE.characters);
-	
-	    console.log('---------labels-----------');
-	    console.log(_SCENE.labels);
 	    /** 
 	     * Склеиваю персонажей из сцены в каталог
 	     *
 	     */
 	    exports.catalog = catalog = catalog.concat(_SCENE.characters);
 	    /**
-	      * click
+	      * autorun
 	      */
-	    emitEvent();
+	    autorun.forEach(function (item) {
+	      item.call(vnjs);
+	    });
 	  });
 	};
 	
@@ -266,6 +264,8 @@ var vnjs =
 	exports.getScene = getScene;
 	exports.parse = _parse2.default;
 	exports.autorun = autorun;
+	exports.config = config;
+	exports.jump = jump;
 
 /***/ },
 /* 1 */
@@ -283,7 +283,18 @@ var vnjs =
 	 * обработчикам [ event ]
 	 *
 	 */
-	
+	/*
+	switch(param){
+	  case 'prev':
+	    this.i--;
+	    break;
+	  case 'current':
+	    this.i = this.i;
+	    break;
+	  case 'next':
+	    this.i++;
+	}
+	*/
 	/*
 	 * @plugin
 	 * vnjs.alias

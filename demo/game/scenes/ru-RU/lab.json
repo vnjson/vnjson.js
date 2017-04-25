@@ -36,9 +36,15 @@
     {"pr": "[ game is over ]"}
   ]
   },
-  "assets": [
-    "/assets/bg13.png"
-  ],
+  "assets": {
+      "images": [
+           "/the_door.png",
+           "/errors.png"
+      ],
+      "audio": [
+          "/song1.mp3"
+      ]
+  },
   "characters": [
     {
       "alias": "ll",

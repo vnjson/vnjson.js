@@ -1,6 +1,25 @@
+/**
+ * @deps [ marmottajax, localforge, howler]
+ */
 
 import parse            from './parse';
 import memoryCard       from './memory-card';
+
+/**
+ * init
+ */
+function init(param){
+  
+  game.init = param;
+
+marmottajax('/game/layers.html').success(function(body) {
+    document.getElementById('game').innerHTML = body;
+
+    jump(game.init.entry);
+
+});
+ 
+};
 
 /**
  * Глобальное хранилище вызываемых методов из
@@ -91,33 +110,16 @@ function loadGame(title){
 
 
 
+
+
+
 /**
- * init
+ * @TODO Сделать разновидность jump'a
+ * только что бы можно было переходить
+ * на конкретную строку. jumpTo("start/chapter1/14")
+ * А так же разобраться с навигатором. Что б. можно было
+ * скролить новелу назад и вперед.
  */
-function init(param){
-  game.init = param;
-  autorun.forEach(function(item){
-    item();
-  });
-marmottajax('/game/layers.html').success(function(body) {
-     document.getElementById('game').innerHTML = body;
-     jump(game.init.entry);
-
-});
- 
-};
-/*
- * click handler
- */
-function emitEvent(){
-    let screen = document.getElementById(game.init.screen);
-        parse(ctx, catalog);
-    screen.addEventListener('mousedown',function(){
-        parse(ctx, catalog);
-    });
-};
-
-
 
 function jump(pathname){
  /*
@@ -128,7 +130,7 @@ function jump(pathname){
 let isScene = /\/\w+/gi.test(pathname);
 
 if(isScene){
-   console.info(`[ ${pathname} ]`);
+
   const pathArr = pathname.split('/');
   ctx.num = 0;
   ctx.scene = pathArr[0];
@@ -148,7 +150,6 @@ else{
    ctx.num = 0;
    ctx.label = pathname;
    ctx.arr = game.scenes[ctx.scene].labels[ctx.label];
-   console.warn('[ is label ]: '+pathname);
    parse(ctx, catalog);
 };
 };
@@ -167,38 +168,27 @@ marmottajax({
 }).success(function(data) {
     // result
 
-
-   
     game.scenes[ctx.scene] = data;
 
     const _SCENE = game.scenes[ctx.scene];
    
     
     ctx.arr = _SCENE.labels[ctx.label];
-    /*
-     * Логирую для удобства разработки
-     *
-     */
-    console.log('---------assets---------------');
-    console.log(_SCENE.assets);
+    ctx.assets = game.scenes[ctx.scene].assets;
 
-
-    console.log('---------characters-----------');
-    console.log(_SCENE.characters);
-
-
-    console.log('---------labels-----------');
-    console.log(_SCENE.labels);
     /** 
      * Склеиваю персонажей из сцены в каталог
      *
      */
     catalog = catalog.concat(_SCENE.characters);
     /**
-      * click
+      * autorun
       */
-     emitEvent();
+    autorun.forEach(function(item){
+      item.call(vnjs);
+    });
  });
+
 };
 
 
@@ -216,5 +206,7 @@ export {
   getScene,
   parse,
   autorun,
-  config
+  config,
+  jump
+
 };
