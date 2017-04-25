@@ -50,19 +50,15 @@ var vnjs =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.jump = exports.config = exports.autorun = exports.parse = exports.getScene = exports.saveGame = exports.loadGame = exports.catalog = exports.game = exports.init = exports.ctx = exports.on = undefined;
+	exports.config = exports.autorun = exports.parse = exports.getScene = exports.catalog = exports.game = exports.init = exports.ctx = exports.on = undefined;
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @deps [ marmottajax, localforge, howler]
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @deps [ marmottajax]
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 	
 	var _parse = __webpack_require__(1);
 	
 	var _parse2 = _interopRequireDefault(_parse);
-	
-	var _memoryCard = __webpack_require__(2);
-	
-	var _memoryCard2 = _interopRequireDefault(_memoryCard);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -91,6 +87,19 @@ var vnjs =
 	  event: 'jump',
 	  handler: jump
 	}];
+	/*
+	function callEvent (event, data){
+	  catalog.forEach((e)=>{
+	    if(e.hasOwnProperty('event')){
+	      if(event===e.event){
+	        e.handler(data);
+	      }
+	    }
+	    
+	  });
+	}
+	callEvent.call(vnjs,'jump', pathname)
+	*/
 	/**
 	 * @plugins
 	 * Регистратор пользовательских событий
@@ -158,24 +167,6 @@ var vnjs =
 	  obj: null,
 	  num: 0
 	};
-	/*
-	 * memory card
-	 * Набросал грубый вид сохраненок в игре
-	 */
-	function saveGame(title) {
-	  var data = {
-	    scene: ctx.scene,
-	    label: ctx.label,
-	    num: ctx.num,
-	    title: title,
-	    gameTitle: 'demo'
-	  };
-	  _memoryCard2.default.save(data);
-	};
-	function loadGame(title) {
-	
-	  _memoryCard2.default.load(title);
-	}
 	
 	/**
 	 * @TODO Сделать разновидность jump'a
@@ -253,19 +244,17 @@ var vnjs =
 	
 	/*
 	 * @api
+	 * @version 0.5.7
 	 */
 	exports.on = on;
 	exports.ctx = ctx;
 	exports.init = init;
 	exports.game = game;
 	exports.catalog = catalog;
-	exports.loadGame = loadGame;
-	exports.saveGame = saveGame;
 	exports.getScene = getScene;
 	exports.parse = _parse2.default;
 	exports.autorun = autorun;
 	exports.config = config;
-	exports.jump = jump;
 
 /***/ },
 /* 1 */
@@ -352,43 +341,6 @@ var vnjs =
 	}
 	
 	exports.default = parse;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.save = save;
-	exports.load = load;
-	/*
-	 * Так же потом сделать удаленные сохраненки на
-	 * vnjson.online
-	 */
-	
-	function save(data) {
-	  localforage.setItem(data.title, data, function (err) {
-	    if (err) {
-	      console.log(err);
-	    }
-	    console.log('Игра сохранена');
-	  });
-	};
-	
-	function load(key) {
-	  localforage.getItem(key).then(function (data) {
-	    console.log(data);
-	  }).catch(function (err) {
-	    console.error(err);
-	  });
-	}
-	
-	exports.default = {
-	  save: save, load: load
-	};
 
 /***/ }
 /******/ ]);

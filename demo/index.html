@@ -9,18 +9,26 @@
 	<script src="/vendor/smart-observe.js"></script>
 	<script src="/js/vnjson.js"></script>
 	<!-- @libs-->
-	<script src="/game/lib/dat.gui.min.js"></script>
+
 	<script src="/game/lib/howler.min.js"></script>
 	<!-- @plugins -->
-	<script src="/game/plugins/plugins.js"></script>
-	<script src="/game/plugins/debug.js"></script>
-	<script src="/game/plugins/menu.js"></script>
-	<script src="/game/plugins/preload-images.js"></script>
-	<script src="/game/plugins/click-hundler.js"></script>
+	<script src="/game/plugins/memory-card/index.js"></script>
+	<script src="/game/plugins/navigator/index.js"></script>
+	<script src="/game/plugins/debug/index.js"></script>
+	<script src="/game/plugins/menu/index.js"></script>
+	<script src="/game/plugins/jump/index.js"></script>
+	<script src="/game/plugins/preload-images/index.js"></script>
+	<script src="/game/plugins/click-handler/index.js"></script>
 	<script src="/game/plugins/grayscale/index.js"></script>
 	<script src="/game/plugins/contrast/index.js"></script>
 	<script src="/game/plugins/blur/index.js"></script>
-
+	<script src="/game/plugins/alias/index.js"></script>
+	<script src="/game/plugins/audio/index.js"></script>
+	<script src="/game/plugins/sound/index.js"></script>
+	<script src="/game/plugins/center/index.js"></script>
+	<script src="/game/plugins/left/index.js"></script>
+	<script src="/game/plugins/right/index.js"></script>
+	<script src="/game/plugins/scene/index.js"></script>
 	<!-- *.css-->
 	<link rel="stylesheet" type="text/css" href="/game/style.css">
 </head>
@@ -28,14 +36,23 @@
 <section  id="game">
 	
 </section>
-
+<div class="bar-btn">
+	<div class= "memory-card">
+		<button id="save-btn">save</button>
+		<button id="load-btn">load</button>
+	</div>
+	<div class="navigator">
+		<button id="prev-btn">prev</button>
+		<button id="next-btn">next</button>
+	</div>
+</div>
 
 <script type="text/javascript">
 
 window.onload = function(){
 	vnjs.init({
 		scenes: 'scenes',
-		screen: 'game',
+		screen: '#game',
 		local: 'ru-RU',
 		entry: 'start/chapter1'
 	});

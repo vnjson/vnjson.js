@@ -7,8 +7,7 @@
 	-moz-user-select:none;
 	cursor:pointer;
 	margin:0px;
-background: url('/game/assets/background.png');
-	
+	background: url('/game/assets/background.png');
 	cursor:url('/game/assets/cursor.png'), default;
 }
 #name_box{
@@ -77,3 +76,14 @@ background: url('/game/assets/background.png');
 	color: red;
 	font-size: 14pt;
 } 
+.bar-btn{
+	width:600px;
+}
+.memory-card{
+	float: left;
+}
+.navigator{
+	position: relative;
+
+	float:right;
+}

@@ -1,9 +1,9 @@
 /**
- * @deps [ marmottajax, localforge, howler]
+ * @deps [ marmottajax]
  */
 
 import parse            from './parse';
-import memoryCard       from './memory-card';
+
 
 /**
  * init
@@ -15,7 +15,7 @@ function init(param){
 marmottajax('/game/layers.html').success(function(body) {
     document.getElementById('game').innerHTML = body;
 
-    jump(game.init.entry);
+    jump( game.init.entry);
 
 });
  
@@ -32,6 +32,19 @@ var catalog = [
         handler: jump
       }
 ];
+/*
+function callEvent (event, data){
+  catalog.forEach((e)=>{
+    if(e.hasOwnProperty('event')){
+      if(event===e.event){
+        e.handler(data);
+      }
+    }
+    
+  });
+}
+callEvent.call(vnjs,'jump', pathname)
+*/
 /**
  * @plugins
  * Регистратор пользовательских событий
@@ -89,24 +102,7 @@ var ctx = {
   obj: null,
   num: 0,
 };
-/*
- * memory card
- * Набросал грубый вид сохраненок в игре
- */
-function saveGame(title){
-  let data = {
-    scene: ctx.scene,
-    label: ctx.label,
-    num: ctx.num,
-    title: title,
-    gameTitle: 'demo'
-  }
-  memoryCard.save(data);
-};
-function loadGame(title){
 
-  memoryCard.load(title);
-}
 
 
 
@@ -194,6 +190,7 @@ marmottajax({
 
 /*
  * @api
+ * @version 0.5.7
  */
 export {
   on,
@@ -201,12 +198,8 @@ export {
   init,
   game,
   catalog,
-  loadGame,
-  saveGame,
   getScene,
   parse,
   autorun,
-  config,
-  jump
-
+  config
 };
