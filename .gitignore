@@ -2,11 +2,8 @@
 /bower_components
 
 npm-debug.log
-.versionFilesList.json
+
 vnjson-js.sublime-project
 vnjson-js.sublime-workspace
-/exp
+
 .babelrc
-/_src
-/dist
-/_src
