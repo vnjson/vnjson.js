@@ -1,9 +1,10 @@
-vnjs.on(function(){
+vnjs.on('preload', function(){
+  console.log('Показать индикатор загрузки');
+})
+
+vnjs.on('loaded', function(){
   let arr = this.game.scenes[this.ctx.scene].assets.images;
-/*
- * @preliad images
- *
- */
+
 var images = [];
 function preloadImages(arr) {
     for (var i = 0; i < arr.length; i++) {
@@ -13,4 +14,5 @@ function preloadImages(arr) {
     }
 };
 preloadImages(arr);
+ console.log("Убрать индикатор загрузки");
 });

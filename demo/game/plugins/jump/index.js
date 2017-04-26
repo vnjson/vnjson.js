@@ -1,5 +1,5 @@
-vnjs.on('jump-test', function(pathname){
-let { getScene, ctx, game, parse, catalog} = this;
+vnjs.on('jump', function (pathname){
+let { getScene, ctx, game, next} = this;
 
  /*
   * Если есть слэш в пути прыжка
@@ -17,7 +17,7 @@ if(isScene){
  
   getScene(ctx.scene);
 
- 
+
 }
   /*
    * Если слэша нет, то это значит лабел.
@@ -29,8 +29,9 @@ else{
    ctx.num = 0;
    ctx.label = pathname;
    ctx.arr = game.scenes[ctx.scene].labels[ctx.label];
-   parse(ctx, catalog);
+   next();
 };
+
 
 
 });

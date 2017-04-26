@@ -45,11 +45,10 @@
           "/song1.mp3"
       ]
   },
-  "characters": [
-    {
-      "alias": "ll",
+  "characters": {
+    "ll": {
       "name": "Люсиль",
       "color": "grey"
     }
-  ]
+  }
 }

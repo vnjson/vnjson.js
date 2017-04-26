@@ -1,96 +1,14 @@
 /**
- * @deps [ marmottajax]
+ * @deps [ marmottajax.js]
+ *       [ minivents.js]
+         [ smart-observer.js]
  */
-
-import parse            from './parse';
-
-
-/**
- * init
- */
-function init(param){
-  
-  game.init = param;
-
-marmottajax('/game/layers.html').success(function(body) {
-    document.getElementById('game').innerHTML = body;
-
-    jump( game.init.entry);
-
-});
- 
-};
-
-/**
- * Глобальное хранилище вызываемых методов из
- * пользовательского скрипта
- * 
- */
-var catalog = [
-      { 
-        event: 'jump',
-        handler: jump
-      }
-];
-/*
-function callEvent (event, data){
-  catalog.forEach((e)=>{
-    if(e.hasOwnProperty('event')){
-      if(event===e.event){
-        e.handler(data);
-      }
-    }
-    
-  });
-}
-callEvent.call(vnjs,'jump', pathname)
-*/
-/**
- * @plugins
- * Регистратор пользовательских событий
- */
-class Event {
-  constructor(event, handler, flag){
-    this.event = event;
-    this.handler = handler;
-    this.flag = flag;
-  }
-  add(){
-    const _event = {
-      event: this.event,
-      handler: this.handler
-    };
-    catalog.push(_event);
-
-  }
-}; 
-/*
- * @autorun
- * vnjs.on(function(){});
- */
-var autorun = [];
-
-function on(event, handler){
-
-  if(event&&handler){
-     let userEvent = new Event(event, handler);
-     userEvent.add();
-  }else if(event){
-    autorun.push(event);
-  }
-};
-
-/*
- * game
- */
-
 var game = {
     init: {},
-    scenes: {}
+    scenes: {},
+    characters: {}
 };
-var config = {
-      audio: true
-};
+
 /*
  * context
  * Значение объекта равно состоянию приложения.
@@ -102,53 +20,59 @@ var ctx = {
   obj: null,
   num: 0,
 };
-
-
-
-
+/*
+ * 
+ */
+var utils = {};
+var config = {};
+var ev = new Events();//EventEmitter
+/**
+ * init
+ */
+function init(param){
+  
+  config = param;
+/*
+ * Загружаю слои в главный файл
+ */
+marmottajax('/game/layers.html').success(function(body) {
+    document.getElementById('game').innerHTML = body;
+    /*
+     * Здесь срабатывает autorun
+     */
+    ev.emit('autorun', {name: 'autorun'});
+    /*
+     * Во время первого запуска нужно
+     * запустить точку входа.
+     * Здесь это и присходит. Ставлю обработчик
+     * события (jump) и передаю контекст
+     */
+    ev.emit.call(vnjs, 'jump', config.entry);
+});
+ 
+};
 
 
 
 /**
- * @TODO Сделать разновидность jump'a
- * только что бы можно было переходить
- * на конкретную строку. jumpTo("start/chapter1/14")
- * А так же разобраться с навигатором. Что б. можно было
- * скролить новелу назад и вперед.
+ * @plugins
+ * Регистратор пользовательских событий
  */
 
-function jump(pathname){
- /*
-  * Если есть слэш в пути прыжка
-  * то это сцена, значит надо подружать
-  * ресурсы и т.д.
-  */
-let isScene = /\/\w+/gi.test(pathname);
 
-if(isScene){
 
-  const pathArr = pathname.split('/');
-  ctx.num = 0;
-  ctx.scene = pathArr[0];
-  ctx.label  = pathArr[1];
- 
-  getScene(ctx.scene);
+function on(event, handler){
 
- 
-}
-  /*
-   * Если слэша нет, то это значит лабел.
-   * поэтому не надо делать лишних телодвижений
-   * а просто выполнить уже загруженный массив
-   */
-else{
- 
-   ctx.num = 0;
-   ctx.label = pathname;
-   ctx.arr = game.scenes[ctx.scene].labels[ctx.label];
-   parse(ctx, catalog);
+  if(typeof event==="function"){
+      ev.on('autorun', event, vnjs);
+  }else if(typeof event==="string"){
+      ev.on(event, handler, vnjs);
+  }
+
 };
-};
+
+
+
 
 /*
  * getScene
@@ -156,35 +80,85 @@ else{
 
 function getScene(scene){
 
-const pathToScene = `game/${game.init.scenes}/${game.init.local}/${scene}.json`;
-
+const pathToScene = `game/${config.scenes}/${config.local}/${scene}.json`;
+/*
+ * Излучаю событие preload что бы было можно повесить
+ * идикатор загрузки на css
+ */
+ev.emit('preload', {name:'preload', msg:'${scene} start loading!'})
 marmottajax({
     url: pathToScene,
     json: true
 }).success(function(data) {
-    // result
-
+    /*
+     * Назначаем полученные данные сцены в
+     * игровые объекты.
+     * А так же объекты внутреннего назначения
+     */
     game.scenes[ctx.scene] = data;
 
     const _SCENE = game.scenes[ctx.scene];
-   
-    
-    ctx.arr = _SCENE.labels[ctx.label];
-    ctx.assets = game.scenes[ctx.scene].assets;
-
-    /** 
-     * Склеиваю персонажей из сцены в каталог
-     *
+    /*
+     * Добавляю персонажей в каждой загруженной сцены
+     * в общий пулл.
      */
-    catalog = catalog.concat(_SCENE.characters);
-    /**
-      * autorun
-      */
-    autorun.forEach(function(item){
-      item.call(vnjs);
-    });
+    game.characters = Object.assign(game.characters, _SCENE.characters);
+    /*
+     * Дублирую текущие значения в контекст
+     */
+    ctx.arr = _SCENE.labels[ctx.label];
+    //ctx.assets = game.scenes[ctx.scene].assets;
+
+    ev.emit('loaded', {name:'load', msg:'${scene} is loaded!'})
  });
 
+};
+
+function parse(){
+   /** Текущий объект */
+  ctx.obj = ctx.arr[ctx.num];
+
+  /*if(ctx.arr.length-1>=ctx.num){
+    console.log(ctx.obj)
+  }else{
+    console.log('Массив окончен')
+  }
+  */
+
+
+  for(let key in ctx.obj){
+
+      if(key.length<=2){
+             let character = game.characters[key];
+            
+              let reply = ctx.obj[key]; 
+              ev.emit('alias', {
+                   character,
+                   reply,
+                   aliase: key
+                 });
+             
+
+      }else{
+        ev.emit(key, ctx.obj[key]);
+      }
+  }
+
+};
+
+
+
+function next(){
+  
+  parse();
+  ctx.num+=1;
+  ev.emit('next', {name: 'next'});
+};
+function prev(){
+ 
+  parse();
+  ctx.num-=1;
+  ev.emit('prev', {name: 'prev'});
 };
 
 
@@ -197,9 +171,10 @@ export {
   ctx,
   init,
   game,
-  catalog,
   getScene,
-  parse,
-  autorun,
-  config
+  config,
+  utils,
+  next,
+  prev,
+  parse
 };

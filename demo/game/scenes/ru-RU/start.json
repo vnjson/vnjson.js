@@ -51,21 +51,14 @@
           "/song1.mp3"
       ]
   },  
-  "characters": [
-    {
-      "alias": "pr",
+  "characters": {
+    "pr": {
       "name": "Профессор",
       "color": "green"
     },
-    {
-      "alias": "al",
+    "al": {
       "name": "Алиса",
       "color": "red"
-    },
-    {
-      "alias": "ll",
-      "name": "Люсиль",
-      "color": "grey"
     }
-  ]
+  }
 }

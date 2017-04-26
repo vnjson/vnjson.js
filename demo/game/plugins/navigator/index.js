@@ -1,7 +1,12 @@
 vnjs.on(function(){
-  let { parse, catalog, ctx } = this;
+  let { prev, next, ctx } = this;
 let nextBtn = document.querySelector("#next-btn");
     nextBtn.addEventListener('mousedown', function(){
-        parse(ctx, catalog);
+        next();
     });
+
+let prevBtn = document.querySelector("#prev-btn");
+    prevBtn.addEventListener('mousedown', function(){
+        prev();
+    });    
 });

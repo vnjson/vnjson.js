@@ -1,6 +1,6 @@
 vnjs.on(function(){
 
-
+/*
 let {ctx, game, catalog, parse } = this;
 let dialogBox = document.querySelector('#dialog_box');
   
@@ -8,8 +8,8 @@ let dialogBox = document.querySelector('#dialog_box');
      parse(ctx, catalog);   
     dialogBox.addEventListener('mousedown', function(){
         parse(ctx, catalog);
-    });
-var fps = 15;
+    });*/
+/*var fps = 15;
 function draw() {
     setTimeout(function() {
         requestAnimationFrame(draw,screen);
@@ -17,5 +17,5 @@ function draw() {
     }, 1000 / fps);
 };
 draw();
-console.log('fps: '+fps);
+console.log('fps: '+fps);*/
 });
