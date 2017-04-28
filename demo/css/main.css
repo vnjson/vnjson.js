@@ -1,14 +1,24 @@
 body{
 	overflow: hidden;
-	-webkit-user-select:none;
-	-moz-user-select:none;
-	user-select:none;
-	margin:0px;
+	margin: 0px;
 	padding:0px;
 }
 
-#scene {
-  width: 640px;
+#game {
+  width: 800px;
+  height: 480px;
+  border: 2px dashed #999;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+#scene{
+  width: 800px;
   height:480px;
-  border:1px dotted grey;
+  position: absolute;
+  cursor:pointer;
+  margin:0px;
+  /*background: url('/game/assets/background.png');*/
+  cursor:url('/game/assets/cursor.png'), default;
 }

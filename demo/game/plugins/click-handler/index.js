@@ -1,5 +1,8 @@
-vnjs.on(function(){
+vnjs.on('start-game', function(){
 
+document
+  .querySelector("#dialog_box")
+  .addEventListener('mousedown', this.next);
 /*
 let {ctx, game, catalog, parse } = this;
 let dialogBox = document.querySelector('#dialog_box');

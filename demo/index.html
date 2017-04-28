@@ -35,46 +35,42 @@
 	<script src="/game/plugins/scene/index.js"></script>
 	<script src="/game/plugins/pathname/index.js"></script>
 	<!-- *.css-->
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/game/style.css">
 </head>
 <body>
-<section  id="game">
-	
-</section>
+
+<div  id="game">
+	<section id="scene" class="background">
+	</section>
+</div>
 <div class="bar-btn">
-	<div class= "memory-card">
-		<button id="save-btn">save</button>
-		<button id="load-btn">load</button>
-	</div>
-	<div class="navigator">
-		<button id="prev-btn">prev</button>
-		<button id="next-btn">next</button>
-	</div>
+	 <div class= "memory-card">
+    <button id="save-btn">save</button>
+    <button id="load-btn">load</button>
+  </div>
+ 
+  <div class="navigator">
+    <button id="prev-btn">prev</button>
+    <button id="next-btn">next</button>
+  </div>
+   <div class="back-to-main-menu">
+    <button id="main-menu-btn">main-menu</button>
+  </div>
 </div>
 
 <script type="text/javascript">
+window.addEventListener("load", function () {
 
-window.onload = function(){
 	vnjs.init({
 		scenes: 'scenes',
-		screen: '#game',
+		screen: '#scene',
 		local: 'ru-RU',
 		entry: 'start/chapter1'
 	});
-/*
-vnjs.on('init', function(){
-	
-	this.parse({
-	"main-menu": "",
-	"audio": "theme1",
-	"scene": "background-main-menu"
-})
-})
 
 
-*/
-
-}
+});
 </script>
 
 </body>

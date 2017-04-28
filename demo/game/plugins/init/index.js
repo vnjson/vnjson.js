@@ -3,8 +3,8 @@
 vnjs.on('init', function (){
 
 this.parse({
-  "main-menu": "",
-
+  "screen": "main-menu",
+  "scene": "background"
 });
 
 

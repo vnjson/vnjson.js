@@ -103,7 +103,7 @@ vnjs.ctx /*
     // выполнением события vnjs.on('parse');
 */
 
-  init,
+  init({config})
   game,
   getScene,
   config, // vnjs.init(/*{ config }*/)

@@ -1,4 +1,6 @@
 vnjs.on('menu', function(menu){
+  console.log('[ menu ]', menu);
+  //console.log('Так же сделать озвучивание пунктов меню hover')
  /* var menu = document.createElement('div');
   menu.className = "vn-menu";
   menu.id = "vn-menu";
@@ -16,7 +18,22 @@ function addItem(label, reply){
       addItem(menu[key], key);
   }*/
 });
+//### ДЕЛЕГИРОВАНИЕ СОБЫТИЯ
+/*
+var FullList = document.getElementById('main_menu'); //переменная с определением всего списка 
+  FullList.addEventListener('click',EventHandler,false); 
+  // добавляем обработчик события "EventHandler" ко всему списку ссылок 
 
+  function EventHandler(e){ 
+   var L = e.target; 
+   // получаем объект, на который было выполнено событие 
+   if(L.nodeName.toLowerCase() === 'a'){ // определяем, что событие "EventHandler" было вызвано на ссылке 
+    alert('Делегирование события '); // небольшое оповещение для проверки 
+    e.preventDefault(); // блокируем привычное событие ссылки (переход) 
+   } 
+  }; 
+
+*/
 /*ren.event.menu = function(param){
     
 

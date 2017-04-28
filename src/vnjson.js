@@ -1,7 +1,7 @@
 /**
  * @deps [ marmottajax.js]
  *       [ minivents.js]
-         [ smart-observer.js]
+        
  */
 var game = {
     init: {},
@@ -35,11 +35,16 @@ var { emit } = ev;
 function init(param){
   
   config = param;
+  /*
+   * Регистрирую плагин инициализвации
+   */
   emit.call(vnjs, 'init');
 
  
 };
-
+/*
+ * Обертка для погружения экранов
+ */
 function getScreen(fileName, callback){
     marmottajax(`/game/screens/${fileName}`).success(function(html) {
       callback(html);
@@ -166,7 +171,6 @@ function prev(){
 
 /*
  * @api
- * @version 0.5.7
  */
 export {
   on,
