@@ -17,44 +17,43 @@
 
 
 
-
-
 #### Как написать плагин
 
 ### Плагины
 
 
-##### Самовызывающиеся плагины [ autorun ]
-```javascript
-  vnjs.on(function(){
-    console.log('autorun');
-  });
 
-```
 ##### Вызываются из пользовательского скрипта
 ```javascript
-  vnjs.on('alert', function(param, ctx){
-    alert(ctx.scene)
+  vnjs.on('alert', function(param){
+    alert('hello_world!');
   });
 
 ```
 
 ##### Нативные события
 ```javascript
+// autorun
+vnjs.on(function(){
+    console.log('autorun');
+    //Вызывается во время скрина main-menu
+});
 
-vnjs.on(()=>{
-  /*
-   * Вызвается autorun
-   * 
-   */
-}) 
-
-vnjs.on('next', (e){
+// navigator events
+vnjs.on('next', function(e){
   /*
    * Срабатывает при каждом парсинге текущего объекта
    */
 });
+vnjs.on('parse', function(ctxObj){
+  //Вызывается во время парсинга текущего объекта ctx.obj
+  // Также принимает один аргумен. Текущий объект.
+})
 
+```
+
+###### getScene events
+```javascript
 vnjs.on('preload', (e)=>{
   /*
    * Перед началом процесса загрузки сцены
@@ -66,5 +65,50 @@ vnjs.on('loaded', (e)=>{
    * Файл сцены загружен
    * Нужно загрузить картинки preload
    */
+});
+```
+
+###### Memory card
+```javascript
+
+vnjs.on('save', function(){
+  alert('Игра сохранена');
+});
+
+vnjs.on('load', function(){
+  alert('Игра загружена');
 })
+
+```
+
+##### Нативные методы
+```javascript
+vnjs.parse() // Может парсит текущий объект контекста
+
+vnjs.parse({pr:'Привет мир', left: 'lusil'})
+// так же может иметь один аргумент. Передаваемый в
+// него _obj - который единоразаво вызывает методы
+// переданного объекта
+
+
+vnjs.ctx /*
+    {
+      scene,
+      label,
+      num,
+      arr,
+      obj
+    }
+    // Текущий объект. Значиние которого меняется с каждым
+    // выполнением события vnjs.on('parse');
+*/
+
+  init,
+  game,
+  getScene,
+  config, // vnjs.init(/*{ config }*/)
+
+  emit - Подписчик на события .
+
+
 ```

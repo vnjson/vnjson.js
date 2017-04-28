@@ -1,12 +1,13 @@
 
 vnjs.on(function(){
-  let { ctx } = this;
+  let { ctx, ev } = this;
   function save(data){
     localforage.setItem(data.title, data, (err)=>{
       if(err){
         console.log(err);
       }
       console.log('Игра сохранена');
+       ev.emit('save');
 
     });
   };
@@ -14,6 +15,7 @@ vnjs.on(function(){
   function load(key){
     localforage.getItem(key).then((data)=>{
         console.log(key+": has been loaded!");
+        ev.emit('load');
     }).catch(function (err) {
           console.error(err);
     });

@@ -1,17 +1,23 @@
-vnjs.on('next', function(e){
-//vnjs.on('prev')
-//vnjs.on('next').then(function(e){})
-console.log(e.name+": "+this.ctx.num);
-/*observe(this.ctx, 'num', function (newValue, oldValue) {
-  console.log("num: "+newValue)
-});*/
+
+
+vnjs.on('start-game', function(){
+  let { getScene, getScreen, emit, config, next } = this;
+  /*
+  * Во время первого запуска нужно
+  * запустить точку входа.
+  * Здесь это и присходит. Ставлю обработчик
+  * события (jump) и передаю контекст
+  */ 
+  emit.call(vnjs, 'jump', config.entry);
+  vnjs.on('loaded', function(){
+        getScreen('layers.html', function(html){
+            document.getElementById('game').innerHTML = html;
+            next();
+        });
+  });
+
+
 });
-vnjs.on('prev', function(e){
-//vnjs.on('prev')
-//vnjs.on('next').then(function(e){})
-console.log(e.name+": "+this.ctx.num);
-/*observe(this.ctx, 'num', function (newValue, oldValue) {
-  console.log("num: "+newValue)
-});*/
-});
+
+
 

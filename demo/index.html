@@ -13,6 +13,9 @@
 
 	<script src="/game/lib/howler.min.js"></script>
 	<!-- @plugins -->
+	<script src="/game/plugins/init/index.js"></script>
+	<script src="/game/plugins/screen/index.js"></script>
+	<script src="/game/plugins/main-menu/index.js"></script>
 	<script src="/game/plugins/memory-card/index.js"></script>
 	<script src="/game/plugins/navigator/index.js"></script>
 	<script src="/game/plugins/debug/index.js"></script>
@@ -30,6 +33,7 @@
 	<script src="/game/plugins/left/index.js"></script>
 	<script src="/game/plugins/right/index.js"></script>
 	<script src="/game/plugins/scene/index.js"></script>
+	<script src="/game/plugins/pathname/index.js"></script>
 	<!-- *.css-->
 	<link rel="stylesheet" type="text/css" href="/game/style.css">
 </head>
@@ -57,7 +61,18 @@ window.onload = function(){
 		local: 'ru-RU',
 		entry: 'start/chapter1'
 	});
+/*
+vnjs.on('init', function(){
+	
+	this.parse({
+	"main-menu": "",
+	"audio": "theme1",
+	"scene": "background-main-menu"
+})
+})
 
+
+*/
 
 }
 </script>

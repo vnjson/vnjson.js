@@ -75,33 +75,26 @@ var vnjs =
 	/*
 	 * 
 	 */
-	var utils = {};
+	
 	var config = {};
+	
 	var ev = new Events(); //EventEmitter
+	var emit = ev.emit;
 	/**
 	 * init
 	 */
+	
 	function init(param) {
 	
 	  exports.config = config = param;
-	  /*
-	   * Загружаю слои в главный файл
-	   */
-	  marmottajax('/game/layers.html').success(function (body) {
-	    document.getElementById('game').innerHTML = body;
-	    /*
-	     * Здесь срабатывает autorun
-	     */
-	    ev.emit('autorun', { name: 'autorun' });
-	    /*
-	     * Во время первого запуска нужно
-	     * запустить точку входа.
-	     * Здесь это и присходит. Ставлю обработчик
-	     * события (jump) и передаю контекст
-	     */
-	    ev.emit.call(vnjs, 'jump', config.entry);
-	  });
+	  emit.call(vnjs, 'init');
 	};
+	
+	function getScreen(fileName, callback) {
+	  marmottajax('/game/screens/' + fileName).success(function (html) {
+	    callback(html);
+	  });
+	}
 	
 	/**
 	 * @plugins
@@ -122,13 +115,13 @@ var vnjs =
 	 */
 	
 	function getScene(scene) {
-	
-	  var pathToScene = 'game/' + config.scenes + '/' + config.local + '/' + scene + '.json';
+	  //window.location.href = config.basename;
+	  var pathToScene = '/game/' + config.scenes + '/' + config.local + '/' + scene + '.json';
 	  /*
 	   * Излучаю событие preload что бы было можно повесить
 	   * идикатор загрузки на css
 	   */
-	  ev.emit('preload', { name: 'preload', msg: '${scene} start loading!' });
+	  emit('preload', { name: 'preload', msg: '${scene} start loading!' });
 	  marmottajax({
 	    url: pathToScene,
 	    json: true
@@ -152,49 +145,61 @@ var vnjs =
 	    ctx.arr = _SCENE.labels[ctx.label];
 	    //ctx.assets = game.scenes[ctx.scene].assets;
 	
-	    ev.emit('loaded', { name: 'load', msg: '${scene} is loaded!' });
+	    emit('loaded', { name: 'load', msg: '${scene} is loaded!' });
 	  });
 	};
 	
-	function parse() {
-	  /** Текущий объект */
-	  ctx.obj = ctx.arr[ctx.num];
+	function parse(_obj) {
 	
-	  /*if(ctx.arr.length-1>=ctx.num){
-	    console.log(ctx.obj)
-	  }else{
-	    console.log('Массив окончен')
+	  if (_obj) {
+	    ctx.obj = _obj;
+	  } else {
+	    ctx.obj = ctx.arr[ctx.num];
 	  }
-	  */
+	  /** Текущий объект */
+	  //ctx.obj = ctx.arr[ctx.num];
+	  /*if(ctx.arr.length===ctx.num){
+	    ctx.num===ctx.num;
+	      ev.emit('complete');
+	  }*/
 	
 	  for (var key in ctx.obj) {
-	
-	    if (key.length <= 2) {
+	    /*
+	     * Алиас персонажа содержит не больше трех (3)
+	     * символов. 
+	     */
+	    if (key.length <= 3) {
 	      var character = game.characters[key];
 	
 	      var reply = ctx.obj[key];
-	      ev.emit('alias', {
+	      emit('alias', {
 	        character: character,
 	        reply: reply,
 	        aliase: key
 	      });
 	    } else {
+	      /*
+	       * vnjs.on('alert')
+	       * Подписывает пользовательские плагины
+	       * 
+	       */
 	      ev.emit(key, ctx.obj[key]);
 	    }
 	  }
+	  emit('parse', ctx.obj);
 	};
 	
 	function next() {
 	
 	  parse();
 	  ctx.num += 1;
-	  ev.emit('next', { name: 'next' });
+	  emit('next', { name: 'next' });
 	};
 	function prev() {
 	
 	  parse();
 	  ctx.num -= 1;
-	  ev.emit('prev', { name: 'prev' });
+	  emit('prev', { name: 'prev' });
 	};
 	
 	/*
@@ -206,11 +211,12 @@ var vnjs =
 	exports.init = init;
 	exports.game = game;
 	exports.getScene = getScene;
+	exports.getScreen = getScreen;
 	exports.config = config;
-	exports.utils = utils;
 	exports.next = next;
 	exports.prev = prev;
 	exports.parse = parse;
+	exports.emit = emit;
 
 /***/ }
 /******/ ]);

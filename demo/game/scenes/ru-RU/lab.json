@@ -2,9 +2,12 @@
 {
   "labels": {
   "start": [
+
     {
       "pr": "Привет! 2Давненько не виделись"
+
     },
+   
     {
       "al": "Да 4уж, давненько.",
       "scene": "the_door",
@@ -33,7 +36,9 @@
     {"jump": "end"}
   ],
   "end": [
-    {"pr": "[ game is over ]"}
+    {"pr": "[ game is over ]"},
+   
+
   ]
   },
   "assets": {
