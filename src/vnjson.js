@@ -1,14 +1,19 @@
-/**
- * @deps [ marmottajax.js]
- *       [ minivents.js]
-        
- */
+
+import Events from './minivents'; 
+
+const plugin = new Object();
+const option = new Object();
+
 var game = {
     init: {},
     scenes: {},
     characters: {},
     //choices: {},
 };
+
+const util = {
+  pathNameSplit
+}
 
 /*
  * context
@@ -25,45 +30,43 @@ var ctx = {
  * 
  */
 
-var config = {};
+
 
 var ev = new Events();//EventEmitter
 var { emit } = ev;
-/**
- * init
- */
-function init(param){
-  
-  config = param;
-  /*
-   * Регистрирую плагин инициализвации
-   */
-  emit.call(vnjs, 'init');
 
- 
-};
 /*
- * Обертка для погружения экранов
+ *
  */
-function getScreen(fileName, callback){
-    marmottajax(`/game/screens/${fileName}`).success(function(html) {
-      callback(html);
-  })
+function pathNameSplit(pathname){
+  let pathArr = pathname.split('/');
+  let scene = pathArr[0];
+  let label = pathArr[1];
+  return {label, scene};
 }
-
 /**
  * @plugins
  * Регистратор пользовательских событий
  */
-
-
+/*
+ * Объект plugin нужен для тестирования
+ * что бы можно было вызывать плагин из
+ * текущего окружения, а не плодить глобальные
+ * методы.
+ */ 
 
 function on(event, handler){
-
+  /*
+   * Если функция vnjs.on(function(){})
+   * содержит callback без объявления
+   * имени события, то функция запускается
+   * в резиме autorun;
+   */
   if(typeof event==="function"){
       ev.on('autorun', event, vnjs);
   }else if(typeof event==="string"){
       ev.on(event, handler, vnjs);
+      plugin[event] = handler;
   }
 
 };
@@ -72,43 +75,43 @@ function on(event, handler){
 
 
 /*
- * getScene
+ * setScene
  */
 
-function getScene(scene){
-//window.location.href = config.basename;
-const pathToScene = `/game/${config.scenes}/${config.local}/${scene}.json`;
 /*
- * Излучаю событие preload что бы было можно повесить
- * идикатор загрузки на css
+ * @Функция принимает объект сцены
+ *  {
+ *    characters: {},
+ *    assets: [{}]
+ *    labels: {
+ *         start: [{},{},{},{},{},{},{}],
+ *    }
+ *  }
  */
-emit('preload', {name:'preload', msg:'${scene} start loading!'})
-marmottajax({
-    url: pathToScene,
-    json: true
-}).success(function(data) {
+function setScene(sceneName, sceneObject) {
     /*
      * Назначаем полученные данные сцены в
      * игровые объекты.
      * А так же объекты внутреннего назначения
      */
-    game.scenes[ctx.scene] = data;
-
-    const _SCENE = game.scenes[ctx.scene];
+    game.scenes[sceneName] = sceneObject;
     /*
      * Добавляю персонажей в каждой загруженной сцены
      * в общий пулл.
      */
-    game.characters = Object.assign(game.characters, _SCENE.characters);
+    game.characters = Object.assign(game.characters, sceneObject.characters);
     /*
-     * Дублирую текущие значения в контекст
+     * Переопределяю методы текущего label'a
      */
-    ctx.arr = _SCENE.labels[ctx.label];
-    //ctx.assets = game.scenes[ctx.scene].assets;
+    setLabel(ctx.label, sceneObject.labels[ctx.label])
+    
 
-    emit('loaded', {name:'load', msg:'${scene} is loaded!'})
- });
+    emit('setScene', `${sceneName} is defined!`);
+};
 
+function setLabel(labelName, labelArray){
+            ctx.label = labelName;
+            ctx.arr = labelArray
 };
 
 function parse(_obj){
@@ -120,17 +123,14 @@ function parse(_obj){
   }
   /** Текущий объект */
     //ctx.obj = ctx.arr[ctx.num];
-  /*if(ctx.arr.length===ctx.num){
-    ctx.num===ctx.num;
-      ev.emit('complete');
-  }*/
+
 
   for(let key in ctx.obj){
       /*
-       * Алиас персонажа содержит не больше трех (3)
+       * Алиас персонажа содержит не больше трех (2)
        * символов. 
        */
-      if(key.length<=3){
+      if(key.length<=2){
              let character = game.characters[key];
             
               let reply = ctx.obj[key]; 
@@ -151,21 +151,24 @@ function parse(_obj){
       }
   }
   emit('parse', ctx.obj);
+
 };
 
 
 
 function next(){
   
-  parse();
+  
   ctx.num+=1;
-  emit('next', {name: 'next'});
+  parse();
+  emit('next');
 };
 function prev(){
  
-  parse();
+  
   ctx.num-=1;
-  emit('prev', {name: 'prev'});
+  parse();
+  emit('prev');
 };
 
 
@@ -175,11 +178,12 @@ function prev(){
 export {
   on,
   ctx,
-  init,
   game,
-  getScene,
-  getScreen,
-  config,
+  setScene,
+  setLabel,
+  option,
+  plugin,
+  util,
   next,
   prev,
   parse,

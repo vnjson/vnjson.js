@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>example</title>
+  <meta charset="utf-8">
+
+  <script src="../dist/vnjson.js"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+vnjs.game.characters = {
+  pr: {name: "Профессор"},
+  al: {name: 'Алиса'}
+};
+
+var label = [
+      { log: "hello" },
+      { log: "_world!"},
+      { log: "this is"},
+      { log: 'my simple', warn: "Предупреждение"},
+      { pr: 'visual novel!'},
+      { al: 'А я ведь пришла'}
+];
+
+
+vnjs.setLabel('start', label);
+
+vnjs.on('log', function(msg){
+
+  console.log(msg);
+});
+/*
+ alias = [pr,al]
+*/
+vnjs.on('alias', function(obj){
+
+ console.log(obj.character.name+": "+obj.reply);
+});
+
+vnjs.on('warn', function(msg){
+    console.warn(msg);
+});
+
+
+
+ //Выполняет объект контекста или произвольный объект
+// находящийся в параметрах этого метода
+
+vnjs.parse();
+
+setInterval( vnjs.next , 1000);
+</script>
+</body>
+</html>

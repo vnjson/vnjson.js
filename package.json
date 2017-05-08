@@ -1,11 +1,11 @@
 {
   "name": "vnjson.js",
-  "version": "0.7.1",
-  "description": "",
+  "version": "0.7.5",
+  "description": "Visual novel engine for web",
   "main": "webpack.config.js",
-  "author": "kserks",
+  "author": "Kasin Sergey",
   "scripts": {
-    "start": "http-server demo/ -p8080"
+    "test": "http-server ./tests/ -p9090 -c-1"
   },
   "babel": {
     "presets": [
@@ -17,11 +17,8 @@
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.14.0",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "smart-observe": "^1.0.0"
   }
 }

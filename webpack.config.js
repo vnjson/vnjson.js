@@ -2,8 +2,8 @@
 const vnjson = {
   entry: {
   	'dist/vnjson': './src/vnjson',
-    'demo/js/vnjson': './src/vnjson',
-    
+    'tests/vendor/vnjson': './src/vnjson',
+    '../vnjson-cli/game-tpl/html/vendor/vnjson': './src/vnjson',
   },
 
   output: {
@@ -23,8 +23,6 @@ const vnjson = {
   	]
   }
 };
-
-
 
 
 module.exports = [ vnjson, /*plugins */]

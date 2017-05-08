@@ -9,7 +9,8 @@
   vnjs.init({
     scenesDirectory: 'scenes',
     local: 'ru-RU',
-    entry: 'start/chapter1'
+    entry: 'start/chapter1',
+    prefix: '#vnjson__'
   });
 
 ```
