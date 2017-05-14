@@ -65,8 +65,9 @@ function on(event, handler){
   if(typeof event==="function"){
       ev.on('autorun', event, vnjs);
   }else if(typeof event==="string"){
-      ev.on(event, handler, vnjs);
       plugin[event] = handler;
+      ev.on(event, handler, vnjs);
+      
   }
 
 };
@@ -89,6 +90,7 @@ function on(event, handler){
  *  }
  */
 function setScene(sceneName, sceneObject) {
+  try{
     /*
      * Назначаем полученные данные сцены в
      * игровые объекты.
@@ -107,11 +109,19 @@ function setScene(sceneName, sceneObject) {
     
 
     emit('setScene', `${sceneName} is defined!`);
+    return true;
+  }
+  catch (err){
+    throw new Error('setScene ', err);
+    return false;
+  }
 };
+
 
 function setLabel(labelName, labelArray){
             ctx.label = labelName;
-            ctx.arr = labelArray
+            ctx.arr = labelArray;
+            return true;
 };
 
 function parse(_obj){

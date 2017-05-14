@@ -3,6 +3,7 @@ const vnjson = {
   entry: {
   	'dist/vnjson': './src/vnjson',
     'tests/vendor/vnjson': './src/vnjson',
+    '../plugins/vnjson': './src/vnjson',
     '../vnjson-cli/game-tpl/html/vendor/vnjson': './src/vnjson',
   },
 

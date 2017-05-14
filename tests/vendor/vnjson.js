@@ -120,8 +120,8 @@ var vnjs =
 	  if (typeof event === "function") {
 	    ev.on('autorun', event, vnjs);
 	  } else if (typeof event === "string") {
-	    ev.on(event, handler, vnjs);
 	    plugin[event] = handler;
+	    ev.on(event, handler, vnjs);
 	  }
 	};
 	
@@ -140,28 +140,35 @@ var vnjs =
 	 *  }
 	 */
 	function setScene(sceneName, sceneObject) {
-	  /*
-	   * Назначаем полученные данные сцены в
-	   * игровые объекты.
-	   * А так же объекты внутреннего назначения
-	   */
-	  game.scenes[sceneName] = sceneObject;
-	  /*
-	   * Добавляю персонажей в каждой загруженной сцены
-	   * в общий пулл.
-	   */
-	  game.characters = Object.assign(game.characters, sceneObject.characters);
-	  /*
-	   * Переопределяю методы текущего label'a
-	   */
-	  setLabel(ctx.label, sceneObject.labels[ctx.label]);
+	  try {
+	    /*
+	     * Назначаем полученные данные сцены в
+	     * игровые объекты.
+	     * А так же объекты внутреннего назначения
+	     */
+	    game.scenes[sceneName] = sceneObject;
+	    /*
+	     * Добавляю персонажей в каждой загруженной сцены
+	     * в общий пулл.
+	     */
+	    game.characters = Object.assign(game.characters, sceneObject.characters);
+	    /*
+	     * Переопределяю методы текущего label'a
+	     */
+	    setLabel(ctx.label, sceneObject.labels[ctx.label]);
 	
-	  emit('setScene', sceneName + ' is defined!');
+	    emit('setScene', sceneName + ' is defined!');
+	    return true;
+	  } catch (err) {
+	    throw new Error('setScene ', err);
+	    return false;
+	  }
 	};
 	
 	function setLabel(labelName, labelArray) {
 	  ctx.label = labelName;
 	  ctx.arr = labelArray;
+	  return true;
 	};
 	
 	function parse(_obj) {
