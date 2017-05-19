@@ -1,9 +1,39 @@
 
 import Events from './minivents'; 
+/*
+ * context
+ * Значение объекта равно состоянию приложения.
+ */
+var ctx = {
+  sceneName:'scene',
+  label:'label',
+  scene: {},
+  arr: [],
+  obj: null,
+  num: 0,
+};
 
 const plugin = new Object();
-const option = new Object();
 
+//конфигурацию тоже сохранять в memory-card
+var config = {
+  startLabel: 'start/start',
+  local: 'ru-RU',
+
+};
+
+function init(_config){
+ config = _config||config;
+ let label = splitPathName(config.startLabel).label;
+ setLabel(label, []);
+ parse({jump: config.startLabel});
+ return this;
+};
+/*
+config.get('param')
+config.set('param')
+
+*/
 var game = {
     init: {},
     scenes: {},
@@ -12,20 +42,10 @@ var game = {
 };
 
 const util = {
-  pathNameSplit
+  splitPathName
 }
 
-/*
- * context
- * Значение объекта равно состоянию приложения.
- */
-var ctx = {
-  scene:'scene',
-  label:'label',
-  arr: [],
-  obj: null,
-  num: 0,
-};
+
 /*
  * 
  */
@@ -33,12 +53,12 @@ var ctx = {
 
 
 var ev = new Events();//EventEmitter
-var { emit } = ev;
+var { emit, off } = ev;
 
 /*
  *
  */
-function pathNameSplit(pathname){
+function splitPathName(pathname){
   let pathArr = pathname.split('/');
   let scene = pathArr[0];
   let label = pathArr[1];
@@ -97,27 +117,31 @@ function setScene(sceneName, sceneObject) {
      * А так же объекты внутреннего назначения
      */
     game.scenes[sceneName] = sceneObject;
+    ctx.scene = sceneObject;
     /*
      * Добавляю персонажей в каждой загруженной сцены
      * в общий пулл.
      */
-    game.characters = Object.assign(game.characters, sceneObject.characters);
+    setCharacters(sceneObject.characters);
     /*
      * Переопределяю методы текущего label'a
      */
     setLabel(ctx.label, sceneObject.labels[ctx.label])
     
-
+    parse();
     emit('setScene', `${sceneName} is defined!`);
-    return true;
+    return this;
   }
   catch (err){
-    throw new Error('setScene ', err);
+    throw new Error('Ошибка объявления сцены ', err);
     return false;
   }
 };
 
-
+function setCharacters(sceneCharacters){
+  game.characters = Object.assign(game.characters, sceneCharacters);
+  return this;
+};
 function setLabel(labelName, labelArray){
             ctx.label = labelName;
             ctx.arr = labelArray;
@@ -162,23 +186,26 @@ function parse(_obj){
   }
   emit('parse', ctx.obj);
 
+   return ctx.num;
 };
 
 
 
-function next(){
+function next(num){
   
   
-  ctx.num+=1;
+  ctx.num+=num||1;
   parse();
   emit('next');
+  return ctx.num;
 };
-function prev(){
+function prev(num){
  
   
-  ctx.num-=1;
+  ctx.num-=num||1;
   parse();
   emit('prev');
+  return ctx.num;
 };
 
 
@@ -191,11 +218,13 @@ export {
   game,
   setScene,
   setLabel,
-  option,
+  setCharacters,
   plugin,
   util,
   next,
   prev,
   parse,
-  emit
+  emit,
+  off,
+  init
 };

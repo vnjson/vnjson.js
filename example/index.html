@@ -3,7 +3,8 @@
 <head>
   <title>example</title>
   <meta charset="utf-8">
-
+  <script src="./start.js"></script>
+  <script src="./lab.js"></script>
   <script src="../dist/vnjson.js"></script>
 </head>
 <body>
@@ -11,47 +12,62 @@
 
 <script type="text/javascript">
 
-vnjs.game.characters = {
-  pr: {name: "Профессор"},
-  al: {name: 'Алиса'}
-};
-
-var label = [
-      { log: "hello" },
-      { log: "_world!"},
-      { log: "this is"},
-      { log: 'my simple', warn: "Предупреждение"},
-      { pr: 'visual novel!'},
-      { al: 'А я ведь пришла'}
-];
 
 
-vnjs.setLabel('start', label);
+//vnjs.ctx.label = 'start';
+
+
 
 vnjs.on('log', function(msg){
-
-  console.log(msg);
+    console.log(msg);
 });
-/*
- alias = [pr,al]
-*/
+
+
+vnjs.on('alert', function(param){
+  console.info('Game Over!');
+});
+
+
+
 vnjs.on('alias', function(obj){
 
  console.log(obj.character.name+": "+obj.reply);
 });
 
-vnjs.on('warn', function(msg){
-    console.warn(msg);
+vnjs.getScene = function(sceneName){
+      let { setScene } = vnjs;
+      setScene(sceneName, scene);
+}
+
+vnjs.on('jump', function(pathname){
+  let {ctx, next, setScene, setLabel, util, game, parse, getScene} = this;
+
+  let isScene = /\/\w+/gi.test(pathname);
+  if(isScene){
+    let obj = util.splitPathName(pathname);
+    getScene(obj.scene)
+  }else{
+
+
+   ctx.num = 0;
+   setLabel(pathname, ctx.scene.labels[pathname] )
+
+   parse();
+  }
 });
 
+window.onload = function(){
+  
+ vnjs
+  .init({
+      startLabel: 'start/start',
+      local: 'ru-RU',
+    })
+  //.setScene('main', scene)
+  //.parse();
+};
 
 
- //Выполняет объект контекста или произвольный объект
-// находящийся в параметрах этого метода
-
-vnjs.parse();
-
-setInterval( vnjs.next , 1000);
 </script>
 </body>
 </html>

@@ -53,7 +53,7 @@ describe("setScene", function() {
   })
   it("Метод setScene должен вернуть true", () =>{
    
-    expect(vnjs.setScene(sceneName, sceneObject)).toBe(true);
+    expect(vnjs.setScene(sceneName, sceneObject)).toBe(vnjs);
 
   });
  
@@ -77,7 +77,7 @@ const labelArray = [{}, {}, {}];
   });
   it('Втотой аргумент функции должен быть массивом', ()=>{
     expect(labelArray).toEqual(jasmine.any(Array));
-  });  
+  });
   it('setLabel должно быть функцией', ()=>{
     expect(vnjs.setLabel).toEqual(jasmine.any(Function));
   });

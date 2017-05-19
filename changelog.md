@@ -1,7 +1,11 @@
 ### changelog
-= v0.7.6 =
+= v0.7.7 =
 > 14.05.2017
   * Начал писать тесты для библиотеки vnjs.
+  * Добавил возможность вносить параметр размер шага в в навигацию prev next.
+  * Написал функцию setCharacters(characters)
+  * vnjs.off - removeEventListener
+  * 
 
 = v0.7.5 =
 > 28.04.2017
@@ -14,8 +18,8 @@
   * Стандартное разрешение игры теперь 800x480px. Отказ от квадратного экрана в пользу прямоугольника. 
   * Пересобрал vendor. Теперь из жизненно необходимых зависимостей осталось только minivents.js. Все остальное вынесоно в зависимости подключаемых внешне модулей vnjs.simpleModule = ()=>{console.log('simple-module')}
   * Всё лишнее убрал в сборшик проектов vnjson-cli
-  * Вынес объявление параметров сцены в функцию defineScene(nameScene, sceneObject);
-  * defineLabel(labelName, labelArray);
+  * Вынес объявление параметров сцены в функцию setScene(nameScene, sceneObject);
+  * setLabel(labelName, labelArray);
 
 
 = v0.7.1 =
