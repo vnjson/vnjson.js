@@ -183,7 +183,7 @@ var vnjs =
 	    emit('setScene', sceneName + ' is defined!');
 	    return this;
 	  } catch (err) {
-	    throw new Error('setScene ', err);
+	    throw new Error('Ошибка объявления сцены ', err);
 	    return false;
 	  }
 	};

@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <script src="./start.js"></script>
   <script src="./lab.js"></script>
+  <script src="./vol3.js"></script>
   <script src="../dist/vnjson.js"></script>
 </head>
 <body>
@@ -13,19 +14,10 @@
 <script type="text/javascript">
 
 
-
-//vnjs.ctx.label = 'start';
-
-
-
 vnjs.on('log', function(msg){
     console.log(msg);
 });
 
-
-vnjs.on('alert', function(param){
-  console.info('Game Over!');
-});
 
 
 
@@ -34,38 +26,47 @@ vnjs.on('alias', function(obj){
  console.log(obj.character.name+": "+obj.reply);
 });
 
-vnjs.getScene = function(sceneName){
-      let { setScene } = vnjs;
-      setScene(sceneName, scene);
-}
+vnjs.getScene = function(sceneName, labelName){
+      let { ctx, setScene } = vnjs;
+      ctx.label = labelName;
+      setScene(sceneName, window[sceneName]);
+};
 
 vnjs.on('jump', function(pathname){
-  let {ctx, next, setScene, setLabel, util, game, parse, getScene} = this;
+  let {
+        ctx, 
+        next, 
+        setScene, 
+        setLabel, 
+        util, 
+        game, 
+        parse, 
+        getScene, 
+        emit
+      } = this;
 
   let isScene = /\/\w+/gi.test(pathname);
   if(isScene){
     let obj = util.splitPathName(pathname);
-    getScene(obj.scene)
+    console.log(pathname);
+    ctx.num = 0;
+    getScene(obj.scene, obj.label);
   }else{
 
 
    ctx.num = 0;
-   setLabel(pathname, ctx.scene.labels[pathname] )
+   setLabel(pathname, ctx.scene.labels[pathname] );
 
    parse();
   }
 });
 
-window.onload = function(){
-  
- vnjs
-  .init({
+
+vnjs.init({
       startLabel: 'start/start',
       local: 'ru-RU',
-    })
-  //.setScene('main', scene)
-  //.parse();
-};
+});
+
 
 
 </script>
