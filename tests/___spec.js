@@ -1,17 +1,11 @@
-/*describe("setScened", function() {
 
-  let sceneName = "scene/label";
-  it('Имя сцены не должно содержать пробелов',()=>{
-    expect(sceneName).not.toMatch(' ');
-  });
+/*
+describe("setScene", function() {
+    let sceneName = "scene/label";
 
-});*/
-
-describe('ooo', function(){
-  it('1223',function(){
-    expect(true).toBe(true);
-  })
-})
+  it('sceneName является строкой', ()=>{
+    expect(typeof sceneName).toBe('string');
+  }); 
  /* it('sceneName является не должно быть логическим значением', ()=>{
     expect(sceneName).toEqual(jasmine.any(Boolean))
   });*/ /*
@@ -51,3 +45,27 @@ describe('ooo', function(){
   });
  
 });
+
+
+
+
+
+describe("setLabel", ()=>{
+
+const labelName = "label";
+const labelArray = [{}, {}, {}];
+
+  it('Имя метки должно быть строкой', ()=>{
+    expect(labelName).toEqual(jasmine.any(String));
+  });
+
+  it('Проверка на работоспособность', ()=>{
+    expect(vnjs.setLabel(labelName, labelArray)).toEqual(jasmine.any(Boolean))
+  });
+  it('Втотой аргумент функции должен быть массивом', ()=>{
+    expect(labelArray).toEqual(jasmine.any(Array));
+  });
+  it('setLabel должно быть функцией', ()=>{
+    expect(vnjs.setLabel).toEqual(jasmine.any(Function));
+  });
+})*/

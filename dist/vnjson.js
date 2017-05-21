@@ -50,7 +50,7 @@ var vnjs =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.init = exports.off = exports.emit = exports.parse = exports.prev = exports.next = exports.util = exports.plugin = exports.setCharacters = exports.setLabel = exports.setScene = exports.game = exports.ctx = exports.on = undefined;
+	exports.init = exports.off = exports.emit = exports.parse = exports.prev = exports.next = exports.util = exports.plugin = exports.config = exports.setCharacters = exports.setLabel = exports.setScene = exports.game = exports.ctx = exports.on = undefined;
 	
 	var _minivents = __webpack_require__(1);
 	
@@ -81,7 +81,7 @@ var vnjs =
 	};
 	
 	function init(_config) {
-	  config = _config || config;
+	  exports.config = config = _config || config;
 	  var label = splitPathName(config.startLabel).label;
 	  setLabel(label, []);
 	  parse({ jump: config.startLabel });
@@ -162,6 +162,7 @@ var vnjs =
 	 */
 	function setScene(sceneName, sceneObject) {
 	  try {
+	
 	    /*
 	     * Назначаем полученные данные сцены в
 	     * игровые объекты.
@@ -178,9 +179,9 @@ var vnjs =
 	     * Переопределяю методы текущего label'a
 	     */
 	    setLabel(ctx.label, sceneObject.labels[ctx.label]);
-	
+	    emit('setscene');
 	    parse();
-	    emit('setScene', sceneName + ' is defined!');
+	
 	    return this;
 	  } catch (err) {
 	    throw new Error('Ошибка объявления сцены ', err);
@@ -261,6 +262,7 @@ var vnjs =
 	exports.setScene = setScene;
 	exports.setLabel = setLabel;
 	exports.setCharacters = setCharacters;
+	exports.config = config;
 	exports.plugin = plugin;
 	exports.util = util;
 	exports.next = next;

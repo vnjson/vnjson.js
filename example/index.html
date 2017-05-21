@@ -3,71 +3,32 @@
 <head>
   <title>example</title>
   <meta charset="utf-8">
-  <script src="./start.js"></script>
-  <script src="./lab.js"></script>
-  <script src="./vol3.js"></script>
-  <script src="../dist/vnjson.js"></script>
+
+  <script src="./vnjson.js"></script>
+  <script src="./lib/quest.min.js"></script>
+  <script src="./modules/vnjson-get-scene/index.js"></script>
+  <script src="./plugins/vnjson-jump/index.js"></script>
+  <script src="./plugins/vnjson-alias/index.js"></script>
 </head>
 <body>
-
+<h3>Open developer tools F12</h3>
+<button id="next">next</button>
 
 <script type="text/javascript">
-
-
-vnjs.on('log', function(msg){
-    console.log(msg);
-});
-
-
-
-
-vnjs.on('alias', function(obj){
-
- console.log(obj.character.name+": "+obj.reply);
-});
-
-vnjs.getScene = function(sceneName, labelName){
-      let { ctx, setScene } = vnjs;
-      ctx.label = labelName;
-      setScene(sceneName, window[sceneName]);
-};
-
-vnjs.on('jump', function(pathname){
-  let {
-        ctx, 
-        next, 
-        setScene, 
-        setLabel, 
-        util, 
-        game, 
-        parse, 
-        getScene, 
-        emit
-      } = this;
-
-  let isScene = /\/\w+/gi.test(pathname);
-  if(isScene){
-    let obj = util.splitPathName(pathname);
-    console.log(pathname);
-    ctx.num = 0;
-    getScene(obj.scene, obj.label);
-  }else{
-
-
-   ctx.num = 0;
-   setLabel(pathname, ctx.scene.labels[pathname] );
-
-   parse();
-  }
-});
-
-
-vnjs.init({
-      startLabel: 'start/start',
+document
+    .getElementById('next')
+    .addEventListener('mousedown', function(e){
+      vnjs.next();
+    });
+  vnjs.init({
+      startLabel: 'start/chapter1',
+      scenesDir: 'scenes/',
       local: 'ru-RU',
-});
+  }); 
 
-
+vnjs.on('alert', function(text){
+  alert(text);
+})
 
 </script>
 </body>

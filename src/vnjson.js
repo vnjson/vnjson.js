@@ -111,6 +111,7 @@ function on(event, handler){
  */
 function setScene(sceneName, sceneObject) {
   try{
+  
     /*
      * Назначаем полученные данные сцены в
      * игровые объекты.
@@ -127,9 +128,9 @@ function setScene(sceneName, sceneObject) {
      * Переопределяю методы текущего label'a
      */
     setLabel(ctx.label, sceneObject.labels[ctx.label])
-    
+    emit('setscene');
     parse();
-    emit('setScene', `${sceneName} is defined!`);
+    
     return this;
   }
   catch (err){
@@ -219,6 +220,7 @@ export {
   setScene,
   setLabel,
   setCharacters,
+  config,
   plugin,
   util,
   next,

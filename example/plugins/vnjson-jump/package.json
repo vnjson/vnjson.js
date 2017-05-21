@@ -1,0 +1,24 @@
+{
+  "name": "vnjson-jump",
+  "version": "0.1.7",
+  "description": "```bash\r   git clone https://github.com/vnjson/vnjson-jump",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vnjson/vnjson-jump.git"
+  },
+  "keywords": [
+    "vnjson",
+    "visual-novel",
+    "vn"
+  ],
+  "author": "Kasin Sergey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vnjson/vnjson-jump/issues"
+  },
+  "homepage": "https://github.com/vnjson/vnjson-jump#readme"
+}
