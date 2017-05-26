@@ -76,15 +76,16 @@ var vnjs =
 	//конфигурацию тоже сохранять в memory-card
 	var config = {
 	  startLabel: 'start/start',
-	  local: 'ru-RU'
-	
+	  local: 'ru-RU',
+	  el: '#game'
 	};
 	
 	function init(_config) {
 	  exports.config = config = _config || config;
 	  var label = splitPathName(config.startLabel).label;
 	  setLabel(label, []);
-	  parse({ jump: config.startLabel });
+	  emit('init');
+	
 	  return this;
 	};
 	/*

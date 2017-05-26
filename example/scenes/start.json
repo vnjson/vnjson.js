@@ -1,11 +1,19 @@
 {
   "labels": {
+    "entry": [
+      {"screen": "main-menu"}
+    ],
     "chapter1": [
+      {
+        "screen": "settings"
+      },
       {
         "pr": "Привет! Давненько не виделись",
         "scene": "background",
         "left": "right_ladya"
       },
+ 
+      { "screen": "about" },
       {
         "al": "Да уж, давненько.",
         "right": "lusil",

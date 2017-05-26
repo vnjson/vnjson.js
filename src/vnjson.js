@@ -19,14 +19,15 @@ const plugin = new Object();
 var config = {
   startLabel: 'start/start',
   local: 'ru-RU',
-
+  el: '#game'
 };
 
 function init(_config){
  config = _config||config;
  let label = splitPathName(config.startLabel).label;
  setLabel(label, []);
- parse({jump: config.startLabel});
+ emit('init');
+
  return this;
 };
 /*
@@ -172,7 +173,8 @@ function parse(_obj){
               emit('alias', {
                    character,
                    reply,
-                   aliase: key
+                   aliase: key,
+
                  });
              
 
@@ -208,6 +210,8 @@ function prev(num){
   emit('prev');
   return ctx.num;
 };
+
+
 
 
 /*

@@ -7,11 +7,14 @@
 ### Инициализация
 ```javascript
   vnjs.init({
-    scenesDirectory: 'scenes',
-    local: 'ru-RU',
-    entry: 'start/chapter1',
-    prefix: '#vnjson__'
-  });
+      startLabel: 'start/chapter1',
+      scenesDir: 'scenes/',
+      local: 'ru-RU',
+      el: '#game',
+      screensPrefix: 'vnjson__',
+      screensPath: './dest/screens.html',
+      screensClassName: 'vnjson__screen',
+  }); 
 
 ```
 
@@ -26,9 +29,11 @@
 
 ##### Вызываются из пользовательского скрипта
 ```javascript
-  vnjs.on('alert', function(param){
-    alert('hello_world!');
+
+  vnjs.on('alert', function(msg){
+    alert(msg);
   });
+  vnjs.parse({ alert: 'Hello World!' });
 
 ```
 
@@ -55,32 +60,21 @@ vnjs.on('parse', function(ctxObj){
 
 ###### getScene events
 ```javascript
+
 vnjs.on('preload', (e)=>{
-  /*
-   * Перед началом процесса загрузки сцены
-   * Здесь можно повещать css индикатор процесса загрузки
-   */
+  console.log('Срабатывает перез загрузкой сцены')
 })
-vnjs.on('loaded', (e)=>{
-  /*
-   * Файл сцены загружен
-   * Нужно загрузить картинки preload
-   */
+
+vnjs.on('setscene', function(){
+  console.log('Файл сцены загружен')
+})
+
+vnjs.on('load', (e)=>{
+  console.log('Срабатывает после загрузки ресурсов')
 });
 ```
 
-###### Memory card
-```javascript
 
-vnjs.on('save', function(){
-  alert('Игра сохранена');
-});
-
-vnjs.on('load', function(){
-  alert('Игра загружена');
-})
-
-```
 
 ##### Нативные методы
 ```javascript
@@ -92,7 +86,8 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
 // переданного объекта
 
 
-vnjs.ctx /*
+
+ * ctx 
     {
       scene,
       label,
@@ -102,14 +97,20 @@ vnjs.ctx /*
     }
     // Текущий объект. Значиние которого меняется с каждым
     // выполнением события vnjs.on('parse');
-*/
 
-  init({config})
-  game,
-  getScene,
-  config, // vnjs.init(/*{ config }*/)
 
-  emit - Подписчик на события .
+  * game,
+  * config, // vnjs.init(/*{ config }*/)
 
+  * setScene - Принимает объект сцены
+  * setLabel - Передаем имя метки и массив с пользовательскими скриптами
+  * setCharacters - Принимает объект с персонажами и добавляет его в игру.
+  * next - Передвинуться по массиву в перед. Может принимать аргумента
+  * prev(2) - По умолчанию 1. Выполняет тоже что и next, но только в обратную сторону.
+  * parse - 
+  * emit - Подписывается на события
+  * off - Отписывается от событий
+  * on - Слушает события
+  * init - Срабатывает вовремя инициализации 
 
 ```

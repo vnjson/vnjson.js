@@ -3,32 +3,45 @@
 <head>
   <title>example</title>
   <meta charset="utf-8">
-
+  <link rel="stylesheet" type="text/css" href="./main.css">
+  <link rel="stylesheet" type="text/css" href="./dest/style.css">
   <script src="./vnjson.js"></script>
   <script src="./lib/quest.min.js"></script>
-  <script src="./modules/vnjson-get-scene/index.js"></script>
-  <script src="./plugins/vnjson-jump/index.js"></script>
-  <script src="./plugins/vnjson-alias/index.js"></script>
+  <script src="./dest/bundle.js"></script>
+
 </head>
 <body>
-<h3>Open developer tools F12</h3>
+<section id="game">
+  <h3>Open developer tools F12</h3>
+
+</section>
 <button id="next">next</button>
 
 <script type="text/javascript">
+vnjs.on('alert', function(text){
+  console.log(text);
+});
+
+ 
+
 document
     .getElementById('next')
     .addEventListener('mousedown', function(e){
       vnjs.next();
     });
+
+
   vnjs.init({
-      startLabel: 'start/chapter1',
+      startLabel: 'start/entry',
       scenesDir: 'scenes/',
       local: 'ru-RU',
+      el: '#game',
+      screensPrefix: 'vnjson__',
+      screensPath: './dest/screens.html',
+      screensClassName: 'vnjson__screen',
   }); 
 
-vnjs.on('alert', function(text){
-  alert(text);
-})
+
 
 </script>
 </body>
