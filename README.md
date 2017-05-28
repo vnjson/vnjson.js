@@ -15,32 +15,27 @@ Download required plugin
 <script>
 
 var scene = { 
-      labels:{},
-      assets: [],
-      characters: {}
-  };
 
-scene.characters = {
-  jo: { name: 'John' },
-  al: { name: 'Alice' }
-}
+  assets: [],
+  entry: [
+    { print: 'Hello' },
+    { print: 'world', alert: 'text'},
+    { jump: 'chapter1' }
+  ],
+  chapter1: [
+    { print: 'hello chapter1' },
+    { print: 'Game over'}
+  ]
+};
 
-scene.labels.entry = [
 
-  { print: 'Hello' },
-  { print: 'world', alert: 'text'},
-  { jump: 'chapter1' }
-
-];
-
-scene.labels.chapter1 = [
-  { print: 'hello chapter1' },
-  { print: 'Game over'}
-];
 
 vnjs.setLabel('entry');
 vnjs.setScene('scene', scene);
 
+vnjs.on('print', function(text){
+  console.log(text);
+})
 document
   .querySelector('#next')
   .addEventListener('mousedown', function(e){
