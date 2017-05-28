@@ -50,7 +50,7 @@ var vnjs =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.init = exports.off = exports.emit = exports.parse = exports.prev = exports.next = exports.util = exports.plugin = exports.config = exports.setCharacters = exports.setLabel = exports.setScene = exports.game = exports.ctx = exports.on = undefined;
+	exports.init = exports.off = exports.emit = exports.parse = exports.prev = exports.next = exports.plugin = exports.config = exports.setLabel = exports.setScene = exports.game = exports.ctx = exports.on = undefined;
 	
 	var _minivents = __webpack_require__(1);
 	
@@ -74,53 +74,24 @@ var vnjs =
 	var plugin = new Object();
 	
 	//конфигурацию тоже сохранять в memory-card
-	var config = {
-	  startLabel: 'start/start',
-	  local: 'ru-RU',
-	  el: '#game'
-	};
+	var config = {};
 	
 	function init(_config) {
-	  exports.config = config = _config || config;
-	  var label = splitPathName(config.startLabel).label;
-	  setLabel(label, []);
-	  emit('init');
+	  exports.config = config = _config;
+	
+	  emit('init', config);
 	
 	  return this;
 	};
-	/*
-	config.get('param')
-	config.set('param')
 	
-	*/
 	var game = {
-	  init: {},
-	  scenes: {},
-	  characters: {}
+	  scenes: {}
 	};
-	
-	var util = {
-	  splitPathName: splitPathName
-	};
-	
-	/*
-	 * 
-	 */
 	
 	var ev = new _minivents2.default(); //EventEmitter
 	var emit = ev.emit;
 	var off = ev.off;
 	
-	/*
-	 *
-	 */
-	
-	function splitPathName(pathname) {
-	  var pathArr = pathname.split('/');
-	  var scene = pathArr[0];
-	  var label = pathArr[1];
-	  return { label: label, scene: scene };
-	}
 	/**
 	 * @plugins
 	 * Регистратор пользовательских событий
@@ -149,17 +120,7 @@ var vnjs =
 	
 	/*
 	 * setScene
-	 */
-	
-	/*
 	 * @Функция принимает объект сцены
-	 *  {
-	 *    characters: {},
-	 *    assets: [{}]
-	 *    labels: {
-	 *         start: [{},{},{},{},{},{},{}],
-	 *    }
-	 *  }
 	 */
 	function setScene(sceneName, sceneObject) {
 	  try {
@@ -171,15 +132,11 @@ var vnjs =
 	     */
 	    game.scenes[sceneName] = sceneObject;
 	    ctx.scene = sceneObject;
-	    /*
-	     * Добавляю персонажей в каждой загруженной сцены
-	     * в общий пулл.
-	     */
-	    setCharacters(sceneObject.characters);
+	
 	    /*
 	     * Переопределяю методы текущего label'a
 	     */
-	    setLabel(ctx.label, sceneObject.labels[ctx.label]);
+	    setLabel(ctx.label, sceneObject[ctx.label]);
 	    emit('setscene');
 	    parse();
 	
@@ -190,10 +147,6 @@ var vnjs =
 	  }
 	};
 	
-	function setCharacters(sceneCharacters) {
-	  game.characters = Object.assign(game.characters, sceneCharacters);
-	  return this;
-	};
 	function setLabel(labelName, labelArray) {
 	  ctx.label = labelName;
 	  ctx.arr = labelArray;
@@ -213,26 +166,11 @@ var vnjs =
 	
 	  for (var key in ctx.obj) {
 	    /*
-	     * Алиас персонажа содержит не больше трех (2)
-	     * символов. 
-	     */
-	    if (key.length <= 2) {
-	      var character = game.characters[key];
-	
-	      var reply = ctx.obj[key];
-	      emit('alias', {
-	        character: character,
-	        reply: reply,
-	        aliase: key
-	      });
-	    } else {
-	      /*
-	       * vnjs.on('alert')
-	       * Подписывает пользовательские плагины
-	       * 
-	       */
-	      ev.emit(key, ctx.obj[key]);
-	    }
+	           * vnjs.on('alert')
+	           * Подписывает пользовательские плагины
+	           * 
+	           */
+	    ev.emit(key, ctx.obj[key]);
 	  }
 	  emit('parse', ctx.obj);
 	
@@ -262,10 +200,8 @@ var vnjs =
 	exports.game = game;
 	exports.setScene = setScene;
 	exports.setLabel = setLabel;
-	exports.setCharacters = setCharacters;
 	exports.config = config;
 	exports.plugin = plugin;
-	exports.util = util;
 	exports.next = next;
 	exports.prev = prev;
 	exports.parse = parse;

@@ -1,0 +1,15 @@
+{
+
+  "assets": [],
+  "entry": [
+    {"alert": "Hello Phaser"},
+    {"alert": "Hello vnjson"},
+    {"alert": "Game over"},
+    {"jump": "chapter2"}
+  ],
+  "chapter2": [
+    {"pr": "Знаешь я ведь хотел тебе лучшего"},
+    {"al": "Знаю профессор."},
+    {"state": "gameover"}
+  ]
+}

@@ -16,48 +16,47 @@ vnjs.on('alias', function (obj) {
 });
 'use strict';
 
-vnjs.getScene = function (sceneName, labelName) {
-      var _vnjs = vnjs;
-      var ctx = _vnjs.ctx;
-      var setScene = _vnjs.setScene;
-      var get = _vnjs.get;
-      var emit = _vnjs.emit;
-      var config = _vnjs.config;
+vnjs.on('getscene', function (obj) {
+  var ctx = this.ctx;
+  var setScene = this.setScene;
+  var setLabel = this.setLabel;
+  var emit = this.emit;
+  var config = this.config;
 
-      emit('preload');
-      qwest.get(config.scenesDir + sceneName + ".json", { responseType: 'json' }).then(function (req, res) {
-            ctx.label = labelName;
-            setScene(sceneName, res);
-      });
-};
+  emit('preload');
+  qwest.get(config.scenesDir + obj.sceneName + ".json", { responseType: 'json' }).then(function (req, res) {
+    setLabel(obj.labelName, []);
+    setScene(sceneName, res);
+  });
+});
 'use strict';
 
-/*
- * @ deps getScene
- */
 vnjs.on('jump', function (pathname) {
   var ctx = this.ctx;
   var next = this.next;
   var setScene = this.setScene;
   var setLabel = this.setLabel;
-  var util = this.util;
   var game = this.game;
   var parse = this.parse;
   var getScene = this.getScene;
   var emit = this.emit;
 
-
   var isScene = /\/\w+/gi.test(pathname);
+
+  function getName(pathname) {
+    var pathArr = pathname.split('/');
+    var scene = pathArr[0];
+    var label = pathArr[1];
+    return { label: label, scene: scene };
+  };
+
   if (isScene) {
-    var obj = util.splitPathName(pathname);
-    console.log(pathname);
+    var obj = getName(pathname);
     ctx.num = 0;
-    getScene(obj.scene, obj.label);
+    emit('getscene', { labelName: obj.label, sceneName: obj.scene });
   } else {
-
     ctx.num = 0;
-    setLabel(pathname, ctx.scene.labels[pathname]);
-
+    setLabel(pathname, ctx.scene[pathname]);
     parse();
   }
 });

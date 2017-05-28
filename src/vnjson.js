@@ -16,55 +16,26 @@ var ctx = {
 const plugin = new Object();
 
 //конфигурацию тоже сохранять в memory-card
-var config = {
-  startLabel: 'start/start',
-  local: 'ru-RU',
-  el: '#game'
-};
+var config = {};
 
 function init(_config){
- config = _config||config;
- let label = splitPathName(config.startLabel).label;
- setLabel(label, []);
- emit('init');
+ config = _config;
+
+ emit('init', config);
 
  return this;
 };
-/*
-config.get('param')
-config.set('param')
 
-*/
 var game = {
-    init: {},
     scenes: {},
-    characters: {},
     //choices: {},
 };
-
-const util = {
-  splitPathName
-}
-
-
-/*
- * 
- */
-
 
 
 var ev = new Events();//EventEmitter
 var { emit, off } = ev;
 
-/*
- *
- */
-function splitPathName(pathname){
-  let pathArr = pathname.split('/');
-  let scene = pathArr[0];
-  let label = pathArr[1];
-  return {label, scene};
-}
+
 /**
  * @plugins
  * Регистратор пользовательских событий
@@ -98,17 +69,7 @@ function on(event, handler){
 
 /*
  * setScene
- */
-
-/*
  * @Функция принимает объект сцены
- *  {
- *    characters: {},
- *    assets: [{}]
- *    labels: {
- *         start: [{},{},{},{},{},{},{}],
- *    }
- *  }
  */
 function setScene(sceneName, sceneObject) {
   try{
@@ -120,15 +81,11 @@ function setScene(sceneName, sceneObject) {
      */
     game.scenes[sceneName] = sceneObject;
     ctx.scene = sceneObject;
-    /*
-     * Добавляю персонажей в каждой загруженной сцены
-     * в общий пулл.
-     */
-    setCharacters(sceneObject.characters);
+
     /*
      * Переопределяю методы текущего label'a
      */
-    setLabel(ctx.label, sceneObject.labels[ctx.label])
+    setLabel(ctx.label, sceneObject[ctx.label])
     emit('setscene');
     parse();
     
@@ -140,10 +97,7 @@ function setScene(sceneName, sceneObject) {
   }
 };
 
-function setCharacters(sceneCharacters){
-  game.characters = Object.assign(game.characters, sceneCharacters);
-  return this;
-};
+
 function setLabel(labelName, labelArray){
             ctx.label = labelName;
             ctx.arr = labelArray;
@@ -162,34 +116,16 @@ function parse(_obj){
 
 
   for(let key in ctx.obj){
-      /*
-       * Алиас персонажа содержит не больше трех (2)
-       * символов. 
-       */
-      if(key.length<=2){
-             let character = game.characters[key];
-            
-              let reply = ctx.obj[key]; 
-              emit('alias', {
-                   character,
-                   reply,
-                   aliase: key,
-
-                 });
-             
-
-      }else{
-        /*
+  /*
          * vnjs.on('alert')
          * Подписывает пользовательские плагины
          * 
          */
         ev.emit(key, ctx.obj[key]);
-      }
   }
   emit('parse', ctx.obj);
 
-   return ctx.num;
+  return ctx.num;
 };
 
 
@@ -223,10 +159,8 @@ export {
   game,
   setScene,
   setLabel,
-  setCharacters,
   config,
   plugin,
-  util,
   next,
   prev,
   parse,

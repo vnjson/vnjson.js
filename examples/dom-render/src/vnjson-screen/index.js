@@ -1,7 +1,7 @@
 
 
-vnjs.on('init', function(){
-  let { config, parse, emit } = this;
+vnjs.on('init', function(config){
+  let {  parse, emit } = this;
   qwest.get(config.screensPath, { responseType: 'html' })
       .then(function(body){
          document
@@ -19,7 +19,7 @@ vnjs.on('init', function(){
 vnjs.screens = [];
 vnjs.on('screen', function(id){
     let { config, parse, emit } = this;
-      this.screens.push( id )
+      this.screens.push( id );
 
 
       if(this.screens.length>=2){

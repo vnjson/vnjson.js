@@ -1,22 +1,58 @@
 ### vnjson.js
 
->Делаем визуальные новелы на javascript
+> Visual novel engine for web
 
+Download required plugin
+[vnjson-jump]('https://github.com/vnjson/vnjson-jump')
 
+```html
+<head>
+  <script src="./vnjson.js"></script>
+  <script src="./vnjson-jump/index.js"></script>
+</head>
+<body>
+  
+<script>
 
-### Инициализация
-```javascript
-  vnjs.init({
-      startLabel: 'start/chapter1',
-      scenesDir: 'scenes/',
-      local: 'ru-RU',
-      el: '#game',
-      screensPrefix: 'vnjson__',
-      screensPath: './dest/screens.html',
-      screensClassName: 'vnjson__screen',
-  }); 
+var scene = { 
+      labels:{},
+      assets: [],
+      characters: {}
+  };
+
+scene.characters = {
+  jo: { name: 'John' },
+  al: { name: 'Alice' }
+}
+
+scene.labels.entry = [
+
+  { print: 'Hello' },
+  { print: 'world', alert: 'text'},
+  { jump: 'chapter1' }
+
+];
+
+scene.labels.chapter1 = [
+  { print: 'hello chapter1' },
+  { print: 'Game over'}
+];
+
+vnjs.setLabel('entry');
+vnjs.setScene('scene', scene);
+
+document
+  .querySelector('#next')
+  .addEventListener('mousedown', function(e){
+
+      vnjs.next();
+  });
+
+</script>
+</body>
 
 ```
+
 
 
 
@@ -37,13 +73,6 @@
 
 ```
 
-##### Нативные события
-```javascript
-// autorun
-vnjs.on(function(){
-    console.log('autorun');
-    //Вызывается во время скрина main-menu
-});
 
 // navigator events
 vnjs.on('next', function(e){
@@ -56,28 +85,33 @@ vnjs.on('parse', function(ctxObj){
   // Также принимает один аргумен. Текущий объект.
 })
 
-```
 
-###### getScene events
-```javascript
 
-vnjs.on('preload', (e)=>{
-  console.log('Срабатывает перез загрузкой сцены')
-})
 
 vnjs.on('setscene', function(){
   console.log('Файл сцены загружен')
 })
 
-vnjs.on('load', (e)=>{
-  console.log('Срабатывает после загрузки ресурсов')
-});
+
+
 ```
-
-
 
 ##### Нативные методы
 ```javascript
+vnjs.init({
+  data: 'conf'
+});
+vnjs.on('init', function(config){
+  console.log(config.data)//conf
+});
+
+vnjs.on('getscene', function(obj){
+    //deps vnjson-jump
+    this.setLabel(obj.label, []);
+    ajax.get(`${obj.scene}.json`)
+})
+
+
 vnjs.parse() // Может парсит текущий объект контекста
 
 vnjs.parse({pr:'Привет мир', left: 'lusil'})

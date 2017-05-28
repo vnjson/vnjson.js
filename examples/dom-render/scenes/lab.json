@@ -1,5 +1,4 @@
 {
-  "labels": {
     "chapter1": [
       {
         "pr": "lab }}]  {{{Привет! Давненько не виделись",
@@ -32,8 +31,7 @@
       {
         "alert": "Game over!"
       }
-    ]
-  },
+    ],
   "assets": [
     {
       "name": "battle-field",
@@ -41,11 +39,5 @@
       "extension": ".png",
       "path": "dist/assets/battle-field.png"
     }
-  ],
-  "characters": {
-    "lusi": {
-      "name": "Люсиль",
-      "color": "silver"
-    }
-  }
+  ]
 }

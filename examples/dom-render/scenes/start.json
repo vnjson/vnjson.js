@@ -1,5 +1,4 @@
 {
-  "labels": {
     "entry": [
       {"screen": "main-menu"}
     ],
@@ -60,8 +59,8 @@
       {
         "jump": "lab/chapter1"
       }
-    ]
-  },
+    ],
+
   "assets": [
     {
       "name": "about",
@@ -69,15 +68,5 @@
       "extension": ".png",
       "path": "dist/assets/about.png"
     }
-  ],
-  "characters": {
-    "pr": {
-      "name": "Профессор",
-      "color": "green"
-    },
-    "al": {
-      "name": "Алиса",
-      "color": "red"
-    }
-  }
+  ]
 }
