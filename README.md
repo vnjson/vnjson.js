@@ -1,6 +1,10 @@
+
+[![release](https://img.shields.io/badge/release-v0.7.8-brightgreen.svg?style=flat-square)](https://github.com/vnjson/vnjson.js/releases/download/v0.7.5-beta/vnjson_pure-core.zip)
+[![license](https://img.shields.io/npm/l/express.svg?style=flat-square)]() 
 ### vnjson.js
 > Visual novel engine for web
-[![download](	https://img.shields.io/github/downloads/atom/atom/v0.190.0/total.svg)](https://github.com/vnjson/vnjson.js/releases/download/v0.7.5-beta/vnjson_pure-core.zip)
+
+
 
 Download required plugin
 [vnjson-jump]('https://github.com/vnjson/vnjson-jump')
