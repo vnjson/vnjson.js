@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dominate</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+
+  <script src="/dependencies/unfetch.umd.js"></script>
+  <script src="/dependencies/vnjson.js"></script>
+  <script src="/plugins/vnjson-get-scene/index.js"></script>
+  <script src="/plugins/vnjson-jump/index.js"></script>
+  
+</head>
+<body>
+<div id="game">
+  <div class="namebox"></div>
+  <div class='textbox'></div>
+</div>
+<section class="debug">
+  <div id="ctx-num"></div>
+</section>
+
+<script type="text/javascript">
+ vnjs.on('parse', function(obj){
+    let { num, sceneName, labelName } = this.ctx;
+     var pathName = `${sceneName}/${labelName}/${num}`;
+     document.getElementById('ctx-num').innerHTML = pathName;
+ })
+</script>
+
+<script type="text/javascript">
+
+document.querySelector('#game')
+  .addEventListener('mousedown', function(e){
+    vnjs.next();
+  })
+
+vnjs.on('reply', function(data){
+  let { name, reply } = data;
+  document.querySelector('.namebox').innerHTML = name;
+  document.querySelector('.textbox').innerHTML = reply;
+})
+
+vnjs.on('print', function(data){
+      console.log(data)
+  })
+
+vnjs.on('prof', function(reply){
+  this.emit('reply', { name: 'Профессор', reply });
+});
+
+vnjs.on('al', function(reply){
+  this.emit('reply', { name: 'Алиса', reply });
+});
+vnjs
+  .init({
+    scenesDir: '/scenes'
+  })
+  .parse('jump: start/entry');
+
+
+</script>
+</body>
+</html>

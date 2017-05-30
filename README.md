@@ -91,7 +91,7 @@ vnjs.on('setscene', function(){
   console.log('Файл сцены загружен')
 })
 
-
+vnjs.on('setlabel', function(labelName){})
 
 ```
 

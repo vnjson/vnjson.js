@@ -6,12 +6,17 @@ import Events from './minivents';
  */
 var ctx = {
   sceneName:'scene',
-  label:'label',
+  labelName:'label',
   scene: {},
+  label: [],
   arr: [],
   obj: null,
   num: 0,
 };
+
+
+var ev = new Events();//EventEmitter
+var { emit, off } = ev;
 
 const plugin = new Object();
 
@@ -19,9 +24,8 @@ const plugin = new Object();
 var config = {};
 
 function init(_config){
- config = _config;
+ config = _config||config;
 
- emit('init', config);
 
  return this;
 };
@@ -32,8 +36,6 @@ var game = {
 };
 
 
-var ev = new Events();//EventEmitter
-var { emit, off } = ev;
 
 
 /**
@@ -48,20 +50,9 @@ var { emit, off } = ev;
  */ 
 
 function on(event, handler){
-  /*
-   * Если функция vnjs.on(function(){})
-   * содержит callback без объявления
-   * имени события, то функция запускается
-   * в резиме autorun;
-   */
-  if(typeof event==="function"){
-      ev.on('autorun', event, vnjs);
-  }else if(typeof event==="string"){
       plugin[event] = handler;
       ev.on(event, handler, vnjs);
-      
-  }
-
+      return this;
 };
 
 
@@ -81,11 +72,11 @@ function setScene(sceneName, sceneObject) {
      */
     game.scenes[sceneName] = sceneObject;
     ctx.scene = sceneObject;
-
+    ctx.sceneName = sceneName;
     /*
      * Переопределяю методы текущего label'a
      */
-    setLabel(ctx.label, sceneObject[ctx.label])
+    setLabel(ctx.labelName, sceneObject[ctx.labelName])
     emit('setscene');
     parse();
     
@@ -99,18 +90,30 @@ function setScene(sceneName, sceneObject) {
 
 
 function setLabel(labelName, labelArray){
-            ctx.label = labelName;
-            ctx.arr = labelArray;
+            ctx.labelName = labelName;
+            ctx.label = labelArray;
+            emit('setlabel', labelName);
             return true;
 };
 
 function parse(_obj){
 
-  if(_obj){
-      ctx.obj = _obj;
-  }else{
-     ctx.obj = ctx.arr[ctx.num];
-  }
+if(_obj){
+    if(typeof _obj==='object'){
+          ctx.obj = _obj;
+    }
+    else if(typeof _obj==='string'){
+      let data = _obj.split(': ');
+        var ob = {
+            [data[0]]: data[1] 
+          };
+        console.log(ob)
+        ctx.obj = ob;
+    }
+    
+}else{
+    ctx.obj = ctx.label[ctx.num];
+}  
   /** Текущий объект */
     //ctx.obj = ctx.arr[ctx.num];
 

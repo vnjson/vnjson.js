@@ -20,5 +20,6 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
+    "unfetch": "^2.1.2"
   }
 }

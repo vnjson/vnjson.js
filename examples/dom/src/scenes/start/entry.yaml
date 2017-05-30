@@ -1,0 +1,8 @@
+# for compilate scene usage scenes-to-json lib 
+# https://github.com/vnjson/scenes-to-json  
+
+- prof: Привет Алиса
+  print: Привет мир
+- al: Привет профессор
+- prof: Ты мне всегда нравилась
+- jump: heroroom
