@@ -13,6 +13,7 @@
   width: 800px;
   height: 480px;
   user-select: none;
+  -moz-user-select: none;
 }
 
 .namebox{
@@ -24,6 +25,7 @@
   color: grey;
   font-size:16pt;
   font-family:'Comic Sans MS';
+
 }
 
 .textbox{
@@ -36,5 +38,6 @@
   color: grey;
   cursor: pointer;
   font-size:16pt;
+
   font-family:'Comic Sans MS';
 }

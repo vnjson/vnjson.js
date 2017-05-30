@@ -52,6 +52,34 @@ vnjs.on('prof', function(reply){
 vnjs.on('al', function(reply){
   this.emit('reply', { name: 'Алиса', reply });
 });
+var arr = [];
+vnjs.on('parse', function(){
+  let { num, label } = this.ctx
+    /*if(num===label.length){
+      console.log('len - '+ label.length)
+      console.info('Конец массива')
+    }*/
+  /*  vnjs.on('setlabel', function(){
+      arr.push(this.ctx.sceneName+"/"+this.ctx.labelName);
+    });
+
+    if(num<=0){
+      //this.parse(`jump: ${arr.pop()}`)
+      console.log(arr)
+      this.ctx.num = 0;
+    }*/
+})
+/*
+
+function removeWhitespaces(str)
+{
+
+var res = str.replace(/\s/g, "");
+
+return res;
+}
+
+*/
 vnjs
   .init({
     scenesDir: '/scenes'

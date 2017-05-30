@@ -157,7 +157,6 @@ var vnjs =
 	    } else if (typeof _obj === 'string') {
 	      var data = _obj.split(': ');
 	      var ob = _defineProperty({}, data[0], data[1]);
-	      console.log(ob);
 	      ctx.obj = ob;
 	    }
 	  } else {

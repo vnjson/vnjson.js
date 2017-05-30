@@ -107,7 +107,6 @@ if(_obj){
         var ob = {
             [data[0]]: data[1] 
           };
-        console.log(ob)
         ctx.obj = ob;
     }
     
