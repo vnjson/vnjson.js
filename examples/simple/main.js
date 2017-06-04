@@ -1,44 +1,18 @@
 
 
-var scene = { 
-      assets: [],
-      entry: [
-          { print: 'Hello' },
-          { print: 'world'},
-          { jump: 'chapter1' }
-      ],
-      chapter1: [
-        { print: '11hello chapter1' },
-        { prof: 'Проверка новой системы реплик песконажей'},
-        { alice: 'Что бы увеличить скорость выполнения парсинга labela'},
-        { print: 'Game over'}
-      ]
-      
-  };
 
 
+//getscene event  generate of vnjson-jump
+vnjs.on('getscene', function(param){
+    let { emit, setLabel, setScene } = this;
+    let { labelName, sceneName } = param;
 
-
-vnjs.on('character', function(data){
-  let { name, color, reply } = data;
-  console.log(name+": " + reply);
+    setLabel(labelName);
+    setScene(sceneName, window[sceneName])
+    emit('preload');
 });
 
-vnjs.on('prof', function(reply){
-  this.emit('character', {name: 'Профессор', color:'red', reply })
-
-});
-
-vnjs.on('alice', function(reply){
-  this.emit('character', { name: 'Алиса', color: 'green', reply })
-});
-/*
- * init
- */
 window.onload = function(){
- 
-vnjs.setLabel('entry');
-vnjs.setScene('scene', scene);
 
 document
   .querySelector('#next')
@@ -46,6 +20,12 @@ document
 
       vnjs.next();
   });
+
+vnjs
+  .init({})
+  .on('info', console.info)
+  .parse({'print': '>initialization'})
+  .parse('jump: scene1/entry')
 
 }
 

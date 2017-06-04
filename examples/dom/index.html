@@ -9,84 +9,42 @@
   <script src="/dependencies/vnjson.js"></script>
   <script src="/plugins/vnjson-get-scene/index.js"></script>
   <script src="/plugins/vnjson-jump/index.js"></script>
-  
+  <script src="characters.js"></script>
+  <script src="plugins.js"></script>
+  <script src="screens.js"></script>
+  <script src="util.js"></script>
+  <script src="/plugins/vnjson-screen/index.js"></script>
+  <script src="/plugins/vnjson-menu/index.js"></script>
+  <script src="/plugins/vnjson-preload/index.js"></script>
 </head>
 <body>
 <div id="game">
-  <div class="namebox"></div>
-  <div class='textbox'></div>
+  
 </div>
-<section class="debug">
-  <div id="ctx-num"></div>
-</section>
-
-<script type="text/javascript">
- vnjs.on('parse', function(obj){
-    let { num, sceneName, labelName } = this.ctx;
-     var pathName = `${sceneName}/${labelName}/${num}`;
-     document.getElementById('ctx-num').innerHTML = pathName;
- })
-</script>
-
+ <button id="to-main-menu">main-menu</button>
 <script type="text/javascript">
 
-document.querySelector('#game')
-  .addEventListener('mousedown', function(e){
-    vnjs.next();
-  })
 
-vnjs.on('reply', function(data){
-  let { name, reply } = data;
-  document.querySelector('.namebox').innerHTML = name;
-  document.querySelector('.textbox').innerHTML = reply;
-})
 
-vnjs.on('print', function(data){
-      console.log(data)
-  })
 
-vnjs.on('prof', function(reply){
-  this.emit('reply', { name: 'Профессор', reply });
-});
+vnjs.init({
+      elem: '#game',
+      screenPrefix: 'vnjson__',
+      scenesDir: '/scenes',
 
-vnjs.on('al', function(reply){
-  this.emit('reply', { name: 'Алиса', reply });
-});
-var arr = [];
-vnjs.on('parse', function(){
-  let { num, label } = this.ctx
-    /*if(num===label.length){
-      console.log('len - '+ label.length)
-      console.info('Конец массива')
-    }*/
-  /*  vnjs.on('setlabel', function(){
-      arr.push(this.ctx.sceneName+"/"+this.ctx.labelName);
-    });
+    })
+/**
 
-    if(num<=0){
-      //this.parse(`jump: ${arr.pop()}`)
-      console.log(arr)
-      this.ctx.num = 0;
-    }*/
-})
-/*
-
-function removeWhitespaces(str)
-{
-
-var res = str.replace(/\s/g, "");
-
-return res;
-}
-
+.parse('jump: lab/labuda')
+.on('preload')
+.on('postload') 
 */
-vnjs
-  .init({
-    scenesDir: '/scenes'
-  })
-  .parse('jump: start/entry');
 
-
+document
+  .getElementById('to-main-menu')
+  .addEventListener('mousedown', function(e){
+    vnjs.parse('screen: main-menu');
+  });
 </script>
 </body>
 </html>

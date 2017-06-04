@@ -1,0 +1,8 @@
+- print: gwllo boloto
+- print: game over
+- screen: about
+- menu:
+    Прыгнуть в болото: { points: -30 } # Если нет куда прыгать то resume
+    Сходить в лабараторию: { jump: lab/labuda }
+    Простой прыжок: lab/entry #Если это string то это jump: string
+    Ничего нихочу делать: "resume" #Пустая строка screen.hid();

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jquery-example</title>
+  <meta charset="utf-8">
+  <script src="vnjson.js"></script>
+  <script src="vnjson-jump/index.js"></script>
+  <script src="jquery.min.js"></script>
+  <style type="text/css">
+    #game{
+      width: 800px;
+      height: 480px;
+      border: 2px dashed grey;
+      -moz-user-select:none;
+      user-select: none;
+    }
+    #vnjson__text-box{
+      width:100%;
+      height: 25%;
+      position: relative;
+      top:75%;
+      background: rgba(0,0,0,0.7);
+      color: grey;
+      font-size: 16pt;
+      cursor:pointer;
+      z-index: 1000;
+    }
+    #vnjson__dialog-box{
+
+      width:100%;
+      height: 100%;
+    }
+    .vnjson__background{
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+<div id="game">
+  <div id="vnjson__main-menu" hidden>
+
+     <div class="vnjson__background"></div>
+      <button style="position: absolute" id="start-game">Start game</button>
+   
+  </div>
+  <div id="vnjson__dialog-box" hidden>
+    <div class="vnjson__background"></div>
+    <div id="vnjson__text-box">{text}</div>
+  </div>
+
+  <div id="vnjson__game-over" hidden>
+    <div class="vnjson__background"></div>
+   
+  </div>
+</div>
+<script src="index.js"></script>
+</body>
+</html>

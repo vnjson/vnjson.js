@@ -1,0 +1,3 @@
+- screen: 'main'
+- print: hello world
+- jump: label-boloto

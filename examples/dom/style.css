@@ -16,6 +16,36 @@
   -moz-user-select: none;
 }
 
+.vnjson__screen{
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+
+.vnjson__menu{
+  width:100%;
+  border: 1px dashed red;
+
+    font-size:16pt;
+  font-family:'Comic Sans MS';
+}
+.vnjson__menu-item{
+  color: grey;
+  text-align: center;
+
+  background-color:rgba(0,0,0,0.7);
+  width: 100%;
+
+
+}
+.vnjson__menu-item:hover{
+  cursor: pointer;
+  color: white;
+  background-color:rgba(0,0,0,0.9);
+  border-left: 3px solid yellow;
+
+}
 .namebox{
   width:25%;
   height: 8%;

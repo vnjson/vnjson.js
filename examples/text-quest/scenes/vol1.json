@@ -1,0 +1,37 @@
+{
+  "assets": [],
+  "chapter1": [
+    {
+      "screen": "main"
+    },
+    {
+      "print": "hello world"
+    },
+    {
+      "jump": "label-boloto"
+    }
+  ],
+  "label-boloto": [
+    {
+      "print": "gwllo boloto"
+    },
+    {
+      "print": "game over"
+    },
+    {
+      "screen": "about"
+    },
+    {
+      "menu": {
+        "Прыгнуть в болото": {
+          "points": -30
+        },
+        "Сходить в лабараторию": {
+          "jump": "lab/labuda"
+        },
+        "Простой прыжок": "lab/entry",
+        "Ничего нихочу делать": "resume"
+      }
+    }
+  ]
+}
