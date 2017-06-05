@@ -12,6 +12,9 @@ var ctx = {
   obj: null,
   num: 0,
   screen: '',
+  jumps: [
+
+  ],
   data: {} //userData
 };
 
@@ -77,9 +80,10 @@ function setScene(sceneName, sceneObject, labelName, num) {
     /*
      * Переопределяю методы текущего label'a
      */
+
      
     setLabel(labelName, sceneObject[labelName], num);
-
+    
     emit('load', sceneObject.assets, sceneName);
     
    
@@ -97,7 +101,7 @@ function setLabel(labelName, labelArray, num){
             ctx.label = labelArray;
             ctx.num = num;
             parse();
-            emit('setlabel', labelName);
+            emit('setlabel', labelName, labelArray.length);
             return this;
 };
 
@@ -139,19 +143,48 @@ if(_obj){
 
 
 
-function next(num){
+function next(){
+  let { label, num } = ctx;
   
-
+if(num>=label.length){
+  console.log('Конец метки');
+  ctx.num = 0;
+}
   ctx.num++;
   parse();
   emit('next');
   return ctx.num;
 };
-function prev(num){
- 
-  
-  ctx.num-=num||1;
-  parse();
+
+on('setlabel', function(labelname, len){
+ let { sceneName, labelName } = vnjs.ctx;
+    
+     ctx.jumps.push({sceneName, labelName, len});
+});
+/*
+ * Должна показывать предыдущие экраны
+ * А так же все движения между метками и сценами
+ *
+ */
+function prev(){
+
+ let { jumps, label } = ctx;
+  if(label.indexOf(-1)){
+    if(jumps.indexOf(0)){
+       // parse(`screen: ${fn.prevScreen}`)//preloader??
+       console.log('Начало игры');
+       ctx.num = 0;
+       /*fn.prevScreen it should to be array*/
+    }else{
+      let { sceneName, labelName, len } = jumps.pop();
+      let jumpTo = [ sceneName, labelName, len ].join("/");
+      parse('jump: '+jumpTo)
+    }
+  }else{
+      ctx.num--;
+      parse();
+  }
+
   emit('prev');
   return ctx.num;
 };

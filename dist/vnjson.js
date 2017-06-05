@@ -74,6 +74,7 @@ var vnjs =
 	  obj: null,
 	  num: 0,
 	  screen: '',
+	  jumps: [],
 	  data: {} //userData
 	};
 	
@@ -89,7 +90,7 @@ var vnjs =
 	
 	function init(_config) {
 	  exports.config = config = _config || config;
-	  emit('init');
+	  emit('getscreens');
 	  return this;
 	};
 	
@@ -151,7 +152,7 @@ var vnjs =
 	  ctx.label = labelArray;
 	  ctx.num = num;
 	  parse();
-	  emit('setlabel', labelName);
+	  emit('setlabel', labelName, labelArray.length);
 	  return this;
 	};
 	
@@ -186,17 +187,59 @@ var vnjs =
 	  return this;;
 	};
 	
-	function next(num) {
+	function next() {
+	  var label = ctx.label;
+	  var num = ctx.num;
 	
+	
+	  if (num >= label.length) {
+	    console.log('Конец метки');
+	    ctx.num = 0;
+	  }
 	  ctx.num++;
 	  parse();
 	  emit('next');
 	  return ctx.num;
 	};
-	function prev(num) {
 	
-	  ctx.num -= num || 1;
-	  parse();
+	on('setlabel', function (labelname, len) {
+	  var _vnjs$ctx = vnjs.ctx;
+	  var sceneName = _vnjs$ctx.sceneName;
+	  var labelName = _vnjs$ctx.labelName;
+	
+	
+	  ctx.jumps.push({ sceneName: sceneName, labelName: labelName, len: len });
+	});
+	/*
+	 * Должна показывать предыдущие экраны
+	 * А так же все движения между метками и сценами
+	 *
+	 */
+	function prev() {
+	  var jumps = ctx.jumps;
+	  var label = ctx.label;
+	
+	  if (label.indexOf(-1)) {
+	    if (jumps.indexOf(0)) {
+	      // parse(`screen: ${fn.prevScreen}`)//preloader??
+	      console.log('Начало игры');
+	      ctx.num = 0;
+	      /*fn.prevScreen it should to be array*/
+	    } else {
+	      var _jumps$pop = jumps.pop();
+	
+	      var sceneName = _jumps$pop.sceneName;
+	      var labelName = _jumps$pop.labelName;
+	      var len = _jumps$pop.len;
+	
+	      var jumpTo = [sceneName, labelName, len].join("/");
+	      parse('jump: ' + jumpTo);
+	    }
+	  } else {
+	    ctx.num--;
+	    parse();
+	  }
+	
 	  emit('prev');
 	  return ctx.num;
 	};

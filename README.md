@@ -9,68 +9,8 @@
 Download required plugin
 [vnjson-jump]('https://github.com/vnjson/vnjson-jump')
 
-```html
-<head>
-  <script src="./vnjson.js"></script>
-  <script src="./vnjson-jump/index.js"></script>
-</head>
-<body>
-  
-<script>
-
-var scene = { 
-
-  assets: [],
-  entry: [
-    { print: 'Hello' },
-    { print: 'world', alert: 'text'},
-    { jump: 'chapter1' }
-  ],
-  chapter1: [
-    { print: 'hello chapter1' },
-    { print: 'Game over'}
-  ]
-};
 
 
-
-vnjs.setLabel('entry');
-vnjs.setScene('scene', scene);
-
-vnjs.on('print', function(text){
-  console.log(text);
-})
-document
-  .querySelector('#next')
-  .addEventListener('mousedown', function(e){
-
-      vnjs.next();
-  });
-
-</script>
-</body>
-
-```
-
-
-
-
-
-#### Как написать плагин
-
-### Плагины
-
-
-
-##### Вызываются из пользовательского скрипта
-```javascript
-
-  vnjs.on('alert', function(msg){
-    alert(msg);
-  });
-  vnjs.parse({ alert: 'Hello World!' });
-
-```
 
 
 // navigator events
@@ -100,8 +40,9 @@ vnjs.on('setlabel', function(labelName){})
 vnjs.init({
   data: 'conf'
 });
-vnjs.on('init', function(config){
-  console.log(config.data)//conf
+
+vnjs.on('getscreens', function(){
+  
 });
 
 vnjs.on('getscene', function(obj){
@@ -145,5 +86,19 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
   * off - Отписывается от событий
   * on - Слушает события
   * init - Срабатывает вовремя инициализации 
+
+```
+
+
+
+### Плагины
+
+##### Вызываются из пользовательского скрипта
+```javascript
+
+  vnjs.on('alert', function(msg){
+    alert(msg);
+  });
+  vnjs.parse({ alert: 'Hello World!' });
 
 ```

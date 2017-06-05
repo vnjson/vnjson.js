@@ -1,6 +1,6 @@
 /node_modules
 /bower_components
-
+/examples
 npm-debug.log
 
 vnjson-js.sublime-project

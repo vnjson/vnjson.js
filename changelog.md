@@ -2,7 +2,7 @@
 
 = v0.8.0 - harmony =
 > 2017.06.04 
-  * Заменил событие 'init' на 'getlayers'
+  * Заменил событие 'init' на 'getscreens'
   * 
   *
 
