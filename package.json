@@ -1,11 +1,11 @@
 {
   "name": "vnjson.js",
-  "version": "0.7.5",
+  "version": "0.8.0",
   "description": "Visual novel engine for web",
   "main": "webpack.config.js",
   "author": "Kasin Sergey",
   "scripts": {
-    "test": "http-server ./tests/ -p9090 -c-1"
+    "test": ""
   },
   "babel": {
     "presets": [
@@ -20,6 +20,6 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "unfetch": "^2.1.2"
+
   }
 }

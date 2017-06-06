@@ -6,14 +6,59 @@
 
 
 
-Download required plugin
+include plugins in your index.html
 [vnjson-jump]('https://github.com/vnjson/vnjson-jump')
 
 
+## Init
 
+```js
+vnjs
+  .init({})
+  .on('print', console.log)
+  .parse('print: Hello')
+  .parse({'print': 'World!'});
+```
+
+
+## create characters
+```js
+vnjs.on('reply', function(param){
+  let { reply, character } = param;
+  console.log(character.name+": "+reply);
+});
+
+
+
+vnjs.on('al', function(reply){
+  let data = {
+          name: 'Alice',
+          color: 'red',
+          reply
+        };
+  this.emit('reply', data);
+});
+
+vnjs.on('prof', function(reply){
+  let data = {
+          name: 'Proffesor',
+          reply
+        };
+  this.emit('reply', data);
+});
+
+vnjs.parse('prof: Hello World!');
+vnjs.on('print', console.log);
+vnjs.parse({
+         'al': 'Hello Proffesor!', 
+         'print': "bla bla"
+        });
+
+```
 
 
 // navigator events
+```
 vnjs.on('next', function(e){
   /*
    * Срабатывает при каждом парсинге текущего объекта
@@ -22,14 +67,17 @@ vnjs.on('next', function(e){
 vnjs.on('parse', function(ctxObj){
   //Вызывается во время парсинга текущего объекта ctx.obj
   // Также принимает один аргумен. Текущий объект.
-})
+});
 
 
+vnjs.next() ++
+vnjs.parse() -current-
+vnjs.prev(); --
 
 
 vnjs.on('setscene', function(){
   console.log('Файл сцены загружен')
-})
+});
 
 vnjs.on('setlabel', function(labelName){})
 
@@ -61,31 +109,23 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
 
 
 
- * ctx 
-    {
-      scene,
-      label,
-      num,
-      arr,
-      obj
-    }
-    // Текущий объект. Значиние которого меняется с каждым
-    // выполнением события vnjs.on('parse');
+ * ctx - Текущий объект. Значиние которого меняется с каждым
+     выполнением события vnjs.on('parse');
 
 
-  * game,
-  * config, // vnjs.init(/*{ config }*/)
+  * game - .scenes[ctx.sceneName], .package, .settings
+  * config - vnjs.init(/*{ config }*/)
 
   * setScene - Принимает объект сцены
   * setLabel - Передаем имя метки и массив с пользовательскими скриптами
-  * setCharacters - Принимает объект с персонажами и добавляет его в игру.
-  * next - Передвинуться по массиву в перед. Может принимать аргумента
-  * prev(2) - По умолчанию 1. Выполняет тоже что и next, но только в обратную сторону.
+ 
+  * next - Передвинуться по массиву в перед. 
+  * prev -  Выполняет тоже что и next, но только в обратную сторону.
   * parse - 
   * emit - Подписывается на события
   * off - Отписывается от событий
   * on - Слушает события
-  * init - Срабатывает вовремя инициализации 
+
 
 ```
 

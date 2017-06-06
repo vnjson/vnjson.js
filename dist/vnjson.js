@@ -75,7 +75,9 @@ var vnjs =
 	  num: 0,
 	  screen: '',
 	  jumps: [],
-	  data: {} //userData
+	  data: {
+	    points: 0
+	  }
 	};
 	
 	var ev = new _minivents2.default(); //EventEmitter
@@ -84,7 +86,7 @@ var vnjs =
 	
 	
 	var plugin = new Object();
-	
+	var fn = {};
 	//конфигурацию тоже сохранять в memory-card
 	var config = {};
 	
@@ -95,8 +97,9 @@ var vnjs =
 	};
 	
 	var game = {
-	  scenes: {}
-	
+	  scenes: {},
+	  package: {},
+	  settings: {}
 	};
 	
 	/**
@@ -213,7 +216,7 @@ var vnjs =
 	/*
 	 * Должна показывать предыдущие экраны
 	 * А так же все движения между метками и сценами
-	 *
+	 * 
 	 */
 	function prev() {
 	  var jumps = ctx.jumps;
@@ -243,8 +246,6 @@ var vnjs =
 	  emit('prev');
 	  return ctx.num;
 	};
-	
-	var fn = {};
 	
 	/*
 	 * @api

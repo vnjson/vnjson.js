@@ -12,10 +12,10 @@ var ctx = {
   obj: null,
   num: 0,
   screen: '',
-  jumps: [
-
-  ],
-  data: {} //userData
+  jumps: [],
+  data: {
+    points: 0
+  },
 };
 
 
@@ -23,7 +23,7 @@ var ev = new Events();//EventEmitter
 var { emit, off } = ev;
 
 const plugin = new Object();
-
+var fn = {};
 //конфигурацию тоже сохранять в memory-card
 var config = {};
 
@@ -35,7 +35,10 @@ function init(_config){
 
 var game = {
     scenes: {},
-
+    package: {
+      
+    },
+    settings: {}
 };
 
 
@@ -164,7 +167,7 @@ on('setlabel', function(labelname, len){
 /*
  * Должна показывать предыдущие экраны
  * А так же все движения между метками и сценами
- *
+ * 
  */
 function prev(){
 
@@ -189,7 +192,7 @@ function prev(){
   return ctx.num;
 };
 
-var fn = {};
+
 
 
 /*
