@@ -1,6 +1,7 @@
 /node_modules
 /bower_components
-/examples
+*.mp3
+*.png
 npm-debug.log
 
 vnjson-js.sublime-project

@@ -1,0 +1,29 @@
+{
+  "assets": [
+    {"extname": ".png", "path": "assets/background11.png", "size": "23kb"},
+    {"extname": ".png", "path": "assets/background21.png", "size": "312kb"},
+    {"extname": ".png", "path": "assets/background31.png", "size": "54kb"}
+  ],
+  "entry": [
+    {"print": "volume2"},
+    {"print": "label2"},
+    {"jump": "ch2"}
+  ],
+  "ch2": [
+    {"print": "jupter2"},
+    {"print": "gradubar srase"},
+    {"print": "aber badaraks raga"},
+    {"jump": "lab2"}
+  ],
+
+  "lab2": [
+    { 
+      "print": "Внутриигровое меню"
+
+    },
+    {"print": "<u>Game</u> <b style='color:red'>over</b>"},
+    {"print": "--------------------------------"},
+    {"screen": "game-over"}
+
+  ]
+}

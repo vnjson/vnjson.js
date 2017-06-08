@@ -1,0 +1,21 @@
+{
+  "name": "base-example",
+  "version": "0.1.1",
+  "description": "Base DOM example",
+  "main": "index.html",
+  "author": "Kasin Sergey",
+  "scripts": {
+    "scenes": "scenestojson ../_scenes scenes",
+    "screens": "buildscreens ../plugins ."
+  },
+  "devDependencies": {
+    "scenes-to-json": "*",
+    "buildscreens": "*"
+  },
+  "dependencies": {
+    "vnjson/vnjson-jump": "*",
+    "vnjson/vnjson-get-screens": "*",
+    "vnjson/vnjson-get-scene": "*",
+    "vnjson/vnjson-jump": "*",
+  }
+}

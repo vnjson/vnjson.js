@@ -1,0 +1,10 @@
+- pr: Привет алиса я буду скучать
+  bg: main-menu
+  menu: {
+    Бой с цветком: fight-flower,
+    Сходить в лабараторию: lab/labuda
+  }
+  left: prof
+- ll: Проверка косяка одной строки
+  right: lusil
+- jump: fight-flower
