@@ -50,7 +50,7 @@ var vnjs =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fn = exports.init = exports.off = exports.emit = exports.parse = exports.prev = exports.next = exports.plugin = exports.config = exports.setLabel = exports.setScene = exports.game = exports.ctx = exports.on = undefined;
+	exports.fn = exports.init = exports.off = exports.emit = exports.parse = exports.prev = exports.next = exports.config = exports.setLabel = exports.setScene = exports.game = exports.ctx = exports.on = undefined;
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
@@ -66,6 +66,7 @@ var vnjs =
 	 * context
 	 * Значение объекта равно состоянию приложения.
 	 */
+	
 	var ctx = {
 	  sceneName: 'scene',
 	  labelName: 'label',
@@ -85,7 +86,6 @@ var vnjs =
 	var off = ev.off;
 	
 	
-	var plugin = new Object();
 	var fn = {};
 	//конфигурацию тоже сохранять в memory-card
 	var config = {};
@@ -114,7 +114,7 @@ var vnjs =
 	 */
 	
 	function on(event, handler) {
-	  plugin[event] = handler;
+	  fn[event] = handler;
 	  ev.on(event, handler, vnjs);
 	  return this;
 	};
@@ -154,7 +154,6 @@ var vnjs =
 	  ctx.labelName = labelName;
 	  ctx.label = labelArray;
 	  ctx.num = num;
-	  parse();
 	  emit('setlabel', labelName, labelArray.length);
 	  return this;
 	};
@@ -256,7 +255,6 @@ var vnjs =
 	exports.setScene = setScene;
 	exports.setLabel = setLabel;
 	exports.config = config;
-	exports.plugin = plugin;
 	exports.next = next;
 	exports.prev = prev;
 	exports.parse = parse;

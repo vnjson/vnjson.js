@@ -4,6 +4,7 @@ import Events from './minivents';
  * context
  * Значение объекта равно состоянию приложения.
  */
+
 var ctx = {
   sceneName:'scene',
   labelName:'label',
@@ -22,7 +23,7 @@ var ctx = {
 var ev = new Events();//EventEmitter
 var { emit, off } = ev;
 
-const plugin = new Object();
+
 var fn = {};
 //конфигурацию тоже сохранять в memory-card
 var config = {};
@@ -56,7 +57,7 @@ var game = {
  */ 
 
 function on(event, handler){
-      plugin[event] = handler;
+      fn[event] = handler;
       ev.on(event, handler, vnjs);
       return this;
 };
@@ -103,7 +104,6 @@ function setLabel(labelName, labelArray, num){
             ctx.labelName = labelName;
             ctx.label = labelArray;
             ctx.num = num;
-            parse();
             emit('setlabel', labelName, labelArray.length);
             return this;
 };
@@ -205,7 +205,6 @@ export {
   setScene,
   setLabel,
   config,
-  plugin,
   next,
   prev,
   parse,
@@ -213,5 +212,4 @@ export {
   off,
   init,
   fn
-
 };

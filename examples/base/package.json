@@ -15,7 +15,6 @@
   "dependencies": {
     "vnjson/vnjson-jump": "*",
     "vnjson/vnjson-get-screens": "*",
-    "vnjson/vnjson-get-scene": "*",
-    "vnjson/vnjson-jump": "*",
+    "vnjson/vnjson-get-scene": "*"
   }
 }
