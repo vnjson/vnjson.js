@@ -39,6 +39,7 @@ var game = {
     package: {
       
     },
+    assets: [],
     settings: {}
 };
 
@@ -84,8 +85,10 @@ function setScene(sceneName, sceneObject, labelName, num) {
     /*
      * Переопределяю методы текущего label'a
      */
+    sceneObject.assets.forEach((item)=>{
+        game.assets.push(item);
+    });
 
-     
     setLabel(labelName, sceneObject[labelName], num);
     
     emit('load', sceneObject.assets, sceneName);

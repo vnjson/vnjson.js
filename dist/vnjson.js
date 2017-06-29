@@ -99,6 +99,7 @@ var vnjs =
 	var game = {
 	  scenes: {},
 	  package: {},
+	  assets: [],
 	  settings: {}
 	};
 	
@@ -138,6 +139,9 @@ var vnjs =
 	    /*
 	     * Переопределяю методы текущего label'a
 	     */
+	    sceneObject.assets.forEach(function (item) {
+	      game.assets.push(item);
+	    });
 	
 	    setLabel(labelName, sceneObject[labelName], num);
 	
