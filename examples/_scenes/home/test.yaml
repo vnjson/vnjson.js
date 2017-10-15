@@ -1,4 +1,0 @@
-- print: test menu jumper
-  menu:
-    Сходить в магазин: {jump: magaz, points: 30}
-    Попить молока: {jump: drinkmilk, points: -20}

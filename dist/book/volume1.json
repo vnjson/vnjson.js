@@ -1,0 +1,8 @@
+{
+  "assets": [{}],
+  "chapter1": [
+      {"print": "hello"},
+      {"print": "world"},
+      {"jump": "volume2/chapter2"}
+  ]
+}

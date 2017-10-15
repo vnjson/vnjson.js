@@ -5,10 +5,23 @@ vnjs.on('jump', function(pathname){
         next, 
         setScene, 
         setLabel, 
+        config,
         game, 
         parse,
-        emit
+        emit,
+        fetch
       } = this;
+
+function getScene(sceneName, labelName, num){
+  let { scenesDir } = config;
+  fetch(`${scenesDir}/${sceneName}.json`)
+   .then(r=>r.json())
+   .then(data=>{
+    setScene(sceneName, data, labelName, num);
+  })
+}
+
+
 
 function isNum(num){
   return /[0-9]/.test(+num)
@@ -43,10 +56,10 @@ function getName(pathname){
 
 
 if(isScene(pathname)){
-
-    emit('getscene', obj.scene, obj.label, obj.num);
+    emit('preload');
+    getScene( obj.scene, obj.label, obj.num);
 }else{
-
+    emit('chengelabel')
     setLabel(pathname, ctx.scene[pathname],  obj.num );
     
   }

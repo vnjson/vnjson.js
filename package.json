@@ -1,6 +1,6 @@
 {
   "name": "vnjson.js",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Visual novel engine for web",
   "main": "webpack.config.js",
   "author": "Kasin Sergey",
@@ -14,12 +14,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.14.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.14.0",
-    "webpack": "^1.13.2"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "webpack": "^3.7.1"
   },
   "dependencies": {
-
+    "unfetch": "^3.0.0"
   }
 }

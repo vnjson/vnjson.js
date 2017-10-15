@@ -2,8 +2,8 @@
 const vnjson = {
   entry: {
   	'dist/vnjson': './src/vnjson',
-    'examples/_lib/vnjson': './src/vnjson',
-    '../vnjson-cli/game-tpl/html/vendor/vnjson': './src/vnjson',
+   // 'examples/_lib/vnjson': './src/vnjson',
+   // '../vnjson-cli/game-tpl/html/vendor/vnjson': './src/vnjson',
   },
 
   output: {
@@ -12,15 +12,21 @@ const vnjson = {
   	library: "vnjs",
     libraryTarget: 'var'
   },
-  //watch: true,
+  watch: true,
   devtool: 'source-map',
-  module:{
-  	loaders: [
-  		{
-  			test: /\.js$/,
-  			loader: 'babel-loader'
-  		}
-  	]
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env']
+          }
+        }
+      }
+    ]
   }
 };
 

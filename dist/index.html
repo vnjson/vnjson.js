@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test</title>
+  <meta charset="utf-8">
+  <script src="vnjson.js"></script>
+  <script src="plugins/jump.js"></script>
+</head>
+<body>
+<div>
+ <h4>Open devtools F12</h4> 
+</div>
+<script type="text/javascript">
+  vnjs.on('print', function(data){
+    console.log(data)
+  });
+  vnjs.on('preload', function(data){
+    console.warn('[ preload ]')
+  })
+  vnjs.on('load', console.log('[ load ]'))
+
+  vnjs.init({
+
+    scenesDir: './book'
+  })
+
+
+
+  vnjs.parse({jump: 'volume1/chapter1'})
+
+
+</script>
+</body>
+</html>

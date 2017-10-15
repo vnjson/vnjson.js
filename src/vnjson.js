@@ -1,10 +1,11 @@
 
-import Events from './minivents'; 
+import Events         from './minivents'; 
+import fetch          from './unfetch';
 /*
  * context
  * Значение объекта равно состоянию приложения.
  */
-
+/** state **/
 var ctx = {
   sceneName:'scene',
   labelName:'label',
@@ -107,6 +108,7 @@ function setLabel(labelName, labelArray, num){
             ctx.labelName = labelName;
             ctx.label = labelArray;
             ctx.num = num;
+            parse();
             emit('setlabel', labelName, labelArray.length);
             return this;
 };
@@ -214,5 +216,6 @@ export {
   emit,
   off,
   init,
-  fn
+  fn,
+  fetch
 };
