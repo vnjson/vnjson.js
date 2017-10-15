@@ -1,4 +1,4 @@
-[![release](https://img.shields.io/badge/vnjson.js-v0.8.0%20--%20Harmony-brightgreen.svg?style=flat-square)]() [![license](https://img.shields.io/npm/l/express.svg?style=flat-square)]() 
+ [![license](https://img.shields.io/npm/l/express.svg?style=flat-square)]() 
 ### vnjson.js
 > Visual novel engine for web
 
