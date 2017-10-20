@@ -4,98 +4,81 @@
 
 
 
-
 ## Init
 
 ```js
-vnjs
-  .init({})
-  .on('print', console.log)
-  .parse('print: Hello')
-  .parse({'print': 'World!'});
+vnjs.init({
+ scenesDir: './scenes'
+})
+
 ```
 
 
-## create characters
+## Preload assets scene
+
 ```js
-vnjs.on('reply', function(param){
-  let { reply, character } = param;
-  console.log(character.name+": "+reply);
-});
+vnjs.on('preload', ()=>console.log('[ preload ]'))
+vnjs.on('asset', asset=>console.log(asset.path))
+vnjs.on('postload', ()=>{
+ console.log('[ postload ]')
+ vnjs.parse();// reading first string in current scene
+})
+```
+## Scene load
+__`scene1.json`__
+
+```json
+{
+  "assets": [
+     {"path": "./background.png", "type": "image", "id": "bg"}, 
+     {"path": "./maintheme.mp3", "type": "audio", "id": "main"}
+  ],
+  "label1": [
+     {
+      "print": "Hello ", 
+      "audio": "main"
+      },
+     {"print": "world!"},
+     {"jump": "label2"}
+  ],
+  "label2": [
+    {"print": "game is over"}
+  ]
+}
+```
+
+```js
+ vnjs.parse({
+   jump: "scene1/label1"
+ });
+ 
+/*
+ * Execute next string
+ */ 
+document.body.addEventListener('click', ()=>{
+  vnjs.next(); 
+}) 
+```
 
 
+## Text output
+```js
+vnjs.on('print', console.log)
 
-vnjs.on('al', function(reply){
-  let data = {
-          name: 'Alice',
-          color: 'red',
-          reply
-        };
-  this.emit('reply', data);
-});
-
-vnjs.on('prof', function(reply){
-  let data = {
-          name: 'Proffesor',
-          reply
-        };
-  this.emit('reply', data);
-});
-
-vnjs.parse('prof: Hello World!');
-vnjs.on('print', console.log);
 vnjs.parse({
-         'al': 'Hello Proffesor!', 
-         'print': "bla bla"
+         print: "Hello world!"
         });
 
 ```
 
 
-// navigator events
-```
-vnjs.on('next', function(e){
-  /*
-   * Срабатывает при каждом парсинге текущего объекта
-   */
-});
-vnjs.on('parse', function(ctxObj){
-  //Вызывается во время парсинга текущего объекта ctx.obj
-  // Также принимает один аргумен. Текущий объект.
-});
-
-
-vnjs.next() ++
-vnjs.parse() -current-
-vnjs.prev(); --
-
-
-vnjs.on('setscene', function(){
-  console.log('Файл сцены загружен')
-});
-
-vnjs.on('setlabel', function(labelName){})
-
 ```
 
-##### Нативные методы
+##### Методы
 ```javascript
-vnjs.init({
-  data: 'conf'
-});
-
-vnjs.on('getscreens', function(){
-  
-});
-
-vnjs.on('getscene', function(obj){
-    //deps vnjson-jump
-    this.setLabel(obj.label, []);
-    ajax.get(`${obj.scene}.json`)
-})
-
-
-vnjs.parse() // Может парсит текущий объект контекста
+vnjs.next() //num ++
+vnjs.prev(); //num--
+vnjs.parse() //num===num
 
 vnjs.parse({pr:'Привет мир', left: 'lusil'})
 // так же может иметь один аргумент. Передаваемый в
@@ -103,6 +86,7 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
 // переданного объекта
 
 
+```
 
  * ctx - Текущий объект. Значиние которого меняется с каждым
      выполнением события vnjs.on('parse');
@@ -120,15 +104,13 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
   * emit - Подписывается на события
   * off - Отписывается от событий
   * on - Слушает события
+  * fetch - fetch(url).then
 
 
-```
 
 
+### Simple plugin
 
-### Плагины
-
-##### Вызываются из пользовательского скрипта
 ```javascript
 
   vnjs.on('alert', function(msg){
