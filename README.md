@@ -65,16 +65,32 @@ document.body.addEventListener('click', ()=>{
 ```js
 vnjs.on('print', console.log)
 
-vnjs.parse({
-         print: "Hello world!"
-        });
+
+```
+## Plugins
+- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump) Jumps between scenes and labels. Scenes loader
+- [`vnjson-preload`](https://github.com/vnjson/vnjson-preload) Preload assets scene 
+- [`vnjson-get-screens`](https://github.com/vnjson/vnjson-get-screens) Screens loader
+- [`vnjson-screen`](https://github.com/vnjson/vnjson-screen) Show/hide screen
+- [`vnjson-menu`](https://github.com/vnjson/vnjson-menu) In-game choice
+- [`vnjson-audio`](https://github.com/vnjson/vnjson-audio) Audio event listener
+- [`vnjson-vibrate`](https://github.com/vnjson/vnjson-vibrate) Mobile browser vibbration API
+- [`vnjson-filter`](https://github.com/vnjson/vnjson-filter) Css filters
+
+
+
+## Simple plugin
+
+```javascript
+
+  vnjs.on('alert', function(msg){
+    alert(msg);
+  });
+  vnjs.parse({ alert: 'Hello World!' });
 
 ```
 
-
-```
-
-##### Методы
+## API
 ```javascript
 vnjs.next() //num ++
 vnjs.prev(); //num--
@@ -109,13 +125,3 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
 
 
 
-### Simple plugin
-
-```javascript
-
-  vnjs.on('alert', function(msg){
-    alert(msg);
-  });
-  vnjs.parse({ alert: 'Hello World!' });
-
-```
