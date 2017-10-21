@@ -195,3 +195,9 @@ ctx /*Текущий объект. Значиние которого меняе�
 * <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Publish.md"><code><b>Publish</b></code></a>
 
 
+## Tools
+- [`vnjson-cli`](https://github.com/vnjson/vnjson-cli) -  Static server. Assets manager. Translator yaml to json
+  - [`scenes-to-json`](https://github.com/vnjson/scenes-to-json) - Yaml scenes to json
+  - [`build-screens`](https://github.com/vnjson/build-screens) - Html/css/js screen concat to screens.html, style.css, script.js
+
+
