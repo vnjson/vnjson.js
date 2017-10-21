@@ -1,15 +1,55 @@
- [![license](https://img.shields.io/npm/l/express.svg?style=flat-square)]() 
-### vnjson.js
+# vnjson.js
 > Visual novel engine for web
 
+## Simple usage without dependencies
 
+```js
+/*
+ * Simple scene
+ */
+const sceneObject = {
+       //assets: [{}],
+         labelName: [
+          {print: 'Hello ', info: 'Press enter the vnjs.next()'},
+          {print: 'world!' },
+          {print: "I'm don't"},
+          {print: 'speak'},
+          {print: 'English'}
+         ]
+};
+
+/*
+ * Add scene to the {game} and {ctx}
+ */
+vnjs.setScene("sceneName", sceneObject, "labelName");
+
+/*
+ * Add simple plugins
+ */
+vnjs.on('print', console.log);
+vnjs.on('info', console.info);
+
+/*
+ * Execute current object (ctx.obj) === sceneObject.LabelName[0]
+ */
+vnjs.parse();
+
+//vnjs.next() // reading the next string
+```
+## Basic usage 
+### deps
+- [`vnjson-get-scene`](https://github.com/vnjson/vnjson-get-scene)
+- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump)
+- [`vnjson-preload`](https://github.com/vnjson/vnjson-preload)
 
 ## Init
 
 ```js
-vnjs.init({
- scenesDir: './scenes'
-})
+const config = {
+        scenesDir: './scenes'
+      };
+      
+vnjs.init(config);
 
 ```
 
@@ -68,7 +108,8 @@ vnjs.on('print', console.log)
 
 ```
 ## Plugins
-- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump) Jumps between scenes and labels. Scenes loader
+- [`vnjson-get-scene`](https://github.com/vnjson/vnjson-get-scene) Scenes loader
+- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump) Jumps between scenes and labels. 
 - [`vnjson-preload`](https://github.com/vnjson/vnjson-preload) Preload assets scene 
 - [`vnjson-get-screens`](https://github.com/vnjson/vnjson-get-screens) Screens loader
 - [`vnjson-screen`](https://github.com/vnjson/vnjson-screen) Show/hide screen
@@ -76,7 +117,6 @@ vnjs.on('print', console.log)
 - [`vnjson-audio`](https://github.com/vnjson/vnjson-audio) Audio event listener
 - [`vnjson-vibrate`](https://github.com/vnjson/vnjson-vibrate) Mobile browser vibbration API
 - [`vnjson-filter`](https://github.com/vnjson/vnjson-filter) Css filters
-
 
 
 ## Simple plugin
@@ -89,6 +129,32 @@ vnjs.on('print', console.log)
   vnjs.parse({ alert: 'Hello World!' });
 
 ```
+## Scene scheme
+```json
+{
+  "assets": [
+    {
+      "path": "./path-to-the-file.png", 
+      "type": "image",
+      "id": "myId",
+      "size": "73kb",
+    },
+    {
+      "path": "./path-to-the-file.mp3", 
+      "type": "audio",
+      "id": "myId",
+      "size": "144kb",
+    }
+  ],
+  "labelName1": [
+    {"print": "hello labelName 1"},
+    {"jump": "labelName2"}
+  ],
+  "labelName2": [
+    {"alert": "Game Over!"}
+  ]
+}
+```
 
 ## API
 ```javascript
@@ -100,28 +166,25 @@ vnjs.parse({pr:'Привет мир', left: 'lusil'})
 // так же может иметь один аргумент. Передаваемый в
 // него _obj - который единоразаво вызывает методы
 // переданного объекта
+ctx /*Текущий объект. Значиние которого меняется с каждым
+     выполнением события vnjs.on('parse');*/
 
+
+
+// * game - .scenes[ctx.sceneName], .package, .settings
+// * config - vnjs.init(/*{ config }*/)
+
+// * setScene - Принимает объект сцены
+// * setLabel - Передаем имя метки и массив с пользовательскими скриптами
+ 
+ // * next - Передвинуться по массиву в перед. 
+ // * prev -  Выполняет тоже что и next, но только в обратную сторону.
+ // * parse - 
+ // * emit - Подписывается на события
+ // * off - Отписывается от событий
+ // * on - Слушает события
+ // * fetch - fetch(url).then
 
 ```
-
- * ctx - Текущий объект. Значиние которого меняется с каждым
-     выполнением события vnjs.on('parse');
-
-
-  * game - .scenes[ctx.sceneName], .package, .settings
-  * config - vnjs.init(/*{ config }*/)
-
-  * setScene - Принимает объект сцены
-  * setLabel - Передаем имя метки и массив с пользовательскими скриптами
- 
-  * next - Передвинуться по массиву в перед. 
-  * prev -  Выполняет тоже что и next, но только в обратную сторону.
-  * parse - 
-  * emit - Подписывается на события
-  * off - Отписывается от событий
-  * on - Слушает события
-  * fetch - fetch(url).then
-
-
 
 
