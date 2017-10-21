@@ -187,4 +187,11 @@ ctx /*Текущий объект. Значиние которого меняе�
 
 ```
 
+## Documentation
+* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Getting-Started.md"><code><b>Getting Started</b></code></a>
+* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Scene-scheme.md"><code><b>Scene scheme</b></code></a>
+* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Create-characters.md"><code><b>Create characters</b></code></a>
+* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Plugins.md"><code><b>Plugins</b></code></a>
+* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Publish.md"><code><b>Publish</b></code></a>
+
 
