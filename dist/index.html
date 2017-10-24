@@ -3,26 +3,38 @@
 <head>
   <title>test</title>
   <meta charset="utf-8">
-  <script src="vnjson.js"></script>
-  <script src="plugins/jump.js"></script>
+  <script src="/vnjson.js"></script>
+  <script src="/plugins.js"></script>
 </head>
 <body>
 <div>
  <h4>Open devtools F12</h4> 
+
 </div>
+
 <script type="text/javascript">
+ 
+  vnjs.on('preload', function(){
+    console.log('[ preload ]')
+  })
+  vnjs.on('asset', function(asset){
+      console.log("  "+asset.path)
+  })
+  vnjs.on('postload', function(){
+    console.log('[ postload ]')
+    this.parse();
+  });
+
   vnjs.on('print', function(data){
     console.log(data)
   });
-  vnjs.on('preload', function(data){
-    console.warn('[ preload ]')
-  })
-  vnjs.on('load', console.log('[ load ]'))
-
   vnjs.init({
-
-    scenesDir: './book'
-  })
+    gameDir: '',
+    entry: 'start/menu',
+    local: 'ru-RU',
+    scenesDir: './book',
+    env: 'development',
+  });
 
 
 

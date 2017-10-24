@@ -2,6 +2,7 @@
 /bower_components
 *.mp3
 *.png
+*.jpg
 npm-debug.log
 
 vnjson-js.sublime-project

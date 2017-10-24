@@ -1,4 +1,5 @@
 
+
 const vnjson = {
   entry: {
   	'dist/vnjson': './src/vnjson',
@@ -27,7 +28,13 @@ const vnjson = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    /*new WebpackMonitor({
+      capture: true, // -> default 'true'
+      port: 3030, // default -> 8081
+    }),*/
+  ]  
 };
 
 

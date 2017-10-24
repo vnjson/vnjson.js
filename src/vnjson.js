@@ -108,7 +108,6 @@ function setLabel(labelName, labelArray, num){
             ctx.labelName = labelName;
             ctx.label = labelArray;
             ctx.num = num;
-            parse();
             emit('setlabel', labelName, labelArray.length);
             return this;
 };
@@ -155,7 +154,7 @@ function next(){
   let { label, num } = ctx;
   
 if(num>=label.length){
-  console.log('Конец метки');
+  console.log('[end label]');
   ctx.num = 0;
 }
   ctx.num++;

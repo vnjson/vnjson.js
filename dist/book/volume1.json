@@ -1,5 +1,15 @@
 {
-  "assets": [{}],
+  "assets": [
+      {"path": "./assets/audio/YamasukYamaYama.mp3", "type": "audio", "id":"yama"},
+      {"path": "./assets/room.jpg", "type": "image", "id":"room"},
+      {"path": "./assets/audio/RobbieWilliamsPartylikeaRussia.mp3", "type": "audio", "id":"party"},
+      {"path": "./assets/excalibur.jpg", "type": "image", "id":"excalibur"},
+      {"path": "./assets/audio/MELLRedfraction.mp3", "type": "audio", "id":"mell"},
+      {"path": "./assets/audio/BigDataDangerous.mp3", "type": "audio", "id":"bigdata"},
+      {"path": "./assets/audio/bg.mp3", "type": "audio", "id":"bg"},
+      {"path": "./assets/audio/2erock-hary.mp3", "type": "audio", "id":"hary"},
+      {"path": "./assets/audio/GUANOAPESDick.mp3", "type": "audio", "id":"dick"}
+    ],
   "chapter1": [
       {"print": "hello"},
       {"print": "world"},
