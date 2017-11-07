@@ -3,7 +3,7 @@
   "version": "0.8.5",
   "description": "Visual novel engine for web",
   "main": "webpack.config.js",
-  "author": "Kasin Sergey",
+  "author": "Kasin Sergey <bakakasin@gmail.com>",
   "scripts": {
     "test": ""
   },

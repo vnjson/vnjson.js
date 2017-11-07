@@ -1,0 +1,19 @@
+{
+  "assets": [
+      {"path": "/assets/sounds/menu_hover.mp3", "type": "audio", "id":"menu_hover"},
+      {"path": "/assets/sounds/menu_click.mp3", "type": "audio", "id":"menu_click"},
+      {"path": "/assets/sounds/provoda.mp3", "type": "audio", "id":"provoda"},
+      {"path": "/assets/sounds/lamp.mp3", "type": "audio", "id":"lamp"},
+      {"path": "/assets/sounds/door.mp3", "type": "audio", "id":"door"},
+      {"path": "/assets/sounds/alert.mp3", "type": "audio", "id":"alert"},
+      {"path": "/assets/characters.png", "type": "image", "id":"characters"},
+      {"path": "/assets/minigame.png", "type": "image", "id":"minigame"}
+  ],
+  "label": [
+      {"screen": "main-stream"},
+      {
+        "print": "hello world",
+        "scene": "minigame"
+      }
+  ]
+}

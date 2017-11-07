@@ -1,8 +1,17 @@
 
 import Events         from './minivents'; 
 import fetch          from './unfetch';
+
 /*
- * context
+ * development mode
+ */
+var DEBUG = false;
+/*
+ * TREE[SCENE_NAME] = SCENE_OBJECT;
+ * state
+ */
+/*
+ * 
  * Значение объекта равно состоянию приложения.
  */
 /** state **/
@@ -25,16 +34,18 @@ var ev = new Events();//EventEmitter
 var { emit, off } = ev;
 
 
-var fn = {};
+
 //конфигурацию тоже сохранять в memory-card
 var config = {};
 
 function init(_config){
  config = _config||config;
- emit('getscreens');
+ emit('init');
  return this;
 };
 
+
+/**/
 var game = {
     scenes: {},
     package: {
@@ -59,7 +70,7 @@ var game = {
  */ 
 
 function on(event, handler){
-      fn[event] = handler;
+
       ev.on(event, handler, vnjs);
       return this;
 };
@@ -142,6 +153,9 @@ if(_obj){
          * Подписывает пользовательские плагины
          * 
          */
+           /* if(config.debug)
+            * ejv.validate(schema, ctx.obj.[key])
+            */
         ev.emit(key, ctx.obj[key]);
   }
   emit('parse', ctx.obj);
@@ -215,6 +229,7 @@ export {
   emit,
   off,
   init,
-  fn,
-  fetch
+
+  fetch,
+  DEBUG
 };
