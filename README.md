@@ -158,6 +158,7 @@ vnjs.on('print', console.log)
 
 ## API
 ```javascript
+
 vnjs.next() //num ++
 vnjs.prev(); //num--
 vnjs.parse() //num===num
@@ -186,6 +187,8 @@ ctx /*Текущий объект. Значиние которого меняе�
  // * fetch - fetch(url).then
 
 ```
+
+TREE state
 
 ## Documentation
 * <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Getting-Started.md"><code><b>Getting Started</b></code></a>
