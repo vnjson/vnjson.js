@@ -20,6 +20,6 @@
     "webpack": "^3.7.1"
   },
   "dependencies": {
-    "unfetch": "^3.0.0"
+
   }
 }

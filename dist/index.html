@@ -3,8 +3,9 @@
 <head>
   <title>test</title>
   <meta charset="utf-8">
-  <script src="/vnjson.js"></script>
-  <script src="/plugins.js"></script>
+  <script src="/js/minivents.js"></script>
+  <script src="/js/vnjson.js"></script>
+  <!--<script src="/plugins.js"></script>-->
 </head>
 <body>
 <div>
@@ -13,7 +14,7 @@
 </div>
 
 <script type="text/javascript">
- 
+ /*
   vnjs.on('preload', function(){
     console.log('[ preload ]')
   })
@@ -24,7 +25,7 @@
     console.log('[ postload ]')
     this.parse();
   });
-
+*//*
   vnjs.on('print', function(data){
     console.log(data)
   });
@@ -36,11 +37,12 @@
     env: 'development',
   });
 
+*/
 
-
-  vnjs.parse({jump: 'volume1/chapter1'})
+ // vnjs.parse({jump: 'volume1/chapter1'})
 
 
 </script>
+<script src="/init.js"></script>
 </body>
 </html>

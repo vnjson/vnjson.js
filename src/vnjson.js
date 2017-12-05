@@ -1,13 +1,10 @@
 
-import Events         from './minivents'; 
-import fetch          from './unfetch';
-
 /*
  * development mode
  */
 var DEBUG = false;
 /*
- * TREE[SCENE_NAME] = SCENE_OBJECT;
+
  * state
  */
 /*
