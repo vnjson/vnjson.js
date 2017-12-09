@@ -55,8 +55,7 @@ function parse(obj){
 
   }
 }
-vnjs.on = on;
-vnjs.emit = emit;
+
 
 function next(){
   parse();
@@ -69,3 +68,28 @@ function init(conf){
 
 }
 
+vnjs = {
+  next,
+  parse,
+  init,
+  on,
+  emit,
+  off,
+  state,
+  setScene,
+  TREE,
+  DEBUG,
+  current
+}
+/*
+if (typeof pattern !== 'string') {
+    throw new TypeError('glob-base expects a string.');
+  }
+
+
+if (typeof obj !== 'object') {
+    throw new TypeError('Expected an object');
+  }
+
+    
+*/

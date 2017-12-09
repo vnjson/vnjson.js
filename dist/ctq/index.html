@@ -3,15 +3,28 @@
 <head>
   <title>test</title>
   <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="/js/minivents.js"></script>
   <script src="/js/vnjson.js"></script>
   <script src="/scene.js"></script>
   <script src="/plugins.js"></script>
 </head>
 <body>
-<div style="border: 2px dashed grey; width: 800px;height:480px;">
- <h1>Open devtools F12</h1> 
+<div id="game">
+<div class="top-bar">
+	<span>Points<span id="points"> 0 </span></span>
+	<span>Money<span id="Money"> 0 </span><span>$</span></span>
 
+</div>
+<div id="name-box">{name}</div>
+<div id="text-box">
+	{text_box}
+</div>
+
+<div id="menu-box">
+
+</div>
+<button id="next-btn">Дальше</button>
 </div>
 
 <script src="/init.js"></script>
