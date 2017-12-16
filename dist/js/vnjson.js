@@ -1,3 +1,4 @@
+
 var vnjs = new Object();
 var DEBUG = false;
 /*
@@ -37,18 +38,30 @@ var current = {
      }
 }
 
-function parse(){
-  for(let event in current.object()){
+var ev = new Events();//EventEmitter
+var { on, emit, off } = ev;
 
-        console.info(`${event} : ${current.object()[event]}`)
-      //  ev.emit(key, ctx.obj[key]);
+function parse(obj){
+  var ctx = null;
+  if(obj){
+    ctx = obj;
+  }else{
+    ctx = current.object()
+  }
+
+  for(let event in ctx){
+
+        emit(event, ctx[event])
+
   }
 }
-
+vnjs.on = on;
+vnjs.emit = emit;
 
 function next(){
   parse();
   state.index++;
+  return '-------------------------';
 }
 
 
@@ -56,11 +69,3 @@ function init(conf){
 
 }
 
-
-
-
-
-
-function setLabelName(name){
-
-}

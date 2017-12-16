@@ -7,36 +7,45 @@
 /*
  * Simple scene
  */
-const sceneObject = {
-       //assets: [{}],
+const sceneBody = {
          labelName: [
           {print: 'Hello ', info: 'Press enter the vnjs.next()'},
           {print: 'world!' },
           {print: "I'm don't"},
           {print: 'speak'},
-          {print: 'English'}
+          {print: 'English'},
+          {jump: 'label2'}
+         ],
+         label2: [
+          {warn: 'Game Over'}
          ]
 };
 
 /*
  * Add scene to the {game} and {ctx}
  */
-vnjs.setScene("sceneName", sceneObject, "labelName");
+vnjs.setScene("sceneName", sceneBody);
 
 /*
  * Add simple plugins
  */
 vnjs.on('print', console.log);
 vnjs.on('info', console.info);
-
+vnjs.on('warn', console.warn);
+// jumping whithout labels
+vnjs.on('jump', pathname=>{
+  this.state.label = pathname;
+  this.state.index = 0;
+  this.parse();
+})
 /*
- * Execute current object (ctx.obj) === sceneObject.LabelName[0]
+ * Execute current object
  */
-vnjs.parse();
+vnjs.next();
 
-//vnjs.next() // reading the next string
+
 ```
-## Basic usage 
+## Middle usage 
 ### deps
 - [`vnjson-get-scene`](https://github.com/vnjson/vnjson-get-scene)
 - [`vnjson-jump`](https://github.com/vnjson/vnjson-jump)
@@ -145,6 +154,9 @@ vnjs.on('print', console.log)
       "id": "myId",
       "size": "144kb",
     }
+  ],
+  "characters": [
+    {"aliase": "pr", "name": "Professor", "color": "red"}
   ],
   "labelName1": [
     {"print": "hello labelName 1"},

@@ -34,4 +34,4 @@ var sceneBody = {
 			{ info: '## Игра разработанная что бы вернуться к азам', warn: 'Kasin Sergey'},
 			{ return: 'mainMenu'}
 		]
-	};
+};
