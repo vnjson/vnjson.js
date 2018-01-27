@@ -1,218 +1,33 @@
 # vnjson.js
-> Visual novel engine for web
+> _Visual novel engine on JavaScript_
 
-## Simple usage without dependencies
-
-```js
-/*
- * Simple scene
- */
-const sceneBody = {
-         labelName: [
-          {print: 'Hello ', info: 'Press enter the vnjs.next()'},
-          {print: 'world!' },
-          {print: "I'm don't"},
-          {print: 'speak'},
-          {print: 'English'},
-          {jump: 'label2'}
-         ],
-         label2: [
-          {warn: 'Game Over'}
-         ]
-};
-
-/*
- * Add scene to the {game} and {ctx}
- */
-vnjs.setScene("sceneName", sceneBody);
-
-/*
- * Add simple plugins
- */
-vnjs.on('print', console.log);
-vnjs.on('info', console.info);
-vnjs.on('warn', console.warn);
-// jumping whithout labels
-vnjs.on('jump', pathname=>{
-  this.state.label = pathname;
-  this.state.index = 0;
-  this.parse();
-})
-/*
- * Execute current object
- */
-vnjs.next();
-
-
-```
-## Middle usage 
-### deps
-- [`vnjson-get-scene`](https://github.com/vnjson/vnjson-get-scene)
-- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump)
-- [`vnjson-preload`](https://github.com/vnjson/vnjson-preload)
-
-## Init
-
-```js
-const config = {
-        scenesDir: './scenes'
-      };
-      
-vnjs.init(config);
-
-```
-
-
-## Preload assets scene
-
-```js
-vnjs.on('preload', ()=>console.log('[ preload ]'))
-vnjs.on('asset', asset=>console.log(asset.path))
-vnjs.on('postload', ()=>{
- console.log('[ postload ]')
- vnjs.parse();// reading first string in current scene
-})
-```
-## Scene load
-__`scene1.json`__
-
-```json
-{
-  "assets": [
-     {"path": "./background.png", "type": "image", "id": "bg"}, 
-     {"path": "./maintheme.mp3", "type": "audio", "id": "main"}
-  ],
-  "label1": [
-     {
-      "print": "Hello ", 
-      "audio": "main"
-      },
-     {"print": "world!"},
-     {"jump": "label2"}
-  ],
-  "label2": [
-    {"print": "game is over"}
-  ]
-}
-```
-
-```js
- vnjs.parse({
-   jump: "scene1/label1"
- });
- 
-/*
- * Execute next string
- */ 
-document.body.addEventListener('click', ()=>{
-  vnjs.next(); 
-}) 
-```
-
-
-## Text output
-```js
-vnjs.on('print', console.log)
-
-
-```
-## Plugins
-- [`vnjson-get-scene`](https://github.com/vnjson/vnjson-get-scene) Scenes loader
-- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump) Jumps between scenes and labels. 
-- [`vnjson-preload`](https://github.com/vnjson/vnjson-preload) Preload assets scene 
-- [`vnjson-get-screens`](https://github.com/vnjson/vnjson-get-screens) Screens loader
-- [`vnjson-screen`](https://github.com/vnjson/vnjson-screen) Show/hide screen
-- [`vnjson-menu`](https://github.com/vnjson/vnjson-menu) In-game choice
-- [`vnjson-audio`](https://github.com/vnjson/vnjson-audio) Audio event listener
-- [`vnjson-vibrate`](https://github.com/vnjson/vnjson-vibrate) Mobile browser vibbration API
-- [`vnjson-filter`](https://github.com/vnjson/vnjson-filter) Css filters
-
-
-## Simple plugin
-
-```javascript
-
-  vnjs.on('alert', function(msg){
-    alert(msg);
-  });
-  vnjs.parse({ alert: 'Hello World!' });
-
-```
-## Scene scheme
-```json
-{
-  "assets": [
-    {
-      "path": "./path-to-the-file.png", 
-      "type": "image",
-      "id": "myId",
-      "size": "73kb",
-    },
-    {
-      "path": "./path-to-the-file.mp3", 
-      "type": "audio",
-      "id": "myId",
-      "size": "144kb",
-    }
-  ],
-  "characters": [
-    {"aliase": "pr", "name": "Professor", "color": "red"}
-  ],
-  "labelName1": [
-    {"print": "hello labelName 1"},
-    {"jump": "labelName2"}
-  ],
-  "labelName2": [
-    {"alert": "Game Over!"}
-  ]
-}
-```
-
-## API
-```javascript
-
-vnjs.next() //num ++
-vnjs.prev(); //num--
-vnjs.parse() //num===num
-
-vnjs.parse({pr:'Привет мир', left: 'lusil'})
-// так же может иметь один аргумент. Передаваемый в
-// него _obj - который единоразаво вызывает методы
-// переданного объекта
-ctx /*Текущий объект. Значиние которого меняется с каждым
-     выполнением события vnjs.on('parse');*/
-
-
-
-// * game - .scenes[ctx.sceneName], .package, .settings
-// * config - vnjs.init(/*{ config }*/)
-
-// * setScene - Принимает объект сцены
-// * setLabel - Передаем имя метки и массив с пользовательскими скриптами
- 
- // * next - Передвинуться по массиву в перед. 
- // * prev -  Выполняет тоже что и next, но только в обратную сторону.
- // * parse - 
- // * emit - Подписывается на события
- // * off - Отписывается от событий
- // * on - Слушает события
- // * fetch - fetch(url).then
-
-```
-
-TREE state
 
 ## Documentation
-* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Getting-Started.md"><code><b>Getting Started</b></code></a>
-* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Scene-scheme.md"><code><b>Scene scheme</b></code></a>
-* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Create-characters.md"><code><b>Create characters</b></code></a>
-* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Plugins.md"><code><b>Plugins</b></code></a>
-* <a href="https://github.com/vnjson/vnjson.js/blob/master/docs/Publish.md"><code><b>Publish</b></code></a>
+* [_`Getting Started`_](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Getting-Started.md)
+* [_`Scene scheme`_](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Scene-scheme.md)
+* [_`Create characters`_](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Create-characters.md)
+* [_`Plugins Guide`_](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Plugins-guide.md)
+* [_`Publish`_](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Publish.md)
 
+
+## Plugins
+* [_`vnjson-get-scene`_](https://github.com/vnjson/vnjson-get-scene) Scenes loader
+* [_`vnjson-jump`_](https://github.com/vnjson/vnjson-jump) Jumps between scenes and labels. 
+* [_`vnjson-preload`_](https://github.com/vnjson/vnjson-preload) Preload assets scene 
+* [_`vnjson-get-screens`_](https://github.com/vnjson/vnjson-get-screens) Screens loader
+* [_`vnjson-screen`_](https://github.com/vnjson/vnjson-screen) Show/hide screen
+* [_`vnjson-menu`_](https://github.com/vnjson/vnjson-menu) In-game choice
+* [_`vnjson-audio`_](https://github.com/vnjson/vnjson-audio) Audio event listener
+* [_`vnjson-vibrate`_](https://github.com/vnjson/vnjson-vibrate) Mobile browser vibbration API
+* [_`vnjson-filter`_](https://github.com/vnjson/vnjson-filter) Css filters
 
 ## Tools
-- [`vnjson-cli`](https://github.com/vnjson/vnjson-cli) -  Static server. Assets manager. Translator yaml to json
-  - [`scenes-to-json`](https://github.com/vnjson/scenes-to-json) - Yaml scenes to json
-  - [`build-screens`](https://github.com/vnjson/build-screens) - Html/css/js screen concat to screens.html, style.css, script.js
+* [_`vnjson-cli`_](https://github.com/vnjson/vnjson-cli) -  Console utils for vnjson.js
+  * [_`vn-init`_](https://github.com/vnjson/vn-init) - Visual novel source boilerplate 
+  * [_`scenes-to-json`_](https://github.com/vnjson/scenes-to-json) - Yaml scenes to json
+  * [_`plugins-builder`_](https://github.com/vnjson/plugins-builder) - Html/css/js plugin builder
 
+* [_`vnjson-sdk`_](https://github.com/vnjson/vnjson-sdk) -  Gui app
 
+## Community
+* [_`vk.com/vnjson`_](https://vk.com/vnjson)

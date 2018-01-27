@@ -17,6 +17,9 @@
         "type": "image"
       }
   ],
+  "characters": [
+      {"al": { "name": "Alice", color: "red" } }
+  ],
   label1: [
     { "print": "hello world", "audio": myFile, "scene": "bg" },
     {"jump": "label2"}

@@ -1,232 +1,95 @@
 
-/*
- * development mode
- */
+var vnjs = new Object();
 var DEBUG = false;
 /*
-
- * state
+ * TREE[SCENE_NAME] = SCENE_OBJECT;
  */
+var TREE = {};
 /*
- * 
- * Значение объекта равно состоянию приложения.
+ * В {state} должно помещаться все то
+ * что сохроняется в карту памяти
+ * И что важно загрузить из нее без последствий.
+ * В состоянии не должно быть мусора
  */
-/** state **/
-var ctx = {
-  sceneName:'scene',
-  labelName:'label',
-  scene: {},
-  label: [],
-  obj: null,
-  num: 0,
-  screen: '',
-  jumps: [],
-  data: {
-    points: 0
-  },
-};
+var state = {
+  scene: 'scene',
+  label: 'label',
+  index: 0
+}
+/*
+ * Получает текущее тела из состояние
+ */
+function setScene(name, body){
+  TREE[name] = body;
+  state.scene = name;
+}
 
+
+var current = {
+  
+      scene: ()=>{
+        return TREE[state.scene];
+      },
+      label: ()=>{
+        return TREE[state.scene][state.label];
+      },
+      object: ()=>{
+        return TREE[state.scene][state.label][state.index];
+     }
+}
 
 var ev = new Events();//EventEmitter
-var { emit, off } = ev;
+var { on, emit, off } = ev;
 
-
-
-//конфигурацию тоже сохранять в memory-card
-var config = {};
-
-function init(_config){
- config = _config||config;
- emit('init');
- return this;
-};
-
-
-/**/
-var game = {
-    scenes: {},
-    package: {
-      
-    },
-    assets: [],
-    settings: {}
-};
-
-
-
-
-/**
- * @plugins
- * Регистратор пользовательских событий
- */
-/*
- * Объект plugin нужен для тестирования
- * что бы можно было вызывать плагин из
- * текущего окружения, а не плодить глобальные
- * методы.
- */ 
-
-function on(event, handler){
-
-      ev.on(event, handler, vnjs);
-      return this;
-};
-
-
-
-
-/*
- * setScene
- * @Функция принимает объект сцены
- */
-function setScene(sceneName, sceneObject, labelName, num) {
-  try{
-   
-    /*
-     * Назначаем полученные данные сцены в
-     * игровые объекты.
-     * А так же объекты внутреннего назначения
-     */
-    game.scenes[sceneName] = sceneObject;
-    ctx.scene = sceneObject;
-    ctx.sceneName = sceneName;
-
-    /*
-     * Переопределяю методы текущего label'a
-     */
-    sceneObject.assets.forEach((item)=>{
-        game.assets.push(item);
-    });
-
-    setLabel(labelName, sceneObject[labelName], num);
-    
-    emit('load', sceneObject.assets, sceneName);
-    
-   
-    return this;
+function parse(obj){
+  var ctx = null;
+  if(obj){
+    ctx = obj;
+  }else{
+    ctx = current.object()
   }
-  catch (err){
-    throw new Error('Ошибка объявления сцены ', err);
-    return false;
+
+  for(let event in ctx){
+
+        emit(event, ctx[event])
+
   }
-};
-
-
-function setLabel(labelName, labelArray, num){
-            ctx.labelName = labelName;
-            ctx.label = labelArray;
-            ctx.num = num;
-            emit('setlabel', labelName, labelArray.length);
-            return this;
-};
-
-function parse(_obj){
-/** Текущий объект */
-if(_obj){
-    if(typeof _obj==='object'){
-          /*parse({jump: 'scene/label'})*/
-          ctx.obj = _obj;
-    }
-    else if(typeof _obj==='string'){
-      /* parse('jump: string/string') */
-      /* Убираю пробелы из строки и разбиваю на массив*/
-      let data = _obj.replace(/\s/g, "").split(':');
-   
-        var ob = {
-            [data[0]]: data[1] 
-          };
-        ctx.obj = ob;
-    }
-    
-}else{
-    /* parse() without args */
-    ctx.obj = ctx.label[ctx.num];
-}  
-  
-
-  for(let key in ctx.obj){
-  /*
-         * vnjs.on('alert')
-         * Подписывает пользовательские плагины
-         * 
-         */
-           /* if(config.debug)
-            * ejv.validate(schema, ctx.obj.[key])
-            */
-        ev.emit(key, ctx.obj[key]);
-  }
-  emit('parse', ctx.obj);
-  return this;;
-};
-
+}
 
 
 function next(){
-  let { label, num } = ctx;
-  
-if(num>=label.length){
-  console.log('[end label]');
-  ctx.num = 0;
-}
-  ctx.num++;
   parse();
-  emit('next');
-  return ctx.num;
-};
-
-on('setlabel', function(labelname, len){
- let { sceneName, labelName } = vnjs.ctx;
-    
-     ctx.jumps.push({sceneName, labelName, len});
-});
-/*
- * Должна показывать предыдущие экраны
- * А так же все движения между метками и сценами
- * 
- */
-function prev(){
-
- let { jumps, label } = ctx;
-  if(label.indexOf(-1)){
-    if(jumps.indexOf(0)){
-       // parse(`screen: ${fn.prevScreen}`)//preloader??
-       console.log('Начало игры');
-       ctx.num = 0;
-       /*fn.prevScreen it should to be array*/
-    }else{
-      let { sceneName, labelName, len } = jumps.pop();
-      let jumpTo = [ sceneName, labelName, len ].join("/");
-      parse('jump: '+jumpTo)
-    }
-  }else{
-      ctx.num--;
-      parse();
-  }
-
-  emit('prev');
-  return ctx.num;
-};
+  state.index++;
+  return '-------------------------';
+}
 
 
+function init(conf){
 
+}
 
-/*
- * @api
- */
-export {
-  on,
-  ctx,
-  game,
-  setScene,
-  setLabel,
-  config,
+vnjs = {
   next,
-  prev,
   parse,
+  init,
+  on,
   emit,
   off,
-  init,
+  state,
+  setScene,
+  TREE,
+  DEBUG,
+  current
+}
+/*
+if (typeof pattern !== 'string') {
+    throw new TypeError('glob-base expects a string.');
+  }
 
-  fetch,
-  DEBUG
-};
+
+if (typeof obj !== 'object') {
+    throw new TypeError('Expected an object');
+  }
+
+    
+*/

@@ -16,6 +16,10 @@ vnjs.on('plugin', function(data){
 
 });
 
+
+vnjs.on('print', console.log);
+vnjs.on('info', console.info);
+vnjs.on('warn', console.warn);
 ```
 
 Simple scene
@@ -23,7 +27,8 @@ ___`scene.json`___
 ```js
 {
   "mylabel":[
-      {"plugin": "Hello world"}
+      {"plugin": "Hello world"},
+      {"warn": 1}
   ]
 }
 
