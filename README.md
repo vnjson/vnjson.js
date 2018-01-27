@@ -3,11 +3,11 @@
 
 
 ## Documentation
-* [__`Getting Started`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Getting-Started.md)
-* [__`Scene scheme`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Scene-scheme.md)
-* [__`Create characters`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Create-characters.md)
-* [__`Plugins Guide`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Plugins-guide.md)
-* [__`Publish`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/Publish.md)
+* [__`Getting Started`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/v0.9.0/Getting-Started.md)
+* [__`Scene scheme`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/v0.9.0/Scene-scheme.md)
+* [__`Create characters`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/v0.9.0/Create-characters.md)
+* [__`Plugins Guide`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/v0.9.0/Plugins-guide.md)
+* [__`Publish`__](https://github.com/vnjson/vnjson.js/blob/master/docs/en-US/v0.9.0/Publish.md)
 
 
 ## Plugins
