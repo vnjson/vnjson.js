@@ -4,7 +4,7 @@
 *.png
 *.jpg
 npm-debug.log
-
+package-lock.json
 vnjson-js.sublime-project
 vnjson-js.sublime-workspace
 
