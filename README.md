@@ -1,4 +1,4 @@
-[![docs](https://img.shields.io/badge/docs-14%25-brightgreen.svg?style=flat-square)]() [![chat](https://img.shields.io/badge/chat-t.me-blue.svg?style=flat-square)]() [![Code Climate](https://img.shields.io/codeclimate/c/Nickersoft/dql.svg?style=flat-square)]() [![apm](https://img.shields.io/apm/l/vim-mode.svg?style=flat-square)]()
+[![docs](https://img.shields.io/badge/docs-14%25-brightgreen.svg?style=flat-square)]() [![chat](https://img.shields.io/badge/chat-t.me-blue.svg?style=flat-square)](https://t.me/vnjson) [![Code Climate](https://img.shields.io/codeclimate/c/Nickersoft/dql.svg?style=flat-square)]() [![apm](https://img.shields.io/apm/l/vim-mode.svg?style=flat-square)]()
 # vnjson.js
 > __Visual novel engine on JavaScript__
 
@@ -32,3 +32,4 @@
 
 ## Community
 * [__`vk.com/vnjson`__](https://vk.com/vnjson)
+* [__`t.me/vnjson`__](https://t.me/vnjson)
