@@ -1,0 +1,70 @@
+{
+  "assets": [
+    {
+      "id": "battle-field",
+      "size": "68 kB",
+      "extension": ".png",
+      "path": "/assets/battle-field.png"
+    },
+    {
+      "id": "cursor_pirrate",
+      "size": "2.28 kB",
+      "extension": ".png",
+      "path": "/assets/cursor_pirrate.png"
+    },
+    {
+      "id": "dialog_box",
+      "size": "3.2 kB",
+      "extension": ".png",
+      "path": "/assets/dialog_box.png"
+    }
+  ],
+  "chapter1": [
+    {
+      "pr": "lab }}]  {{{Привет! Давненько не виделись",
+      "scene": "background",
+      "left": "right_ladya"
+    },
+    {
+      "al": "Да уж, давненько.",
+      "right": "lusil",
+      "menu": {
+        "Погнали в лабараторию": "lab/start",
+        "Перейти к главе 2": "chapter2"
+      }
+    },
+    {
+      "al": "Лагдно пошли в лабараторию"
+    },
+    {
+      "screen": "about"
+    },
+    {
+      "jump": "lab/start"
+    }
+  ],
+  "chapter2": [
+    {
+      "al": "И как это понимать? Разве мы не должны позабо",
+      "scene": "bg"
+    },
+    {
+      "pr": "Где лежит та черта",
+      "left": "prof_norm"
+    },
+    {
+      "al": "Лагдно пошли в лабараторию"
+    },
+    {
+      "jump": "lab/start"
+    }
+  ],
+  "characters": [
+    {
+    "lusi": {
+      "name": "Люсиль",
+      "color": "silver"
+    }
+  }
+]
+}

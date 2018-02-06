@@ -1,95 +1,100 @@
 
-var vnjs = new Object();
-var DEBUG = false;
-/*
- * TREE[SCENE_NAME] = SCENE_OBJECT;
- */
-var TREE = {};
+var vnjs = {
+  
+      plugins: {},
+      TREE: {},
+      DEBUG: false,
+
+
+};
+
+vnjs.on = function(event, handler){
+          if (!vnjs.plugins[event]) {
+              vnjs.plugins[event] = [];
+          };
+          vnjs.plugins[event].push(handler);
+};
+
+vnjs.emit = function (event, ...args) {
+         if (Array.isArray(vnjs.plugins[event])) {
+            vnjs.plugins[event].map(function(handler){
+                    handler.call(vnjs, ...args);
+            });
+         }else{
+          console.log(`Event [ ${event} ] not found`)
+         }
+};
+vnjs.off = function (event) {
+        delete vnjs.plugins[event];
+};
+
 /*
  * В {state} должно помещаться все то
  * что сохроняется в карту памяти
  * И что важно загрузить из нее без последствий.
  * В состоянии не должно быть мусора
  */
-var state = {
+vnjs.state = {
   scene: 'scene',
   label: 'label',
   index: 0
-}
+};
 /*
  * Получает текущее тела из состояние
  */
-function setScene(name, body){
-  TREE[name] = body;
-  state.scene = name;
-}
+vnjs.setScene = function (name, body){
+  this.TREE[name] = body;
+  this.state.scene = name;
 
+  body.characters.map(character=>{
+    let aliase = Object.keys(character)[0];
 
-var current = {
+    vnjs.on(aliase, function(reply){
+          vnjs.emit('character', {aliase, param: character[aliase], reply } );
+
+    });
+
+});
+
+};
+
+vnjs.current = {
   
-      scene: ()=>{
-        return TREE[state.scene];
+      scene: function (){
+        return vnjs.TREE[vnjs.state.scene];
       },
-      label: ()=>{
-        return TREE[state.scene][state.label];
+      label: function (){
+        return vnjs.TREE[vnjs.state.scene][vnjs.state.label];
       },
-      object: ()=>{
-        return TREE[state.scene][state.label][state.index];
+      object: function (){
+        return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
      }
-}
+};
 
-var ev = new Events();//EventEmitter
-var { on, emit, off } = ev;
 
-function parse(obj){
+
+vnjs.parse = function (obj){
   var ctx = null;
   if(obj){
     ctx = obj;
   }else{
-    ctx = current.object()
-  }
+    ctx = vnjs.current.object();
+  };
 
   for(let event in ctx){
 
-        emit(event, ctx[event])
+        vnjs.emit(event, ctx[event]);
 
-  }
-}
+  };
+};
 
 
-function next(){
-  parse();
-  state.index++;
+vnjs.next = function (){
+  this.parse();
+  this.state.index++;
   return '-------------------------';
 }
 
-
-function init(conf){
-
-}
-
-vnjs = {
-  next,
-  parse,
-  init,
-  on,
-  emit,
-  off,
-  state,
-  setScene,
-  TREE,
-  DEBUG,
-  current
-}
-/*
-if (typeof pattern !== 'string') {
-    throw new TypeError('glob-base expects a string.');
-  }
-
-
-if (typeof obj !== 'object') {
-    throw new TypeError('Expected an object');
-  }
-
-    
-*/
+vnjs.init = function (conf){
+  vnjs.conf = conf;
+};

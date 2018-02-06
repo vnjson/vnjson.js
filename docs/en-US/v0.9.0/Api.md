@@ -1,33 +1,28 @@
 
 ## API
-```javascript
 
-vnjs.next() //num ++
-vnjs.prev(); //num--
-vnjs.parse() //num===num
+```js
+on [event, handler]
 
-vnjs.parse({pr:'Привет мир', left: 'lusil'})
-// так же может иметь один аргумент. Передаваемый в
-// него _obj - который единоразаво вызывает методы
-// переданного объекта
-ctx /*Текущий объект. Значиние которого меняется с каждым
-     выполнением события vnjs.on('parse');*/
+off [ event ]
 
+emit [ event , data ]
 
+parse();//index==index;
 
-// * game - .scenes[ctx.sceneName], .package, .settings
-// * config - vnjs.init(/*{ config }*/)
+next(); //index+=1;
 
-// * setScene - Принимает объект сцены
-// * setLabel - Передаем имя метки и массив с пользовательскими скриптами
- 
- // * next - Передвинуться по массиву в перед. 
- // * prev -  Выполняет тоже что и next, но только в обратную сторону.
- // * parse - 
- // * emit - Подписывается на события
- // * off - Отписывается от событий
- // * on - Слушает события
- // * fetch - fetch(url).then
+TREE - scenes store
 
+DEBUG = false; //true
+
+init({/*conf*/});
+
+setScene(sceneName, sceneBody, labelName, index);
+
+current //object
+
+state // 
 ```
+
 

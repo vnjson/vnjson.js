@@ -1,132 +1,196 @@
-"use strict";
-
-/*
- * minivents
- */
-function Events(target) {
-  var events = {},
-      empty = [];
-  target = target || this;
-  /**
-   *  On: listen to events
-   */
-  target.on = function (type, func, ctx) {
-    (events[type] = events[type] || []).push([func, ctx]);
-  };
-  /**
-   *  Off: stop listening to event / specific callback
-   */
-  target.off = function (type, func) {
-    type || (events = {});
-    var list = events[type] || empty,
-        i = list.length = func ? list.length : 0;
-    while (i--) {
-      func == list[i][0] && list.splice(i, 1);
-    }
-  };
-  /** 
-   * Emit: send event, callbacks will be triggered
-   */
-  target.emit = function (type) {
-    var e = events[type] || empty,
-        list = e.length > 0 ? e.slice(0, e.length) : e,
-        i = 0,
-        j;
-    while (j = list[i++]) {
-      j[0].apply(j[1], empty.slice.call(arguments, 1));
-    }
-  };
-};
 'use strict';
 
-var vnjs = new Object();
-var DEBUG = false;
-/*
- * TREE[SCENE_NAME] = SCENE_OBJECT;
- */
-var TREE = {};
+var vnjs = {
+
+  plugins: {},
+  TREE: {},
+  DEBUG: false
+
+};
+
+vnjs.on = function (event, handler) {
+  if (!vnjs.plugins[event]) {
+    vnjs.plugins[event] = [];
+  };
+  vnjs.plugins[event].push(handler);
+};
+
+vnjs.emit = function (event) {
+  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  if (Array.isArray(vnjs.plugins[event])) {
+    vnjs.plugins[event].map(function (handler) {
+      handler.call.apply(handler, [vnjs].concat(args));
+    });
+  } else {
+    console.log('Event [ ' + event + ' ] not found');
+  }
+};
+vnjs.off = function (event) {
+  delete vnjs.plugins[event];
+};
+
 /*
  * В {state} должно помещаться все то
  * что сохроняется в карту памяти
  * И что важно загрузить из нее без последствий.
  * В состоянии не должно быть мусора
  */
-var state = {
+vnjs.state = {
   scene: 'scene',
   label: 'label',
   index: 0
-  /*
-   * Получает текущее тела из состояние
-   */
-};function setScene(name, body) {
-  TREE[name] = body;
-  state.scene = name;
-}
+};
+/*
+ * Получает текущее тела из состояние
+ */
+vnjs.setScene = function (name, body) {
+  this.TREE[name] = body;
+  this.state.scene = name;
 
-var current = {
+  body.characters.map(function (character) {
+    var aliase = Object.keys(character)[0];
+
+    vnjs.on(aliase, function (reply) {
+      vnjs.emit('character', { aliase: aliase, param: character[aliase], reply: reply });
+    });
+  });
+};
+
+vnjs.current = {
 
   scene: function scene() {
-    return TREE[state.scene];
+    return vnjs.TREE[vnjs.state.scene];
   },
   label: function label() {
-    return TREE[state.scene][state.label];
+    return vnjs.TREE[vnjs.state.scene][vnjs.state.label];
   },
   object: function object() {
-    return TREE[state.scene][state.label][state.index];
+    return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
   }
 };
 
-var ev = new Events(); //EventEmitter
-var on = ev.on,
-    emit = ev.emit,
-    off = ev.off;
-
-
-function parse(obj) {
+vnjs.parse = function (obj) {
   var ctx = null;
   if (obj) {
     ctx = obj;
   } else {
-    ctx = current.object();
-  }
+    ctx = vnjs.current.object();
+  };
 
   for (var event in ctx) {
 
-    emit(event, ctx[event]);
-  }
-}
-
-function next() {
-  parse();
-  state.index++;
-  return '-------------------------';
-}
-
-function init(conf) {}
-
-vnjs = {
-  next: next,
-  parse: parse,
-  init: init,
-  on: on,
-  emit: emit,
-  off: off,
-  state: state,
-  setScene: setScene,
-  TREE: TREE,
-  DEBUG: DEBUG,
-  current: current
-  /*
-  if (typeof pattern !== 'string') {
-      throw new TypeError('glob-base expects a string.');
-    }
-  
-  
-  if (typeof obj !== 'object') {
-      throw new TypeError('Expected an object');
-    }
-  
-      
-  */
-
+    vnjs.emit(event, ctx[event]);
+  };
 };
+
+vnjs.next = function () {
+  this.parse();
+  this.state.index++;
+  return '-------------------------';
+};
+
+vnjs.init = function (conf) {
+  vnjs.conf = conf;
+};
+'use strict';
+
+/**
+ conf = /scenes/
+*/
+
+vnjs.on('getScene', function (data) {
+	var sceneName = data.sceneName,
+	    labelName = data.labelName,
+	    index = data.index;
+	var DEBUG = this.DEBUG,
+	    conf = this.conf;
+
+
+	fetch(conf.gameDir + '/' + conf.scenesDir + '/' + sceneName + '.json').then(function (r) {
+		return r.json();
+	}).then(function (sceneBody) {
+
+		if (DEBUG) {
+			console.log(sceneName, sceneBody);
+			console.log(data);
+		}
+
+		vnjs.setScene(sceneName, sceneBody, labelName, index);
+	});
+	/*
+ 
+ setScene("*", sceneBody);
+ 
+ state.label = "mainMenu";
+ 
+ next();
+ */
+});
+'use strict';
+
+vnjs.on('jump', function (pathname) {
+  var parse = this.parse,
+      state = this.state,
+      emit = this.emit,
+      DEBUG = this.DEBUG;
+
+
+  var pathArr = pathname.split('/');
+  /*****
+  #WARN
+  > {jump: 'label/0'}
+  < Object { labelName: "0", sceneName: "label", index: 0 }
+  
+  ******/
+  function getName() {
+    var sceneName = pathArr[0];
+    var labelName = pathArr[1];
+    var index = pathArr[2] || 0;
+    return { labelName: labelName, sceneName: sceneName, index: +index };
+  };
+
+  function isNum(num) {
+    return (/[0-9]/.test(+num)
+    );
+  };
+
+  function isScene(pathname) {
+
+    if (pathArr.length === 3) {
+      return true;
+    } else if (pathArr.length === 2) {
+
+      return !isNum(pathArr[1]);
+    }
+  };
+
+  var pathObj = getName(pathname);
+
+  {
+    DEBUG && console.log('jump: ', pathObj);
+  };
+
+  // set state
+  vnjs.state.scene = pathObj.sceneName;
+  vnjs.state.label = pathObj.labelName;
+  vnjs.state.index = pathObj.index;
+
+  if (isScene(pathname)) {
+
+    emit('getScene', pathObj);
+  } else {
+
+    emit('changelabel', pathObj);
+    // setLabel(pathname, ctx.scene[pathname],  obj.num );
+    parse();
+  }
+
+  /*
+  state.index = 0;
+  state.label = "chapter1";
+  state.scene = "scene2";
+  parse();*/
+});
