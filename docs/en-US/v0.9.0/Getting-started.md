@@ -1,19 +1,20 @@
 ## Usage 
 
-### deps
-- [`vnjson-get-scene`](https://github.com/vnjson/vnjson-get-scene)
-- [`vnjson-jump`](https://github.com/vnjson/vnjson-jump)
-- [`vnjson-preload`](https://github.com/vnjson/vnjson-preload)
 
 ## Init
-
-```js
-const config = {
-        scenesDir: './scenes'
-      };
-      
-vnjs.init(config);
-
+__`scenes/scene1.json`__
+```json
+{
+  "assets": [
+     {"path": "./background.png", "type": "image", "id": "bg"}, 
+     {"path": "./maintheme.mp3", "type": "audio", "id": "main"}
+  ],
+  "characters": [ { "al": { "name": "Alice", "color": "red" } } ],
+  "chapter1": [
+    {"al": "hello"},
+    {"al": " world"}
+  ]
+}
 ```
 
 
@@ -26,47 +27,19 @@ vnjs.on('postload', ()=>{
  console.log('[ postload ]')
  vnjs.parse();// reading first string in current scene
 })
-```
-## Scene load
-__`scene1.json`__
-
-```json
-{
-  "assets": [
-     {"path": "./background.png", "type": "image", "id": "bg"}, 
-     {"path": "./maintheme.mp3", "type": "audio", "id": "main"}
-  ],
-  "label1": [
-     {
-      "print": "Hello ", 
-      "audio": "main"
-      },
-     {"print": "world!"},
-     {"jump": "label2"}
-  ],
-  "label2": [
-    {"print": "game is over"}
-  ]
-}
-```
 
 ```js
- vnjs.parse({
-   jump: "scene1/label1"
- });
- 
+
+vnjs.init({
+        gameDir: "./"
+        scenesDir: 'scenes'
+    });
+
+vnjs.parse({ jump: "scene1/chapter1" });
 /*
  * Execute next string
  */ 
 document.body.addEventListener('click', ()=>{
   vnjs.next(); 
 }) 
-```
-
-
-## Text output
-```js
-vnjs.on('print', console.log)
-
-
 ```
