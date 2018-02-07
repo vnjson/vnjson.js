@@ -42,6 +42,20 @@ vnjs.state = {
 /*
  * Получает текущее тела из состояние
  */
+vnjs.current = {
+  
+      scene: function (){
+        return vnjs.TREE[vnjs.state.scene];
+      },
+      label: function (){
+        return vnjs.TREE[vnjs.state.scene][vnjs.state.label];
+      },
+      object: function (){
+        return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
+     }
+};
+
+
 vnjs.setScene = function (name, body){
   this.TREE[name] = body;
   this.state.scene = name;
@@ -55,21 +69,9 @@ vnjs.setScene = function (name, body){
     });
 
 });
-
+ this.parse();
 };
 
-vnjs.current = {
-  
-      scene: function (){
-        return vnjs.TREE[vnjs.state.scene];
-      },
-      label: function (){
-        return vnjs.TREE[vnjs.state.scene][vnjs.state.label];
-      },
-      object: function (){
-        return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
-     }
-};
 
 
 
@@ -93,8 +95,10 @@ vnjs.next = function (){
   this.parse();
   this.state.index++;
   return '-------------------------';
-}
+};
 
 vnjs.init = function (conf){
   vnjs.conf = conf;
+  this.parse({'jump': conf.entryScene});
+  return true;
 };

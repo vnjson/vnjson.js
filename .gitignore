@@ -11,3 +11,4 @@ vnjson-js.sublime-workspace
 .babelrc
 
 /__game
+/spec

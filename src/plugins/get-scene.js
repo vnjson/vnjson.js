@@ -5,8 +5,8 @@
 vnjs.on('getScene', function(data){
 	const { sceneName, labelName, index } = data;
 	const { DEBUG, conf } = this;
-
-  fetch(`${conf.gameDir}/${conf.scenesDir}/${sceneName}.json`)
+  let uri = `${conf.gameDir}/${conf.scenesDir}/${conf.local}/${sceneName}.json`;
+  fetch(uri)
 	.then(r=>r.json())
 	.then(sceneBody=>{
 

@@ -36,19 +36,23 @@ function isScene(pathname){
 	DEBUG&&console.log('jump: ', pathObj);
 };
 
-// set state
-vnjs.state.scene = pathObj.sceneName;
-vnjs.state.label = pathObj.labelName;
-vnjs.state.index = pathObj.index;
+
 
 
 
 if(isScene(pathname)){
-    
+    // set state
+    vnjs.state.scene = pathObj.sceneName;
+    vnjs.state.label = pathObj.labelName;
+    vnjs.state.index = pathObj.index;
     emit('getScene', pathObj);
 }else{
-	
-    emit('changelabel', pathObj);
+  const pathArr1 = pathname.split('/');
+	 // set state
+    vnjs.state.scene = vnjs.state.scene;
+    vnjs.state.label =  pathArr1[1]
+    vnjs.state.index = pathObj.index;
+
    // setLabel(pathname, ctx.scene[pathname],  obj.num );
    parse();
 }

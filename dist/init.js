@@ -1,12 +1,6 @@
 vnjs.DEBUG = true;
 
 
-/*
-vnjs.emit('getScene', 'scene1');
-
-vnjs.emit('getScene', 'scene2')
-vnjs.emit('getScene', 'lab')
-*/
 
 vnjs.on('character', function(data){
 	const name = data.param.name;
@@ -14,8 +8,9 @@ vnjs.on('character', function(data){
 })
 
 vnjs.init({
-	gameDir: './',
-	scenesDir: "scenes"
+	gameDir: './game',
+	scenesDir: "scenes",
+	local: 'ru-RU',
+	entryScene: 'scene2/chapter1' 
 });
 
-vnjs.parse({'jump': 'scene1/mainMenu'})

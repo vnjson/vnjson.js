@@ -58,7 +58,7 @@
       "screen": "about"
     },
     {
-      "jump": "lab/start"
+      "jump": "chapter2"
     }
   ],
   "chapter2": [
@@ -74,7 +74,7 @@
       "al": "Лагдно пошли в лабараторию"
     },
     {
-      "jump": "start/chapter3"
+      "jump": "chapter3"
     }
   ],
   "chapter3": [
@@ -90,7 +90,7 @@
       "al": "Ладно проехали старый маразматик"
     },
     {
-      "jump": "lab/start"
+      "jump": "lab/chapter1"
     }
   ],
   "characters": [
@@ -124,13 +124,6 @@
         "name": "Протомита",
         "color": "black"
       }
-    }
-  ],
-  "entry": [
-    {
-      "screen": "main-menu",
-      "scene": "background",
-      "audio": "maintheme1"
     }
   ]
 }
