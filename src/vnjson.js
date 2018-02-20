@@ -20,9 +20,13 @@ vnjs.emit = function (event, ...args) {
             vnjs.plugins[event].map(function(handler){
                     handler.call(vnjs, ...args);
             });
-         }else{
+         }
+         /*
+         else{
+          Выводятся системные слушатели
           console.log(`Event [ ${event} ] not found`)
          }
+         */
 };
 vnjs.off = function (event) {
         delete vnjs.plugins[event];
@@ -37,7 +41,8 @@ vnjs.off = function (event) {
 vnjs.state = {
   scene: 'scene',
   label: 'label',
-  index: 0
+  index: 0,
+  screens: []
 };
 /*
  * Получает текущее тела из состояние
@@ -88,6 +93,7 @@ vnjs.parse = function (obj){
         vnjs.emit(event, ctx[event]);
 
   };
+
 };
 
 
@@ -100,5 +106,7 @@ vnjs.next = function (){
 vnjs.init = function (conf){
   vnjs.conf = conf;
   this.parse({'jump': conf.entryScene});
+  vnjs.emit('getScreens')
   return true;
 };
+
