@@ -78,7 +78,7 @@ vnjs.setScene = function (name, body) {
       });
     });
   });
-  this.parse();
+  this.emit('load', body.assets); // this.parse();//??? Возможно это будет вызываться не здесь
 };
 
 vnjs.parse = function (obj) {
@@ -106,10 +106,8 @@ vnjs.next = function () {
 };
 
 vnjs.init = function (conf) {
-  vnjs.conf = conf;
-  this.parse({
-    'jump': conf.entryScene
-  });
+  vnjs.conf = conf; // this.parse({'jump': conf.entryScene});
+
   vnjs.emit('getScreens');
   return true;
 };
@@ -121,14 +119,16 @@ vnjs.on('getScene', function (data) {
       labelName = data.labelName,
       index = data.index;
   var DEBUG = this.DEBUG,
-      conf = this.conf;
+      conf = this.conf,
+      setScene = this.setScene,
+      emit = this.emit;
   var uri = "".concat(conf.gameDir, "/").concat(conf.scenesDir, "/").concat(conf.local, "/").concat(sceneName, ".json");
+  emit('preload', data);
   fetch(uri).then(function (r) {
     return r.json();
   }).then(function (sceneBody) {
     if (DEBUG) {
-      console.log(sceneName, sceneBody);
-      console.log(data);
+      console.log(sceneName, sceneBody); //	console.log(data);
     }
 
     vnjs.setScene(sceneName, sceneBody, labelName, index);
@@ -178,7 +178,7 @@ vnjs.on('getScreens', function () {
       screen.setAttribute("displayOld", screen.style.display);
       DEBUG && console.log(screen);
     });
-    emit('screensloaded');
+    emit('screensLoaded');
   }); //.catch(function(error) { console.error(error); })
 });
 vnjs.on('jump', function (pathname) {
@@ -870,5 +870,37 @@ vnjs.on('screen', function (id) {
   //push.state.screens
 
   show(document.getElementById(id));
+});
+/* @events
+    * preload
+    * load
+    * postload
+ */
+vnjs.on('load', function (assets) {
+  /*
+  const { emit } = this;
+  var persent = 100/assets.length;
+  var progress = 0;
+  for(let i=0; i<=assets.length-1; i++) {
+  var position = 1+i+"/"+assets.length;
+      progress+=persent
+      emit('asset', Object.assign(assets[i], { position, progress: Math.round(progress)+"%"}))   
+        if(assets[i].type==="image"){
+             var img = new Image();
+                 img.src = assets[i].path;
+                 img.onload = ()=>emit('img:loaded', assets[i]);
+        }else if(assets[i].type==="audio"){
+              
+            var audio = new Audio();
+                audio.addEventListener('canplaythrough', ()=>{
+                  emit('audio:loaded', assets[i]);
+                }, false);
+                audio.src = assets[i].path;
+          };
+  
+  };
+  */
+  console.info('LOADING...');
+  vnjs.emit('postload');
 });
 //# sourceMappingURL=vnjson.js.map

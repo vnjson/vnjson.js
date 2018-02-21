@@ -74,7 +74,8 @@ vnjs.setScene = function (name, body){
     });
 
 });
- this.parse();
+  this.emit('load', body.assets);
+ // this.parse();//??? Возможно это будет вызываться не здесь
 };
 
 
@@ -105,8 +106,7 @@ vnjs.next = function (){
 
 vnjs.init = function (conf){
   vnjs.conf = conf;
-  this.parse({'jump': conf.entryScene});
-  vnjs.emit('getScreens')
+ // this.parse({'jump': conf.entryScene});
+  vnjs.emit('getScreens');
   return true;
 };
-

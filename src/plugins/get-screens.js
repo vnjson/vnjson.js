@@ -35,11 +35,12 @@ function fetchCss(filename) {
              Object.assign(screen.style, styles);
              /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
 			screen.setAttribute("displayOld", screen.style.display)
-             DEBUG&&console.log(screen);
-           
+             
+            DEBUG&&console.log(screen);
             
             });
-          emit('screensloaded')
+
+          emit('screensLoaded')
 		})
 		//.catch(function(error) { console.error(error); })
 		
