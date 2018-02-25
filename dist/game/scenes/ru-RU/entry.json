@@ -1,0 +1,13 @@
+{
+  "assets": [
+    { "id": "dialog-box", "type": "image", "path": "/game/assets/dialog-box1.png" },
+    { "id": "background", "type": "image", "path": "/game/assets/background.png" },
+    { "id": "BackBackX", "type": "audio", "path": "/game/assets/BackBackX.mp3" }
+  ],
+  "characters": [
+    {"author": { "name": "Kasin Sergey", "textColor": "red"}}
+  ],
+  "point": [
+    { "screen": "main-menu", "audio": "BackBackX"}
+  ]
+}

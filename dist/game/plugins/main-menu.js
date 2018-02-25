@@ -2,7 +2,10 @@
 
 
 vnjs.on('main-menu', function(){
-  console.warn('screen::main-menu')
+
+this.parse({ "scene": "background"})
+
+
 document
   .getElementById('start-game')
   .addEventListener('click', function(e){
@@ -21,4 +24,7 @@ document
 })
 
 
-
+/*
+vnjs.on('settings', function(data){
+  this.parse({ "scene": "settings"})
+})*/

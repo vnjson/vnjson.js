@@ -77,7 +77,13 @@ function show(el) {
 
 vnjs.on('screen', function(id){
 	this.emit(id);
-	console.log(id);
+	//console.log(id);
+ vnjs.prevScreen = null;
+      /* Если если это первая сцена, то предыдущей нет*/
+ if(this.prevScreen!== null){
+      hide(this.prevScreen)
+ }
+
 	//prefix
 	//show.id
 	//hide.pref.screen

@@ -1,6 +1,11 @@
-
+body{
+  width: 100%;
+  height: 100%;
+  transform: scale(0.9); 
+}
 .gameElement{
 	width: 800px;
 	height: 480px;
 	border: 2px dashed grey;
+
 }

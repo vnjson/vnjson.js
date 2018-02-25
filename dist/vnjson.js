@@ -1,7 +1,8 @@
 var vnjs = {
   plugins: {},
   TREE: {},
-  DEBUG: false
+  DEBUG: false,
+  audio: {}
 };
 
 vnjs.on = function (event, handler) {
@@ -863,13 +864,31 @@ function show(el) {
 }
 
 vnjs.on('screen', function (id) {
-  this.emit(id);
-  console.log(id); //prefix
+  this.emit(id); //console.log(id);
+
+  vnjs.prevScreen = null;
+  /* Если если это первая сцена, то предыдущей нет*/
+
+  if (this.prevScreen !== null) {
+    hide(this.prevScreen);
+  } //prefix
   //show.id
   //hide.pref.screen
   //push.state.screens
 
+
   show(document.getElementById(id));
+});
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+vnjs.on('audio', function (data) {
+  if (typeof data === 'string') {
+    vnjs.audio[data].play();
+  } else if (_typeof(data) === 'object') {
+    vnjs.audio[data.id][data.action](); // vnjs.audio[data.id].loop = data.loop;
+  } else {
+    console.error('incorect data type');
+  }
 });
 /* @events
     * preload
@@ -877,30 +896,75 @@ vnjs.on('screen', function (id) {
     * postload
  */
 vnjs.on('load', function (assets) {
-  /*
-  const { emit } = this;
-  var persent = 100/assets.length;
-  var progress = 0;
-  for(let i=0; i<=assets.length-1; i++) {
-  var position = 1+i+"/"+assets.length;
-      progress+=persent
-      emit('asset', Object.assign(assets[i], { position, progress: Math.round(progress)+"%"}))   
-        if(assets[i].type==="image"){
-             var img = new Image();
-                 img.src = assets[i].path;
-                 img.onload = ()=>emit('img:loaded', assets[i]);
-        }else if(assets[i].type==="audio"){
-              
-            var audio = new Audio();
-                audio.addEventListener('canplaythrough', ()=>{
-                  emit('audio:loaded', assets[i]);
-                }, false);
-                audio.src = assets[i].path;
-          };
-  
+  var DEBUG = this.DEBUG,
+      emit = this.emit;
+  var persent = 100 / assets.length;
+  var PROGREESS = 0;
+  var i = 0;
+
+  var _loop = function _loop(asset) {
+    position = [i += 1, '/', assets.length].join("");
+    var progress = Math.round(PROGREESS += persent) + "%";
+
+    if (asset.type === "image") {
+      var img = new Image();
+      img.src = asset.path;
+
+      img.onload = function () {
+        emit('imageLoad', asset);
+      };
+    } else if (asset.type === "audio") {
+      var audio = new Audio();
+      audio.addEventListener('canplaythrough', function () {
+        emit('audioLoad', asset);
+      }, false);
+      audio.src = asset.path;
+      vnjs.audio[asset.id] = audio;
+    } else {
+      console.error('asset type incorect');
+      return "break";
+    }
+
+    var data = Object.assign(asset, {
+      progress: progress,
+      position: position
+    });
+    emit('asset', data);
   };
-  */
-  console.info('LOADING...');
-  vnjs.emit('postload');
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = assets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var asset = _step.value;
+      var position;
+
+      var _ret = _loop(asset);
+
+      if (_ret === "break") break;
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  ;
+  {
+    DEBUG && console.info('LOADING...');
+  }
+  ;
+  emit('postload');
 });
 //# sourceMappingURL=vnjson.js.map

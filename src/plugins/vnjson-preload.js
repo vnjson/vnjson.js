@@ -5,34 +5,52 @@
  */
 
 vnjs.on('load', function(assets){
-  /*
-  const { emit } = this;
-  var persent = 100/assets.length;
-  var progress = 0;
-for(let i=0; i<=assets.length-1; i++) {
-  var position = 1+i+"/"+assets.length;
-      progress+=persent
-
-    emit('asset', Object.assign(assets[i], { position, progress: Math.round(progress)+"%"}))   
-        if(assets[i].type==="image"){
-             var img = new Image();
-                 img.src = assets[i].path;
-                 img.onload = ()=>emit('img:loaded', assets[i]);
-        }else if(assets[i].type==="audio"){
-              
-            var audio = new Audio();
-                audio.addEventListener('canplaythrough', ()=>{
-                  emit('audio:loaded', assets[i]);
-                }, false);
-                audio.src = assets[i].path;
-
-        };
+  const { DEBUG, emit } = this;
 
 
+var persent = 100/assets.length;
+var PROGREESS = 0;
+var i = 0;
+for(let asset of assets){
+ 
+var position = [ i+=1, '/', assets.length ].join("");
 
+let progress = Math.round(PROGREESS+=persent)+"%";
+
+
+  if(asset.type==="image"){
+       let img = new Image();
+           img.src = asset.path;
+           img.onload = function(){
+                 emit('imageLoad', asset);
+           };
+  }
+  else if(asset.type==="audio"){
+       let audio = new Audio();
+           audio.addEventListener('canplaythrough', ()=>{
+                  emit('audioLoad', asset);
+           }, false);
+          audio.src = asset.path;
+        vnjs.audio[asset.id] = audio; 
+  }
+  else{
+    console.error('asset type incorect');
+    break;
+  }
+let data = Object.assign(asset, {progress, position});
+                  emit('asset', data);
 };
-*/
-console.info('LOADING...')
 
-vnjs.emit('postload');
+{
+  DEBUG&&console.info('LOADING...');
+};
+
+
+  emit('postload');
 });
+
+
+
+
+
+

@@ -4,7 +4,7 @@ var vnjs = {
       plugins: {},
       TREE: {},
       DEBUG: false,
-
+      audio: {}
 
 };
 

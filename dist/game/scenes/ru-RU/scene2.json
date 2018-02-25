@@ -1,46 +1,35 @@
 {
   "assets": [
     {
-      "id": "about",
-      "size": "9.84 kB",
-      "extension": ".png",
-      "path": "/assets/about.png"
+      "id": "dialog-box1",
+      "type": "image",
+      "path": "/game/assets/dialog-box1.png"
     },
     {
-      "id": "boy",
-      "size": "83.2 kB",
-      "extension": ".png",
-      "path": "/assets/boy.png"
+      "id": "settings",
+      "type": "image",
+      "path": "/game/assets/settings.png"
+    },
+
+    {
+      "id": "z-pam",
+      "type": "audio",
+      "path": "/game/assets/MNOGOZNAAL-Z-PAM.mp3"
     },
     {
-      "id": "cursor_pirrate",
-      "size": "2.28 kB",
-      "extension": ".png",
-      "path": "/assets/cursor_pirrate.png"
-    },
-    {
-      "id": "dialog-box",
-      "size": "35.9 kB",
-      "extension": ".png",
-      "path": "/assets/dialog-box.png"
-    },
-    {
-      "id": "exc",
-      "size": "117 kB",
-      "extension": ".png",
-      "path": "/assets/exc.png"
-    },
-    {
-      "id": "girl",
-      "size": "77.5 kB",
-      "extension": ".png",
-      "path": "/assets/girl.png"
+      "id": "Ultimate",
+      "type": "audio",
+      "path": "/game/assets/DenzelCurry-Ultimate.mp3"
     }
   ],
   "chapter1": [
     {
       "pr": "chapy[ 1 ] Привет! Давненько не виделись",
-      "scene": "background",
+     
+      "audio": {
+          "id": "z-pam", 
+          "action": "play"
+      },
       "left": "right_ladya"
     },
     {
