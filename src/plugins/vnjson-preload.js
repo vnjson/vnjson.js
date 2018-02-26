@@ -31,7 +31,7 @@ let progress = Math.round(PROGREESS+=persent)+"%";
                   emit('audioLoad', asset);
            }, false);
           audio.src = asset.path;
-        vnjs.audio[asset.id] = audio; 
+        vnjs.playList[asset.id] = audio; 
   }
   else{
     console.error('asset type incorect');

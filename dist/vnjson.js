@@ -2,7 +2,10 @@ var vnjs = {
   plugins: {},
   TREE: {},
   DEBUG: false,
-  audio: {}
+  playList: {},
+  prevAudio: "",
+  prevScreen: "",
+  screenList: {}
 };
 
 vnjs.on = function (event, handler) {
@@ -177,6 +180,7 @@ vnjs.on('getScreens', function () {
       /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
 
       screen.setAttribute("displayOld", screen.style.display);
+      vnjs.screenList[screen.id] = screen;
       DEBUG && console.log(screen);
     });
     emit('screensLoaded');
@@ -187,69 +191,64 @@ vnjs.on('jump', function (pathname) {
       state = this.state,
       emit = this.emit,
       DEBUG = this.DEBUG;
-  var pathArr = pathname.split('/');
   /*****
   #WARN
   > {jump: 'label/0'}
   < Object { labelName: "0", sceneName: "label", index: 0 }
   
+  
+  function getName(){
+    let sceneName = pathArr[0];
+    let labelName = pathArr[1];
+    let index = pathArr[2]||0;
+    return { labelName, sceneName, index: (+index) };
+  };
+  
+  function isNum(num){
+    return /[0-9]/.test(+num)
+  };
   ******/
 
-  function getName() {
-    var sceneName = pathArr[0];
-    var labelName = pathArr[1];
-    var index = pathArr[2] || 0;
-    return {
-      labelName: labelName,
-      sceneName: sceneName,
-      index: +index
-    };
-  }
-
-  ;
-
-  function isNum(num) {
-    return /[0-9]/.test(+num);
-  }
-
-  ;
-
   function isScene(pathname) {
-    if (pathArr.length === 3) {
+    if (pathArr.length === 2) {
       return true;
-    } else if (pathArr.length === 2) {
-      return !isNum(pathArr[1]);
+    } else {
+      return false;
     }
   }
 
   ;
-  var pathObj = getName(pathname);
+  /*
+   var pathObj = getName(pathname);
+  
   {
-    DEBUG && console.log('jump: ', pathObj);
-  }
-  ;
+  	DEBUG&&console.log('jump: ', pathObj);
+  };
+  
+  */
+
+  var pathArr = pathname.split('/');
 
   if (isScene(pathname)) {
     // set state
-    vnjs.state.scene = pathObj.sceneName;
-    vnjs.state.label = pathObj.labelName;
-    vnjs.state.index = pathObj.index;
-    emit('getScene', pathObj);
-  } else {
-    var pathArr1 = pathname.split('/'); // set state
+    vnjs.state.scene = pathArr[0];
+    vnjs.state.label = pathArr[1];
+    vnjs.state.index = 0; //pathObj.index;
 
-    vnjs.state.scene = vnjs.state.scene;
-    vnjs.state.label = pathArr1[1];
-    vnjs.state.index = pathObj.index; // setLabel(pathname, ctx.scene[pathname],  obj.num );
+    emit('getScene', {
+      sceneName: pathArr[0],
+      labelName: pathArr[1],
+      index: 0
+    });
+  } else {
+    // set state
+    // vnjs.state.scene = vnjs.state.scene;
+    vnjs.state.label = pathArr[0];
+    vnjs.state.index = 0; //pathObj.index;
+    // setLabel(pathname, ctx.scene[pathname],  obj.num );
 
     parse();
   }
-  /*
-  state.index = 0;
-  state.label = "chapter1";
-  state.scene = "scene2";
-  parse();*/
-
 });
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
@@ -773,15 +772,26 @@ function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.itera
 }
 ;
 vnjs.router.on(function () {
-  return console.log('############ vnjson.js #############');
-}).on('/:scene', function (params) {
+  console.info('############ vnjson.js #############');
+  vnjs.parse({
+    screen: 'main-menu'
+  });
+}).on('/about', function () {
+  vnjs.parse({
+    screen: 'about'
+  });
+}).on('/settings', function () {
+  vnjs.parse({
+    screen: 'settings'
+  });
+}).on('/game/:scene', function (params) {
   var scene = params.scene;
   console.warn([scene].join('|'));
-}).on('/:scene/:label', function (params) {
+}).on('/game/:scene/:label', function (params) {
   var scene = params.scene,
       label = params.label;
   console.warn([scene, label].join('|'));
-}).on('/:scene/:label/:index', function (params) {
+}).on('/game/:scene/:label/:index', function (params) {
   //router.navigate('/products/list');
   var scene = params.scene,
       label = params.label,
@@ -829,10 +839,6 @@ function isHidden(el) {
   return width === 0 && height === 0 && !tr ? true : width > 0 && height > 0 && !tr ? false : getRealDisplay(el);
 }
 
-function toggle(el) {
-  isHidden(el) ? show(el) : hide(el);
-}
-
 function show(el) {
   if (getRealDisplay(el) != 'none') return;
   var old = el.getAttribute("displayOld");
@@ -864,31 +870,41 @@ function show(el) {
 }
 
 vnjs.on('screen', function (id) {
-  this.emit(id); //console.log(id);
+  this.emit(id, vnjs.screenList[id]);
 
-  vnjs.prevScreen = null;
-  /* Если если это первая сцена, то предыдущей нет*/
+  if (vnjs.prevScreen != "") {
+    var pscreen = vnjs.screenList[vnjs.prevScreen];
+    hide(pscreen);
+  }
 
-  if (this.prevScreen !== null) {
-    hide(this.prevScreen);
-  } //prefix
+  vnjs.prevScreen = id; //prefix
   //show.id
   //hide.pref.screen
   //push.state.screens
 
-
-  show(document.getElementById(id));
+  show(vnjs.screenList[id]);
 });
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 vnjs.on('audio', function (data) {
   if (typeof data === 'string') {
-    vnjs.audio[data].play();
+    if (vnjs.prevAudio != "") {
+      vnjs.playList[vnjs.prevAudio].pause();
+    }
+
+    vnjs.playList[data].play();
+    vnjs.prevAudio = data;
   } else if (_typeof(data) === 'object') {
-    vnjs.audio[data.id][data.action](); // vnjs.audio[data.id].loop = data.loop;
+    if (vnjs.prevAudio != "") {
+      vnjs.playList[vnjs.prevAudio].pause();
+    }
+
+    vnjs.playList[data.id][data.action]();
+    vnjs.prevAudio = data.id; // vnjs.audio[data.id].loop = data.loop;
   } else {
     console.error('incorect data type');
-  }
+  } //var sound = self.playlist[self.index].howl;
+
 });
 /* @events
     * preload
@@ -919,7 +935,7 @@ vnjs.on('load', function (assets) {
         emit('audioLoad', asset);
       }, false);
       audio.src = asset.path;
-      vnjs.audio[asset.id] = audio;
+      vnjs.playList[asset.id] = audio;
     } else {
       console.error('asset type incorect');
       return "break";

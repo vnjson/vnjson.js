@@ -7,22 +7,36 @@
 /*dialog-box*/
 .dialog-box{
   width: 100%;
-  height:150px;
+  height: 190px;
+  background-image: url('/game/assets/dialog-box2.png');
   /*margin-top: 85%;*/
   position: relative;
-  bottom: 0px;
-    border: 2px dashed grey;
+  top: 48%;
+  color: #999;
+
+  cursor: pointer;
 }
 
 .name-box{
   font-size: 14pt;
   font-family: 'Comic Sans MS';
-  border: 2px dashed grey;
+ 
   width: 200px;
+  position: relative;
+  top: 5px;
+  left: 5px;
 }
 .reply{
-
-
+  position: relative;
+  top: 20px;
+  left: 5px;
   font-size: 14pt;
   font-family: 'Comic Sans MS';
+}
+
+
+.signal{
+  position: relative;
+  top: 295px;
+  left: 95%;
 }

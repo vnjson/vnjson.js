@@ -33,9 +33,13 @@ function fetchCss(filename) {
                     height: '100%'
                   };
              Object.assign(screen.style, styles);
+
              /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
 			screen.setAttribute("displayOld", screen.style.display)
              
+
+            vnjs.screenList[screen.id] = screen;
+            
             DEBUG&&console.log(screen);
             
             });

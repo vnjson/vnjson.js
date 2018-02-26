@@ -4,17 +4,26 @@
 };
 
 vnjs.router
-  .on(()=>console.log('############ vnjson.js #############'))
+  .on(function(){
+    console.info('############ vnjson.js #############');
+    vnjs.parse({screen: 'main-menu'})
+  })
+  .on('/about', function(){
+    vnjs.parse({screen: 'about'})
+  })
+  .on('/settings', function(){
+    vnjs.parse({screen: 'settings'})
+  })
 
-  .on('/:scene', function(params){
+  .on('/game/:scene', function(params){
   	let { scene } = params;
     console.warn([scene].join('|'))
   })
-  .on('/:scene/:label', function(params){
+  .on('/game/:scene/:label', function(params){
   	let { scene, label } = params;
     console.warn([scene,label].join('|'))
   })
-  .on('/:scene/:label/:index', function (params) {
+  .on('/game/:scene/:label/:index', function (params) {
 //router.navigate('/products/list');
     let { scene, label, index } = params;
     console.warn([scene,label, index].join('|'))

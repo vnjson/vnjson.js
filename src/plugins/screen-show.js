@@ -39,9 +39,6 @@ function isHidden(el) {
 		true : width > 0 && height > 0 && !tr ? false :	getRealDisplay(el)
 }
 
-function toggle(el) {
-	isHidden(el) ? show(el) : hide(el)
-}
 
 
 function show(el) {
@@ -75,18 +72,22 @@ function show(el) {
 }
 
 
+
+
 vnjs.on('screen', function(id){
-	this.emit(id);
-	//console.log(id);
- vnjs.prevScreen = null;
-      /* Если если это первая сцена, то предыдущей нет*/
- if(this.prevScreen!== null){
-      hide(this.prevScreen)
+	this.emit(id, vnjs.screenList[id]);
+
+
+ if(vnjs.prevScreen!=""){
+ 				let pscreen = vnjs.screenList[vnjs.prevScreen];
+         hide(pscreen);
+        
  }
 
+ vnjs.prevScreen = id;
 	//prefix
 	//show.id
 	//hide.pref.screen
 	//push.state.screens
-	show(document.getElementById(id))
+	show(vnjs.screenList[id])
 })

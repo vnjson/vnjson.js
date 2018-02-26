@@ -16,10 +16,10 @@
 	<section class='main-menu-nav'>
 		<nav>
 			<ul>
-				<li><a href="#" id="start-game"><b>New Game</b></a></li>
-				<li><a href="#"><s><b>Memory Card</b></s></a></li>
-				<li><a href="#" id='settings-action'><b>Settings</b></a></li>
-				<li><a href="#" id="about-action"><b>About</b></a></li>
+				<li><a href="/#!/game" id="start-game"><b>New Game</b></a></li>
+				<li><a href="/#!/memory-card"><s><b>Memory Card</b></s></a></li>
+				<li><a href="/#!/settings" id='settings-action'><b>Settings</b></a></li>
+				<li><a href="/#!/about" id="about-action"><b>About</b></a></li>
 			</ul>
 		</nav>
 	</section>
@@ -31,12 +31,13 @@
 
 <section class="screen" id="game-action">
 	<h3 style='color: gold'>action</h3>
-	<div class='name-box'>{name}</div>
+	
 	<div class="dialog-box">
+		<div class='name-box'>{name}</div>
 		<div class='face-box'></div>
 		<div class='text-box'>
 			<div class='reply'>{reply}</div>
-			<div>*</div>
+			<div class="signal">*</div>
 		</div>
 	</div>
 </section>

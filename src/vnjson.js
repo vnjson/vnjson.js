@@ -4,8 +4,10 @@ var vnjs = {
       plugins: {},
       TREE: {},
       DEBUG: false,
-      audio: {}
-
+      playList: {},
+      prevAudio: "",
+      prevScreen: "",
+      screenList: {}
 };
 
 vnjs.on = function(event, handler){
