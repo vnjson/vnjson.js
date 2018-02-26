@@ -1,6 +1,6 @@
 {
   "name": "vnjson.js",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Visual novel engine on javascript",
   "main": "gulpfile.js",
   "author": "Kasin Sergey <bakakasin@gmail.com>",
