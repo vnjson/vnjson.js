@@ -1,254 +1,243 @@
-var vnjs = {
-  plugins: {},
-  TREE: {},
-  DEBUG: false,
-  playList: {},
-  prevAudio: "",
-  prevScreen: "",
-  screenList: {}
-};
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-vnjs.on = function (event, handler) {
-  if (!vnjs.plugins[event]) {
-    vnjs.plugins[event] = [];
-  }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-  ;
-  vnjs.plugins[event].push(handler);
-};
+(function (global, factory) {
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.icaro = factory();
+})(this, function () {
+  'use strict'; // fork of https://github.com/YuzuJS/setImmediate
 
-vnjs.emit = function (event) {
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  if (Array.isArray(vnjs.plugins[event])) {
-    vnjs.plugins[event].map(function (handler) {
-      handler.call.apply(handler, [vnjs].concat(args));
-    });
-  }
-  /*
-  else{
-   Выводятся системные слушатели
-   console.log(`Event [ ${event} ] not found`)
-  }
-  */
-
-};
-
-vnjs.off = function (event) {
-  delete vnjs.plugins[event];
-};
-/*
- * В {state} должно помещаться все то
- * что сохроняется в карту памяти
- * И что важно загрузить из нее без последствий.
- * В состоянии не должно быть мусора
- */
-
-
-vnjs.state = {
-  scene: 'scene',
-  label: 'label',
-  index: 0,
-  screens: []
-};
-/*
- * Получает текущее тела из состояние
- */
-
-vnjs.current = {
-  scene: function scene() {
-    return vnjs.TREE[vnjs.state.scene];
-  },
-  label: function label() {
-    return vnjs.TREE[vnjs.state.scene][vnjs.state.label];
-  },
-  object: function object() {
-    return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
-  }
-};
-
-vnjs.setScene = function (name, body) {
-  this.TREE[name] = body;
-  this.state.scene = name;
-  body.characters.map(function (character) {
-    var aliase = Object.keys(character)[0];
-    vnjs.on(aliase, function (reply) {
-      vnjs.emit('character', {
-        aliase: aliase,
-        param: character[aliase],
-        reply: reply
-      });
-    });
-  });
-  this.emit('load', body.assets); // this.parse();//??? Возможно это будет вызываться не здесь
-};
-
-vnjs.parse = function (obj) {
-  var ctx = null;
-
-  if (obj) {
-    ctx = obj;
-  } else {
-    ctx = vnjs.current.object();
-  }
-
-  ;
-
-  for (var event in ctx) {
-    vnjs.emit(event, ctx[event]);
-  }
-
-  ;
-};
-
-vnjs.next = function () {
-  this.parse();
-  this.state.index++;
-  return '-------------------------';
-};
-
-vnjs.init = function (conf) {
-  vnjs.conf = conf; // this.parse({'jump': conf.entryScene});
-
-  vnjs.emit('getScreens');
-  return true;
-};
-/**
- conf = /scenes/
-*/
-vnjs.on('getScene', function (data) {
-  var sceneName = data.sceneName,
-      labelName = data.labelName,
-      index = data.index;
-  var DEBUG = this.DEBUG,
-      conf = this.conf,
-      setScene = this.setScene,
-      emit = this.emit;
-  var uri = "".concat(conf.gameDir, "/").concat(conf.scenesDir, "/").concat(conf.local, "/").concat(sceneName, ".json");
-  emit('preload', data);
-  fetch(uri).then(function (r) {
-    return r.json();
-  }).then(function (sceneBody) {
-    if (DEBUG) {
-      console.log(sceneName, sceneBody); //	console.log(data);
+  (function (global) {
+    if (global.setImmediate) {
+      return;
     }
 
-    vnjs.setScene(sceneName, sceneBody, labelName, index);
-  });
-  /*
-  
-  setScene("*", sceneBody);
-  
-  state.label = "mainMenu";
-  
-  next();
-  */
-});
-vnjs.on('getScreens', function () {
-  var conf = this.conf,
-      DEBUG = this.DEBUG,
-      emit = this.emit;
+    var tasksByHandle = {};
+    var nextHandle = 1; // Spec says greater than zero
 
-  function fetchCss(filename) {
-    var l = document.createElement('link');
-    l.rel = 'stylesheet';
-    l.href = filename;
-    var h = document.getElementsByTagName('head')[0];
-    h.appendChild(l);
-  }
+    var currentlyRunningATask = false;
+    var registerImmediate;
 
-  ;
-  var uriHtml = "".concat(conf.gameDir, "/screens.html");
-  var uriCss = "".concat(conf.gameDir, "/screens.css");
-  var gameRoot = document.querySelector(conf.element);
-  fetch(uriHtml).then(function (r) {
-    return r.text();
-  }).then(function (screens) {
-    fetchCss(uriCss);
-    gameRoot.innerHTML = screens;
-  }).then(function () {
-    var screensNodeList = document.querySelectorAll(conf.screenClass);
-    screensNodeList.forEach(function (screen) {
-      var styles = {
-        display: 'none',
-        width: '100%',
-        height: '100%'
+    function setImmediate(callback) {
+      tasksByHandle[nextHandle] = callback;
+      registerImmediate(nextHandle);
+      return nextHandle++;
+    }
+
+    function clearImmediate(handle) {
+      delete tasksByHandle[handle];
+    }
+
+    function runIfPresent(handle) {
+      // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
+      // So if we're currently running a task, we'll need to delay this invocation.
+      if (currentlyRunningATask) {
+        // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
+        // "too much recursion" error.
+        setTimeout(runIfPresent, 0, handle);
+      } else {
+        var task = tasksByHandle[handle];
+
+        if (task) {
+          currentlyRunningATask = true;
+
+          try {
+            task();
+          } finally {
+            clearImmediate(handle);
+            currentlyRunningATask = false;
+          }
+        }
+      }
+    }
+
+    function installNextTickImplementation() {
+      registerImmediate = function registerImmediate(handle) {
+        process.nextTick(function () {
+          runIfPresent(handle);
+        });
       };
-      Object.assign(screen.style, styles);
-      /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
-
-      screen.setAttribute("displayOld", screen.style.display);
-      vnjs.screenList[screen.id] = screen;
-      DEBUG && console.log(screen);
-    });
-    emit('screensLoaded');
-  }); //.catch(function(error) { console.error(error); })
-});
-vnjs.on('jump', function (pathname) {
-  var parse = this.parse,
-      state = this.state,
-      emit = this.emit,
-      DEBUG = this.DEBUG;
-  /*****
-  #WARN
-  > {jump: 'label/0'}
-  < Object { labelName: "0", sceneName: "label", index: 0 }
-  
-  
-  function getName(){
-    let sceneName = pathArr[0];
-    let labelName = pathArr[1];
-    let index = pathArr[2]||0;
-    return { labelName, sceneName, index: (+index) };
-  };
-  
-  function isNum(num){
-    return /[0-9]/.test(+num)
-  };
-  ******/
-
-  function isScene(pathname) {
-    if (pathArr.length === 2) {
-      return true;
-    } else {
-      return false;
     }
-  }
 
-  ;
-  /*
-   var pathObj = getName(pathname);
-  
-  {
-  	DEBUG&&console.log('jump: ', pathObj);
+    function installPostMessageImplementation() {
+      // Installs an event handler on `global` for the `message` event: see
+      // * https://developer.mozilla.org/en/DOM/window.postMessage
+      // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+      var messagePrefix = "setImmediate$".concat(Math.random(), "$");
+
+      var onGlobalMessage = function onGlobalMessage(event) {
+        if (event.source === global && typeof event.data === 'string' && event.data.indexOf(messagePrefix) === 0) {
+          runIfPresent(+event.data.slice(messagePrefix.length));
+        }
+      };
+
+      global.addEventListener('message', onGlobalMessage, false);
+
+      registerImmediate = function registerImmediate(handle) {
+        global.postMessage(messagePrefix + handle, '*');
+      };
+    } // Don't get fooled by e.g. browserify environments.
+
+
+    if ({}.toString.call(global.process) === '[object process]') {
+      // For Node.js before 0.9
+      installNextTickImplementation();
+    } else {
+      // For non-IE10 modern browsers
+      installPostMessageImplementation();
+    }
+
+    global.setImmediate = setImmediate;
+    global.clearImmediate = clearImmediate;
+  })(typeof self === 'undefined' ? typeof global === 'undefined' ? window : global : self);
+
+  var listeners = new WeakMap();
+  var dispatch = Symbol();
+  var isIcaro = Symbol();
+  var timer = Symbol();
+  var isArray = Symbol();
+  var changes = Symbol();
+  /**
+   * Public api
+   * @type {Object}
+   */
+
+  var API = {
+    /**
+     * Set a listener on any object function or array
+     * @param   {Function} fn - callback function associated to the property to listen
+     * @returns {API}
+     */
+    listen: function listen(fn) {
+      var type = _typeof(fn);
+
+      if (type !== 'function') throw "The icaro.listen method accepts as argument \"typeof 'function'\", \"".concat(type, "\" is not allowed");
+      if (!listeners.has(this)) listeners.set(this, []);
+      listeners.get(this).push(fn);
+      return this;
+    },
+
+    /**
+     * Unsubscribe to a property previously listened or to all of them
+     * @param   {Function} fn - function to unsubscribe
+     * @returns {API}
+     */
+    unlisten: function unlisten(fn) {
+      var callbacks = listeners.get(this);
+      if (!callbacks) return;
+
+      if (fn) {
+        var index = callbacks.indexOf(fn);
+        if (~index) callbacks.splice(index, 1);
+      } else {
+        listeners.set(this, []);
+      }
+
+      return this;
+    },
+
+    /**
+     * Convert the icaro object into a valid JSON object
+     * @returns {Object} - simple json object from a Proxy
+     */
+    toJSON: function toJSON() {
+      var _this = this;
+
+      return Object.keys(this).reduce(function (ret, key) {
+        var value = _this[key];
+        ret[key] = value && value.toJSON ? value.toJSON() : value;
+        return ret;
+      }, this[isArray] ? [] : {});
+    }
   };
-  
-  */
+  /**
+   * Icaro proxy handler
+   * @type {Object}
+   */
 
-  var pathArr = pathname.split('/');
+  var ICARO_HANDLER = {
+    set: function set(target, property, value) {
+      // filter the values that didn't change
+      if (target[property] !== value) {
+        if (value === Object(value) && !value[isIcaro]) {
+          target[property] = icaro(value);
+        } else {
+          target[property] = value;
+        }
 
-  if (isScene(pathname)) {
-    // set state
-    vnjs.state.scene = pathArr[0];
-    vnjs.state.label = pathArr[1];
-    vnjs.state.index = 0; //pathObj.index;
+        target[dispatch](property, value);
+      }
 
-    emit('getScene', {
-      sceneName: pathArr[0],
-      labelName: pathArr[1],
-      index: 0
+      return true;
+    }
+  };
+  /**
+   * Define a private property
+   * @param   {*} obj - receiver
+   * @param   {String} key - property name
+   * @param   {*} value - value to set
+   */
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: false,
+      configurable: false,
+      writable: false
     });
-  } else {
-    // set state
-    // vnjs.state.scene = vnjs.state.scene;
-    vnjs.state.label = pathArr[0];
-    vnjs.state.index = 0; //pathObj.index;
-    // setLabel(pathname, ctx.scene[pathname],  obj.num );
-
-    parse();
   }
+  /**
+   * Enhance the icaro objects adding some hidden props to them and the API methods
+   * @param   {*} obj - anything
+   * @returns {*} the object received enhanced with some extra properties
+   */
+
+
+  function enhance(obj) {
+    var _Object$assign;
+
+    // add some "kinda hidden" properties
+    Object.assign(obj, (_Object$assign = {}, _defineProperty(_Object$assign, changes, new Map()), _defineProperty(_Object$assign, timer, null), _defineProperty(_Object$assign, isIcaro, true), _defineProperty(_Object$assign, dispatch, function (property, value) {
+      if (listeners.has(obj)) {
+        clearImmediate(obj[timer]);
+        obj[changes].set(property, value);
+        obj[timer] = setImmediate(function () {
+          listeners.get(obj).forEach(function (fn) {
+            fn(obj[changes]);
+          });
+          obj[changes].clear();
+        });
+      }
+    }), _Object$assign)); // Add the API methods bound to the original object
+
+    Object.keys(API).forEach(function (key) {
+      define(obj, key, API[key].bind(obj));
+    }); // remap values and methods
+
+    if (Array.isArray(obj)) {
+      obj[isArray] = true; // remap the initial array values
+
+      obj.forEach(function (item, i) {
+        obj[i] = null; // force a reset
+
+        ICARO_HANDLER.set(obj, i, item);
+      });
+    }
+
+    return obj;
+  }
+  /**
+   * Factory function
+   * @param   {*} obj - anything can be an icaro Proxy
+   * @returns {Proxy}
+   */
+
+
+  function icaro(obj) {
+    return new Proxy(enhance(obj || {}), Object.create(ICARO_HANDLER));
+  }
+
+  return icaro;
 });
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
@@ -766,6 +755,252 @@ function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.itera
   Navigo.MATCH_REGEXP_FLAGS = '';
   return Navigo;
 });
+var vnjs = {
+  plugins: {},
+  TREE: {},
+  DEBUG: false,
+  playList: {},
+  prevAudio: "",
+  prevScreen: "",
+  screenList: {}
+};
+
+vnjs.on = function (event, handler) {
+  if (!vnjs.plugins[event]) {
+    vnjs.plugins[event] = [];
+  }
+
+  ;
+  vnjs.plugins[event].push(handler);
+};
+
+vnjs.emit = function (event) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  if (Array.isArray(vnjs.plugins[event])) {
+    vnjs.plugins[event].map(function (handler) {
+      handler.call.apply(handler, [vnjs].concat(args));
+    });
+  }
+  /*
+  else{
+   Выводятся системные слушатели
+   console.log(`Event [ ${event} ] not found`)
+  }
+  */
+
+};
+
+vnjs.off = function (event) {
+  delete vnjs.plugins[event];
+};
+/*
+ * В {state} должно помещаться все то
+ * что сохроняется в карту памяти
+ * И что важно загрузить из нее без последствий.
+ * В состоянии не должно быть мусора
+ */
+
+
+vnjs.state = {
+  scene: 'scene',
+  label: 'label',
+  index: 0,
+  screens: [] //заменить массив строкой.
+
+};
+/*
+ * Получает текущее тела из состояние
+ */
+
+vnjs.current = {
+  scene: function scene() {
+    return vnjs.TREE[vnjs.state.scene];
+  },
+  label: function label() {
+    return vnjs.TREE[vnjs.state.scene][vnjs.state.label];
+  },
+  object: function object() {
+    return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
+  }
+};
+
+vnjs.setScene = function (name, body) {
+  this.TREE[name] = body;
+  this.state.scene = name;
+  body.characters.map(function (character) {
+    var aliase = Object.keys(character)[0];
+    vnjs.on(aliase, function (reply) {
+      vnjs.emit('character', {
+        aliase: aliase,
+        param: character[aliase],
+        reply: reply
+      });
+    });
+  });
+  this.emit('load', body.assets); // this.parse();//??? Возможно это будет вызываться не здесь
+};
+
+vnjs.parse = function (obj) {
+  var ctx = null;
+
+  if (obj) {
+    ctx = obj;
+  } else {
+    ctx = vnjs.current.object();
+  }
+
+  ;
+
+  for (var event in ctx) {
+    vnjs.emit(event, ctx[event]);
+  }
+
+  ;
+};
+
+vnjs.next = function () {
+  this.parse();
+  this.state.index++;
+  return '-------------------------';
+};
+
+vnjs.init = function (conf) {
+  vnjs.conf = conf; // this.parse({'jump': conf.entryScene});
+
+  vnjs.emit('getScreens');
+  return true;
+};
+vnjs.on('getScreens', function () {
+  var conf = this.conf,
+      DEBUG = this.DEBUG,
+      emit = this.emit;
+
+  function fetchCss(filename) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = filename;
+    var h = document.getElementsByTagName('head')[0];
+    h.appendChild(l);
+  }
+
+  ;
+  var uriHtml = "".concat(conf.gameDir, "/screens.html");
+  var uriCss = "".concat(conf.gameDir, "/screens.css");
+  var gameRoot = document.querySelector(conf.element);
+  fetch(uriHtml).then(function (r) {
+    return r.text();
+  }).then(function (screens) {
+    fetchCss(uriCss);
+    gameRoot.innerHTML = screens;
+  }).then(function () {
+    var screensNodeList = document.querySelectorAll(conf.screenClass);
+    screensNodeList.forEach(function (screen) {
+      var styles = {
+        display: 'none',
+        width: '100%',
+        height: '100%'
+      };
+      Object.assign(screen.style, styles);
+      /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
+
+      screen.setAttribute("displayOld", screen.style.display);
+      vnjs.screenList[screen.id] = screen;
+      DEBUG && console.log(screen);
+    });
+    emit('screensLoaded');
+  }); //.catch(function(error) { console.error(error); })
+});
+vnjs.on('jump', function (pathname) {
+  var parse = this.parse,
+      emit = this.emit,
+      DEBUG = this.DEBUG,
+      conf = this.conf,
+      setScene = this.setScene;
+
+  function getScene(data) {
+    var sceneName = data.sceneName,
+        labelName = data.labelName,
+        index = data.index;
+    var uri = "".concat(conf.gameDir, "/").concat(conf.scenesDir, "/").concat(conf.local, "/").concat(sceneName, ".json");
+    emit('preload', data);
+    fetch(uri).then(function (r) {
+      return r.json();
+    }).then(function (sceneBody) {
+      if (DEBUG) {
+        console.log(sceneName, sceneBody); //  console.log(data);
+      }
+
+      vnjs.setScene(sceneName, sceneBody, labelName, index);
+    });
+    /*
+    
+    setScene("*", sceneBody);
+    
+    state.label = "mainMenu";
+    
+    next();
+    */
+  }
+
+  function isScene(pathName) {
+    var arr = pathName.split('/');
+    /*
+        scene/label/index
+    */
+
+    if (arr.length === 3) {
+      if (isNaN(+arr[2])) {
+        console.warn('scene/label/index');
+        console.warn('Index should be a Number');
+        vnjs.state.index = 0;
+      }
+
+      return true;
+    }
+    /*
+        scene/label
+    */
+    else if (arr.length === 2) {
+        var isLabel = false;
+        /*  scene/label  */
+
+        if (isNaN(+arr[1])) {
+          isLabel = true;
+        }
+        /*  label/index  */
+        else {
+            isLabel = false;
+          }
+
+        return isLabel;
+      }
+  }
+
+  ;
+  var arr = pathname.split('/');
+
+  if (isScene(pathname)) {
+    // set state
+    vnjs.state.scene = arr[0];
+    vnjs.state.label = arr[1];
+    vnjs.state.index = arr[2] || 0;
+    getScene({
+      sceneName: arr[0],
+      labelName: arr[1],
+      index: vnjs.state.index
+    });
+  } else {
+    // set state
+    // vnjs.state.scene = vnjs.state.scene;
+    vnjs.state.label = arr[1];
+    vnjs.state.index = arr[2] || 0; // setLabel(pathname, ctx.scene[pathname],  obj.num );
+
+    parse();
+  }
+});
 {
   var root = null;
   vnjs.router = new Navigo(root, true, '#!');
@@ -790,7 +1025,9 @@ vnjs.router.on(function () {
 }).on('/game/:scene/:label', function (params) {
   var scene = params.scene,
       label = params.label;
-  console.warn([scene, label].join('|'));
+  vnjs.parse({
+    jump: [scene, label].join('/')
+  });
 }).on('/game/:scene/:label/:index', function (params) {
   //router.navigate('/products/list');
   var scene = params.scene,

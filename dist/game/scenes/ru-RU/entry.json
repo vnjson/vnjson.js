@@ -20,5 +20,11 @@
   ],
   "point": [
     { "screen": "main-menu" }
+  ],
+  "settings": [
+    {"screen": "settings"}
+  ],
+  "about": [
+    {"screen": "about"}
   ]
 }

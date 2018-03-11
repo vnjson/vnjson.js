@@ -17,11 +17,15 @@ vnjs.router
 
   .on('/game/:scene', function(params){
   	let { scene } = params;
+
     console.warn([scene].join('|'))
   })
   .on('/game/:scene/:label', function(params){
   	let { scene, label } = params;
-    console.warn([scene,label].join('|'))
+    vnjs.parse({
+            jump: [ scene, label ].join('/')
+          })
+    
   })
   .on('/game/:scene/:label/:index', function (params) {
 //router.navigate('/products/list');

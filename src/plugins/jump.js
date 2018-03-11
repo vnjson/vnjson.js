@@ -1,57 +1,82 @@
 vnjs.on('jump', function(pathname){
 
-const { parse, state, emit, DEBUG } = this;
+const { parse,  emit, DEBUG, conf, setScene } = this;
 
+function getScene(data){
+  const { sceneName, labelName, index } = data;
 
-/*****
-#WARN
-> {jump: 'label/0'}
-< Object { labelName: "0", sceneName: "label", index: 0 }
+  let uri = `${conf.gameDir}/${conf.scenesDir}/${conf.local}/${sceneName}.json`;
+  emit('preload', data);
+  fetch(uri)
+  .then(r=>r.json())
+  .then(sceneBody=>{
 
+    if(DEBUG){
+      console.log(sceneName, sceneBody)
+    //  console.log(data);
+    }
 
-function getName(){
-  let sceneName = pathArr[0];
-  let labelName = pathArr[1];
-  let index = pathArr[2]||0;
-  return { labelName, sceneName, index: (+index) };
-};
+    vnjs.setScene(sceneName, sceneBody, labelName, index);
 
-function isNum(num){
-  return /[0-9]/.test(+num)
-};
-******/
-function isScene(pathname){
-
-  if(pathArr.length===2){
-    return true;
-  }else{
-   
-    return false;
-  }
-};
+  });
 /*
- var pathObj = getName(pathname);
 
-{
-	DEBUG&&console.log('jump: ', pathObj);
-};
+setScene("*", sceneBody);
 
+state.label = "mainMenu";
+
+next();
 */
 
-const pathArr = pathname.split('/');
+}
+
+function isScene(pathName){
+  var arr = pathName.split('/');
+  /*
+      scene/label/index
+  */
+  if(arr.length===3){
+    if( isNaN(+arr[2]) ){
+      console.warn('scene/label/index')
+      console.warn('Index should be a Number');
+      vnjs.state.index = 0;
+    }
+    
+    return true;
+  }
+  /*
+      scene/label
+  */
+  else if(arr.length===2){
+    var isLabel = false;
+     /*  scene/label  */
+    if( isNaN(+arr[1]) ){
+      isLabel = true;
+    }
+    /*  label/index  */
+    else {
+      isLabel = false;
+    }
+   
+    return isLabel;
+  }
+ 
+};
+
+  var arr = pathname.split('/');
 
 if(isScene(pathname)){
     // set state
-    vnjs.state.scene = pathArr[0];
-    vnjs.state.label = pathArr[1];
-    vnjs.state.index = 0;//pathObj.index;
-    emit('getScene',{ sceneName:pathArr[0], labelName:pathArr[1], index: 0 });
+    vnjs.state.scene = arr[0];
+    vnjs.state.label = arr[1];
+    vnjs.state.index = arr[2]||0;
+   getScene({ sceneName:  arr[0], labelName:  arr[1], index:  vnjs.state.index });
 }else{
 
 	 // set state
    // vnjs.state.scene = vnjs.state.scene;
-    vnjs.state.label =  pathArr[0];
-    vnjs.state.index = 0;//pathObj.index;
+    vnjs.state.label = arr[1];
+    vnjs.state.index = arr[2]||0;
 
    // setLabel(pathname, ctx.scene[pathname],  obj.num );
    parse();
@@ -60,3 +85,5 @@ if(isScene(pathname)){
 
 
 });
+
+
