@@ -1,244 +1,3 @@
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-(function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.icaro = factory();
-})(this, function () {
-  'use strict'; // fork of https://github.com/YuzuJS/setImmediate
-
-  (function (global) {
-    if (global.setImmediate) {
-      return;
-    }
-
-    var tasksByHandle = {};
-    var nextHandle = 1; // Spec says greater than zero
-
-    var currentlyRunningATask = false;
-    var registerImmediate;
-
-    function setImmediate(callback) {
-      tasksByHandle[nextHandle] = callback;
-      registerImmediate(nextHandle);
-      return nextHandle++;
-    }
-
-    function clearImmediate(handle) {
-      delete tasksByHandle[handle];
-    }
-
-    function runIfPresent(handle) {
-      // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
-      // So if we're currently running a task, we'll need to delay this invocation.
-      if (currentlyRunningATask) {
-        // Delay by doing a setTimeout. setImmediate was tried instead, but in Firefox 7 it generated a
-        // "too much recursion" error.
-        setTimeout(runIfPresent, 0, handle);
-      } else {
-        var task = tasksByHandle[handle];
-
-        if (task) {
-          currentlyRunningATask = true;
-
-          try {
-            task();
-          } finally {
-            clearImmediate(handle);
-            currentlyRunningATask = false;
-          }
-        }
-      }
-    }
-
-    function installNextTickImplementation() {
-      registerImmediate = function registerImmediate(handle) {
-        process.nextTick(function () {
-          runIfPresent(handle);
-        });
-      };
-    }
-
-    function installPostMessageImplementation() {
-      // Installs an event handler on `global` for the `message` event: see
-      // * https://developer.mozilla.org/en/DOM/window.postMessage
-      // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
-      var messagePrefix = "setImmediate$".concat(Math.random(), "$");
-
-      var onGlobalMessage = function onGlobalMessage(event) {
-        if (event.source === global && typeof event.data === 'string' && event.data.indexOf(messagePrefix) === 0) {
-          runIfPresent(+event.data.slice(messagePrefix.length));
-        }
-      };
-
-      global.addEventListener('message', onGlobalMessage, false);
-
-      registerImmediate = function registerImmediate(handle) {
-        global.postMessage(messagePrefix + handle, '*');
-      };
-    } // Don't get fooled by e.g. browserify environments.
-
-
-    if ({}.toString.call(global.process) === '[object process]') {
-      // For Node.js before 0.9
-      installNextTickImplementation();
-    } else {
-      // For non-IE10 modern browsers
-      installPostMessageImplementation();
-    }
-
-    global.setImmediate = setImmediate;
-    global.clearImmediate = clearImmediate;
-  })(typeof self === 'undefined' ? typeof global === 'undefined' ? window : global : self);
-
-  var listeners = new WeakMap();
-  var dispatch = Symbol();
-  var isIcaro = Symbol();
-  var timer = Symbol();
-  var isArray = Symbol();
-  var changes = Symbol();
-  /**
-   * Public api
-   * @type {Object}
-   */
-
-  var API = {
-    /**
-     * Set a listener on any object function or array
-     * @param   {Function} fn - callback function associated to the property to listen
-     * @returns {API}
-     */
-    listen: function listen(fn) {
-      var type = _typeof(fn);
-
-      if (type !== 'function') throw "The icaro.listen method accepts as argument \"typeof 'function'\", \"".concat(type, "\" is not allowed");
-      if (!listeners.has(this)) listeners.set(this, []);
-      listeners.get(this).push(fn);
-      return this;
-    },
-
-    /**
-     * Unsubscribe to a property previously listened or to all of them
-     * @param   {Function} fn - function to unsubscribe
-     * @returns {API}
-     */
-    unlisten: function unlisten(fn) {
-      var callbacks = listeners.get(this);
-      if (!callbacks) return;
-
-      if (fn) {
-        var index = callbacks.indexOf(fn);
-        if (~index) callbacks.splice(index, 1);
-      } else {
-        listeners.set(this, []);
-      }
-
-      return this;
-    },
-
-    /**
-     * Convert the icaro object into a valid JSON object
-     * @returns {Object} - simple json object from a Proxy
-     */
-    toJSON: function toJSON() {
-      var _this = this;
-
-      return Object.keys(this).reduce(function (ret, key) {
-        var value = _this[key];
-        ret[key] = value && value.toJSON ? value.toJSON() : value;
-        return ret;
-      }, this[isArray] ? [] : {});
-    }
-  };
-  /**
-   * Icaro proxy handler
-   * @type {Object}
-   */
-
-  var ICARO_HANDLER = {
-    set: function set(target, property, value) {
-      // filter the values that didn't change
-      if (target[property] !== value) {
-        if (value === Object(value) && !value[isIcaro]) {
-          target[property] = icaro(value);
-        } else {
-          target[property] = value;
-        }
-
-        target[dispatch](property, value);
-      }
-
-      return true;
-    }
-  };
-  /**
-   * Define a private property
-   * @param   {*} obj - receiver
-   * @param   {String} key - property name
-   * @param   {*} value - value to set
-   */
-
-  function define(obj, key, value) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: false,
-      configurable: false,
-      writable: false
-    });
-  }
-  /**
-   * Enhance the icaro objects adding some hidden props to them and the API methods
-   * @param   {*} obj - anything
-   * @returns {*} the object received enhanced with some extra properties
-   */
-
-
-  function enhance(obj) {
-    var _Object$assign;
-
-    // add some "kinda hidden" properties
-    Object.assign(obj, (_Object$assign = {}, _defineProperty(_Object$assign, changes, new Map()), _defineProperty(_Object$assign, timer, null), _defineProperty(_Object$assign, isIcaro, true), _defineProperty(_Object$assign, dispatch, function (property, value) {
-      if (listeners.has(obj)) {
-        clearImmediate(obj[timer]);
-        obj[changes].set(property, value);
-        obj[timer] = setImmediate(function () {
-          listeners.get(obj).forEach(function (fn) {
-            fn(obj[changes]);
-          });
-          obj[changes].clear();
-        });
-      }
-    }), _Object$assign)); // Add the API methods bound to the original object
-
-    Object.keys(API).forEach(function (key) {
-      define(obj, key, API[key].bind(obj));
-    }); // remap values and methods
-
-    if (Array.isArray(obj)) {
-      obj[isArray] = true; // remap the initial array values
-
-      obj.forEach(function (item, i) {
-        obj[i] = null; // force a reset
-
-        ICARO_HANDLER.set(obj, i, item);
-      });
-    }
-
-    return obj;
-  }
-  /**
-   * Factory function
-   * @param   {*} obj - anything can be an icaro Proxy
-   * @returns {Proxy}
-   */
-
-
-  function icaro(obj) {
-    return new Proxy(enhance(obj || {}), Object.create(ICARO_HANDLER));
-  }
-
-  return icaro;
-});
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
 (function (global, factory) {
@@ -764,6 +523,15 @@ var vnjs = {
   prevScreen: "",
   screenList: {}
 };
+vnjs.conf = {
+  prefix: 'vnjson-',
+  element: '.gameElement',
+  gameDir: './game',
+  scenesDir: "scenes",
+  local: 'en-US',
+  entryPoint: 'entry/point',
+  screenClass: '.screen'
+};
 
 vnjs.on = function (event, handler) {
   if (!vnjs.plugins[event]) {
@@ -808,7 +576,9 @@ vnjs.state = {
   scene: 'scene',
   label: 'label',
   index: 0,
-  screens: [] //заменить массив строкой.
+  screen: "",
+  //current screen
+  data: {} //userData
 
 };
 /*
@@ -840,7 +610,7 @@ vnjs.setScene = function (name, body) {
       });
     });
   });
-  this.emit('load', body.assets); // this.parse();//??? Возможно это будет вызываться не здесь
+  this.emit('load', body.assets);
 };
 
 vnjs.parse = function (obj) {
@@ -864,15 +634,81 @@ vnjs.parse = function (obj) {
 vnjs.next = function () {
   this.parse();
   this.state.index++;
+  this.emit('next', this.state.index);
   return '-------------------------';
 };
 
 vnjs.init = function (conf) {
-  vnjs.conf = conf; // this.parse({'jump': conf.entryScene});
+  var _this = this;
 
-  vnjs.emit('getScreens');
+  Object.assign(vnjs.conf, conf);
+  this.emit('getScreens');
+  this.on('screensLoaded', function () {
+    _this.parse({
+      jump: conf.entryPoint
+    });
+  });
   return true;
 };
+
+vnjs.progressSave = function () {
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+  var conf = this.conf;
+  var serialState = JSON.stringify(this.state);
+  localStorage.setItem(conf.prefix + id, serialState);
+  this.emit('progressSave', {
+    id: id
+  });
+};
+
+vnjs.progressLoad = function () {
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+  var conf = this.conf;
+  var _state = this.state,
+      screen = _state.screen,
+      scene = _state.scene,
+      label = _state.label,
+      index = _state.index;
+  vnjs.state = JSON.parse(localStorage.getItem(conf.prefix + id));
+  this.emit('progressLoad', {
+    id: id
+  });
+  this.parse({
+    screen: screen
+  });
+  this.parse({
+    jump: [scene, label, index].join('/')
+  });
+};
+
+vnjs.progressDelete = function (id) {
+  var conf = this.conf;
+  delete localStorage[conf.prefix + id];
+  this.emit('progressDelete', {
+    id: id
+  });
+};
+
+var log = {
+  error: function error(msg) {
+    console.log("%c[ Error ] %c ".concat(msg), "color: white; background: red; font-size:12px;", "color: red; font-size:12px;");
+  },
+  scene: function scene(_scene, label) {
+    console.log("%c ".concat(_scene, " %c ").concat(label), "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;");
+  },
+  event: function event(e) {
+    var msg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+    console.log("%c[ ".concat(e, " ]%c ").concat(msg), "color: white; background: orange; font-size:12px;", "color: black; font-size:12px;");
+  },
+  //#A0BACB
+  index: function index(_) {
+    console.log("%c vnjson.js %c v0.9.3 %c license %c MIT ", "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;", "color: white; background: #555555; font-size:12px;", "background: #007EC6; color: white; font-size:12px;");
+  },
+  license: function license(_) {
+    console.log("%c license %c MIT ", "color: white; background: #555555; font-size:12px;", "background: #007EC6; color: white; font-size:12px;");
+  }
+};
+log.index();
 vnjs.on('getScreens', function () {
   var conf = this.conf,
       DEBUG = this.DEBUG,
@@ -907,8 +743,7 @@ vnjs.on('getScreens', function () {
       /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
 
       screen.setAttribute("displayOld", screen.style.display);
-      vnjs.screenList[screen.id] = screen;
-      DEBUG && console.log(screen);
+      vnjs.screenList[screen.id] = screen; //   DEBUG&&console.log(screen);
     });
     emit('screensLoaded');
   }); //.catch(function(error) { console.error(error); })
@@ -920,20 +755,16 @@ vnjs.on('jump', function (pathname) {
       conf = this.conf,
       setScene = this.setScene;
 
-  function getScene(data) {
-    var sceneName = data.sceneName,
-        labelName = data.labelName,
-        index = data.index;
+  function getScene(sceneName, labelName) {
     var uri = "".concat(conf.gameDir, "/").concat(conf.scenesDir, "/").concat(conf.local, "/").concat(sceneName, ".json");
-    emit('preload', data);
+    emit('preload', {
+      sceneName: sceneName,
+      labelName: labelName
+    });
     fetch(uri).then(function (r) {
       return r.json();
     }).then(function (sceneBody) {
-      if (DEBUG) {
-        console.log(sceneName, sceneBody); //  console.log(data);
-      }
-
-      vnjs.setScene(sceneName, sceneBody, labelName, index);
+      vnjs.setScene(sceneName, sceneBody);
     });
     /*
     
@@ -944,6 +775,10 @@ vnjs.on('jump', function (pathname) {
     next();
     */
   }
+
+  vnjs.on('next', function () {
+    vnjs.router.navigate('/' + vnjs.state.scene + '/' + vnjs.state.label + '/' + vnjs.state.index);
+  });
 
   function isScene(pathName) {
     var arr = pathName.split('/');
@@ -987,17 +822,14 @@ vnjs.on('jump', function (pathname) {
     vnjs.state.scene = arr[0];
     vnjs.state.label = arr[1];
     vnjs.state.index = arr[2] || 0;
-    getScene({
-      sceneName: arr[0],
-      labelName: arr[1],
-      index: vnjs.state.index
-    });
+    getScene(vnjs.state.scene, vnjs.state.label);
+    vnjs.router.navigate('/' + pathname + '/' + vnjs.state.index);
   } else {
     // set state
     // vnjs.state.scene = vnjs.state.scene;
-    vnjs.state.label = arr[1];
-    vnjs.state.index = arr[2] || 0; // setLabel(pathname, ctx.scene[pathname],  obj.num );
-
+    vnjs.state.label = arr[0];
+    vnjs.state.index = arr[1] || 0;
+    vnjs.router.navigate('/' + vnjs.state.scene + '/' + vnjs.state.label + '/' + vnjs.state.index);
     parse();
   }
 });
@@ -1006,34 +838,43 @@ vnjs.on('jump', function (pathname) {
   vnjs.router = new Navigo(root, true, '#!');
 }
 ;
-vnjs.router.on(function () {
-  console.info('############ vnjson.js #############');
+vnjs.router.on(function () {// vnjs.parse({screen: 'main-menu'})
+}).on('/screen/:id', function (params) {
+  var id = params.id;
   vnjs.parse({
-    screen: 'main-menu'
+    screen: id
   });
-}).on('/about', function () {
-  vnjs.parse({
-    screen: 'about'
-  });
-}).on('/settings', function () {
-  vnjs.parse({
-    screen: 'settings'
-  });
-}).on('/game/:scene', function (params) {
-  var scene = params.scene;
-  console.warn([scene].join('|'));
-}).on('/game/:scene/:label', function (params) {
-  var scene = params.scene,
-      label = params.label;
-  vnjs.parse({
-    jump: [scene, label].join('/')
-  });
-}).on('/game/:scene/:label/:index', function (params) {
+})
+/* .on('/:scene', function(params){
+	let { scene } = params;
+  console.error('Необходимо задать лабел')
+ 
+    vnjs.parse({
+          jump: [ scene, label ].join('/')
+        })
+})*/
+
+/* .on('/:scene/:label', function(params){
+	let { scene, label } = params;
+ vnjs.parse({
+          jump: [ scene, label, 0 ].join('/')
+        })
+  
+})*/
+.on('/:scene/:label/:index', function (params) {
   //router.navigate('/products/list');
   var scene = params.scene,
       label = params.label,
       index = params.index;
-  console.warn([scene, label, index].join('|'));
+  /* vnjs.parse({
+         jump: [ scene, label, index ].join('/')
+       })*/
+
+  vnjs.on('character', function (data) {
+    var param = data.param,
+        reply = data.reply;
+    console.log("%c ".concat(param.name, ": %c ").concat(reply, " "), "color: white;background-color:".concat(param.color, ";"));
+  });
 }).notFound(function () {
   console.warn('Маршрута не существует');
 }).resolve();
@@ -1119,6 +960,7 @@ vnjs.on('screen', function (id) {
   //hide.pref.screen
   //push.state.screens
 
+  vnjs.state.screen = id;
   show(vnjs.screenList[id]);
 });
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1174,7 +1016,7 @@ vnjs.on('load', function (assets) {
       audio.src = asset.path;
       vnjs.playList[asset.id] = audio;
     } else {
-      console.error('asset type incorect');
+      console.error('Incorect asset type');
       return "break";
     }
 
@@ -1213,10 +1055,6 @@ vnjs.on('load', function (assets) {
     }
   }
 
-  ;
-  {
-    DEBUG && console.info('LOADING...');
-  }
   ;
   emit('postload');
 });

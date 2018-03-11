@@ -1,22 +1,20 @@
 vnjs.on('jump', function(pathname){
 
+
+
 const { parse,  emit, DEBUG, conf, setScene } = this;
 
-function getScene(data){
-  const { sceneName, labelName, index } = data;
+function getScene(sceneName, labelName){
+
 
   let uri = `${conf.gameDir}/${conf.scenesDir}/${conf.local}/${sceneName}.json`;
-  emit('preload', data);
+  emit('preload', { sceneName, labelName });
   fetch(uri)
   .then(r=>r.json())
   .then(sceneBody=>{
 
-    if(DEBUG){
-      console.log(sceneName, sceneBody)
-    //  console.log(data);
-    }
 
-    vnjs.setScene(sceneName, sceneBody, labelName, index);
+    vnjs.setScene(sceneName, sceneBody);
 
   });
 /*
@@ -29,6 +27,10 @@ next();
 */
 
 }
+ vnjs.on('next', function(){
+   vnjs.router.navigate('/'+vnjs.state.scene+'/'+vnjs.state.label+'/'+vnjs.state.index);
+
+ })
 
 function isScene(pathName){
   var arr = pathName.split('/');
@@ -66,19 +68,26 @@ function isScene(pathName){
   var arr = pathname.split('/');
 
 if(isScene(pathname)){
+
+
     // set state
     vnjs.state.scene = arr[0];
     vnjs.state.label = arr[1];
     vnjs.state.index = arr[2]||0;
-   getScene({ sceneName:  arr[0], labelName:  arr[1], index:  vnjs.state.index });
-}else{
+   getScene(vnjs.state.scene, vnjs.state.label);
 
+   vnjs.router.navigate('/'+pathname+'/'+vnjs.state.index);
+
+}else{
+ 
 	 // set state
    // vnjs.state.scene = vnjs.state.scene;
-    vnjs.state.label = arr[1];
-    vnjs.state.index = arr[2]||0;
+    vnjs.state.label = arr[0];
+    vnjs.state.index = arr[1]||0;
 
-   // setLabel(pathname, ctx.scene[pathname],  obj.num );
+    vnjs.router.navigate('/'+vnjs.state.scene+'/'+vnjs.state.label+'/'+vnjs.state.index);
+   
+
    parse();
 }
 

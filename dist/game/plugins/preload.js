@@ -1,13 +1,15 @@
 
 
 
-vnjs.on('preload', function(){
+vnjs.on('preload', function(data){
   this.parse({ screen: 'preloader' })
-  console.warn('[ preload ]')
+  log.scene(data.sceneName, data.labelName)
+  log.event('preload')
 })
 
 vnjs.on('asset', (asset)=>{
-  console.info(asset)
+  console.log(asset)
+
 });
 
 vnjs.on('postload', function(){
@@ -15,5 +17,6 @@ vnjs.on('postload', function(){
     hide(document.getElementById('preloader'))
   }, 2000)
   this.parse();
-  console.warn('[ postload ]')
+ // console.warn('[ postload ]')
+ log.event('postload')
 })

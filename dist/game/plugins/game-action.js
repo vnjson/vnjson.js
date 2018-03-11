@@ -26,3 +26,18 @@ document.querySelector('.dialog-box')
 
 
 });
+
+
+
+vnjs.on('memory-card', function(elDOM){
+ 
+
+
+for(let key in localStorage){
+  elDOM.innerHTML += `<a href='#' data-key='${key}'>${key}</a><br>`;
+
+}
+
+
+
+})

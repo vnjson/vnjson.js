@@ -89,5 +89,6 @@ vnjs.on('screen', function(id){
 	//show.id
 	//hide.pref.screen
 	//push.state.screens
+vnjs.state.screen = id;
 	show(vnjs.screenList[id])
 })

@@ -34,17 +34,12 @@ let progress = Math.round(PROGREESS+=persent)+"%";
         vnjs.playList[asset.id] = audio; 
   }
   else{
-    console.error('asset type incorect');
+    console.error('Incorect asset type');
     break;
   }
 let data = Object.assign(asset, {progress, position});
                   emit('asset', data);
 };
-
-{
-  DEBUG&&console.info('LOADING...');
-};
-
 
   emit('postload');
 });

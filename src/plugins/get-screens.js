@@ -40,7 +40,7 @@ function fetchCss(filename) {
 
             vnjs.screenList[screen.id] = screen;
             
-            DEBUG&&console.log(screen);
+         //   DEBUG&&console.log(screen);
             
             });
 

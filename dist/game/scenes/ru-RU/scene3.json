@@ -1,22 +1,9 @@
 {
   "assets": [
     {
-      "id": "battle-field",
-      "size": "68 kB",
-      "extension": ".png",
-      "path": "/assets/battle-field.png"
-    },
-    {
-      "id": "cursor_pirrate",
-      "size": "2.28 kB",
-      "extension": ".png",
-      "path": "/assets/cursor_pirrate.png"
-    },
-    {
-      "id": "dialog_box",
-      "size": "3.2 kB",
-      "extension": ".png",
-      "path": "/assets/dialog_box.png"
+      "id": "dialog-box1",
+      "type": "image",
+      "path": "/game/assets/dialog-box1.png"
     }
   ],
   "chapter1": [
@@ -40,7 +27,7 @@
       "screen": "about"
     },
     {
-      "jump": "lab/start"
+      "jump": "chapter2"
     }
   ],
   "chapter2": [

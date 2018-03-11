@@ -5,21 +5,17 @@ vnjs.DEBUG = true;
 
 
 vnjs.init({
-	prefix: '',
+/*	prefix: '',
 	element: '.gameElement',
 	gameDir: './game',
-	scenesDir: "scenes",
+	scenesDir: "scenes",*/
 	local: 'ru-RU',
-
+	entryPoint: 'entry/point',
 	screenClass: '.screen'
 });
 
 
 
-vnjs.on('screensLoaded', function(){
-
-  this.parse( { jump: 'entry/point' } )
-});
 
 
 vnjs.on('scene', function(data){
