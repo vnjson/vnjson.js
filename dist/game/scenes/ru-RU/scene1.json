@@ -1,13 +1,24 @@
 {
-	"assets": [],
-	"characters": [],
-	"mainMenu": [
-	  {
-		"menu": [
-			{"Начать игру": { "jump": "label1" , "point": 7}},
-			{"Загрузить": { "jump":"memoryCard", "point": -10}},
-			{"О нас": { "jump": "about", "point": 12 }}
-		]
-	  }
-	]
+  "assets": [
+    { "id": "dialog-box", "type": "image", "path": "/game/assets/dialog-box1.png" },
+    { "id": "background", "type": "image", "path": "/game/assets/background.png" },
+    { "id": "BackBackX", "type": "audio", "path": "/game/assets/BackBackX.mp3" },
+
+    {
+      "id": "z-pam",
+      "type": "audio",
+      "path": "/game/assets/MNOGOZNAAL-Z-PAM.mp3"
+    },
+    {
+      "id": "Ultimate",
+      "type": "audio",
+      "path": "/game/assets/DenzelCurry-Ultimate.mp3"
+    }
+  ],
+  "characters": [
+    {"author": { "name": "Kasin Sergey" }}
+  ],
+  "chapter1": [
+    { "screen": "main-menu" }
+  ]
 }

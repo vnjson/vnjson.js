@@ -9,7 +9,7 @@ vnjs.on('preload', function(data){
 
 vnjs.on('asset', (asset)=>{
   console.log(asset)
-
+ document.getElementById('percents').innerHTML = asset.progress
 });
 
 vnjs.on('postload', function(){

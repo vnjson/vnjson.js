@@ -11,7 +11,7 @@ var vnjs = {
 };
 
 vnjs.conf = {
-      prefix: 'vnjson-',
+      prefix: '',
       element: '.gameElement',
       gameDir: './game',
       scenesDir: "scenes",
@@ -73,7 +73,11 @@ vnjs.current = {
       },
       object: function (){
         return vnjs.TREE[vnjs.state.scene][vnjs.state.label][vnjs.state.index];
-     }
+      },
+      screen: function(){
+        //> DOM<
+        return document.getElementById(`${vnjs.conf.prefix}${vnjs.state.screen}`)
+      }
 };
 
 
@@ -110,7 +114,7 @@ vnjs.parse = function (obj){
         vnjs.emit(event, ctx[event]);
 
   };
-
+  this.emit('parse', ctx)
 };
 
 
@@ -129,7 +133,7 @@ vnjs.init = function (conf){
    
      this.parse( { jump: conf.entryPoint } )
   })
- 
+  this.emit('init')
   return true;
 };
 
@@ -173,12 +177,11 @@ var log = {
   },
   //#A0BACB
   index: _=>{
-    console.log(`%c vnjson.js %c v0.9.3 %c license %c MIT `, "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;", "color: white; background: #555555; font-size:12px;", "background: #007EC6; color: white; font-size:12px;");
-  },
-  license: _=>{
-     console.log(`%c license %c MIT `, "color: white; background: #555555; font-size:12px;", "background: #007EC6; color: white; font-size:12px;");
+    console.log(`%c vnjson.js %c v0.9.3`, "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;");
   }
 
 }
+
+
 
 log.index();

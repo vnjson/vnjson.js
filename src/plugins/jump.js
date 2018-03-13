@@ -27,10 +27,7 @@ next();
 */
 
 }
- vnjs.on('next', function(){
-   vnjs.router.navigate('/'+vnjs.state.scene+'/'+vnjs.state.label+'/'+vnjs.state.index);
 
- })
 
 function isScene(pathName){
   var arr = pathName.split('/');
@@ -76,7 +73,7 @@ if(isScene(pathname)){
     vnjs.state.index = arr[2]||0;
    getScene(vnjs.state.scene, vnjs.state.label);
 
-   vnjs.router.navigate('/'+pathname+'/'+vnjs.state.index);
+
 
 }else{
  
@@ -84,9 +81,6 @@ if(isScene(pathname)){
    // vnjs.state.scene = vnjs.state.scene;
     vnjs.state.label = arr[0];
     vnjs.state.index = arr[1]||0;
-
-    vnjs.router.navigate('/'+vnjs.state.scene+'/'+vnjs.state.label+'/'+vnjs.state.index);
-   
 
    parse();
 }

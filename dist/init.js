@@ -5,12 +5,12 @@ vnjs.DEBUG = true;
 
 
 vnjs.init({
-/*	prefix: '',
+	prefix: '',
 	element: '.gameElement',
 	gameDir: './game',
-	scenesDir: "scenes",*/
+	scenesDir: "scenes",
 	local: 'ru-RU',
-	entryPoint: 'entry/point',
+	entryPoint: 'scene1/chapter1',
 	screenClass: '.screen'
 });
 
