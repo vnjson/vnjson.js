@@ -165,23 +165,26 @@ vnjs.progressDelete = function(id){
 
 
 
-var log = {
+vnjs.log = {
   error: msg=>{
-    console.log(`%c[ Error ] %c ${msg}`, "color: white; background: red; font-size:12px;", "color: red; font-size:12px;");
+    console.log(`%c Error %c ${msg}`, "color: white; background: red; font-size:12px;", "color: red; font-size:12px;");
   },
+  /*
   scene: (scene, label)=>{
     console.log(`%c ${scene} %c ${label}`, "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;");
-  },
+  },*/
   event: (e, msg="")=>{
-    console.log(`%c[ ${e} ]%c ${msg}`, "color: white; background: orange; font-size:12px;", "color: black; font-size:12px;");
+    console.log(`%c ${e} %c ${msg} `, "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;");
   },
   //#A0BACB
   index: _=>{
     console.log(`%c vnjson.js %c v0.9.3`, "color: #C9DAE4; background: #A0BACB; font-size:12px;", "background: #C9DAE4; color: #A0BACB; font-size:12px;");
+  },
+  info: data=>{
+    console.log(`%c ${data}`, "color: #A0BACB; background: #ffffff; font-size:12px;")
   }
-
 }
 
 
 
-log.index();
+vnjs.log.index();

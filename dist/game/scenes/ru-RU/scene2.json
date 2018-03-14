@@ -1,34 +1,32 @@
 {
   "assets": [
     {
-      "id": "dialog-box1",
+      "id": "purple",
       "type": "image",
-      "path": "/game/assets/dialog-box1.png"
+      "path": "/game/assets/bg-purple.png"
+    },
+    {
+      "id": "yellow",
+      "type": "image",
+      "path": "/game/assets/bg-yellow.png"
     },
     {
       "id": "settings",
       "type": "image",
       "path": "/game/assets/settings.png"
-    },
-
-    {
-      "id": "z-pam",
-      "type": "audio",
-      "path": "/game/assets/MNOGOZNAAL-Z-PAM.mp3"
-    },
-    {
-      "id": "Ultimate",
-      "type": "audio",
-      "path": "/game/assets/DenzelCurry-Ultimate.mp3"
     }
   ],
   "chapter1": [
+    {"al": "Он пробуждается!!", "scene": "yellow"},
     {
-      "pr": "chapy[ 1 ] Привет! Давненько не виделись",
+      "pr": [
+        "Хм! И правда", 
+        " Давно я подобного не встречал"
+      ],
      
       "audio": {
           "id": "Ultimate", 
-          "action": "play"
+          "action": "pause"
       }
     },
     {

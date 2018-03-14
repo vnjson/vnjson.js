@@ -2,21 +2,22 @@
 
 
 vnjs.on('preload', function(data){
-  this.parse({ screen: 'preloader' })
-  log.scene(data.sceneName, data.labelName)
-  log.event('preload')
+ // vnjs.parse({ screen: 'preloader' })
+
+  show(document.getElementById('preloader'))
+  
 })
 
 vnjs.on('asset', (asset)=>{
-  console.log(asset)
+  
  document.getElementById('percents').innerHTML = asset.progress
 });
 
 vnjs.on('postload', function(){
   setTimeout(_=>{
     hide(document.getElementById('preloader'))
+    vnjs.parse();
   }, 2000)
-  this.parse();
- // console.warn('[ postload ]')
- log.event('postload')
+
+
 })

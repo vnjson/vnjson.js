@@ -1,17 +1,20 @@
 vnjs.on('game-action', function(){
 
-function print1(str){
+function print1(str, callback){
 var el =  document.querySelector('.reply');
-var typeSpeed = 70;
+var typeSpeed = 40;
 
 var arr = str.split('')
 
 var i = 0;
-el.innerHTML = "";
+if(typeof str!='object'){
+  el.innerHTML = "";
+}
+
 function int(){
   if(i>=arr.length-1){
     clearInterval(tId);
-     dBox.addEventListener('click', handler);
+    callback();
   }
  
   
@@ -53,7 +56,20 @@ vnjs.on('character', function(data){
     nameBox.innerHTML = name;
   let reply = document.querySelector('.reply');
    // reply.innerHTML = data.reply;
-    print1(data.reply)
+
+   if(typeof data.reply==="object"){
+    /*
+     * pr: ['1', '2'] Вы водить текст не заново а продолжить
+     */
+       print1(data.reply[0], ()=>{
+          dBox.addEventListener('click', handler);
+       })
+   }else{
+    print1(data.reply, ()=>{
+       dBox.addEventListener('click', handler);
+    })
+   }
+   
 });
 
 
