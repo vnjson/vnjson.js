@@ -121,23 +121,65 @@ vnjs.parse = function (obj) {
 };
 
 vnjs.next = function () {
-  this.parse();
   this.state.index++;
-  this.emit('next', this.state.index);
-  return '-------------------------';
+  this.parse();
+};
+
+vnjs.getScreens = function () {
+  var param = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var callback = arguments.length > 1 ? arguments[1] : undefined;
+  var conf = this.conf,
+      DEBUG = this.DEBUG,
+      emit = this.emit;
+
+  function fetchCss(filename) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = filename;
+    var h = document.getElementsByTagName('head')[0];
+    h.appendChild(l);
+  }
+
+  ;
+  var uriHtml = "".concat(conf.gameDir, "/screens.html");
+  var uriCss = "".concat(conf.gameDir, "/screens.css");
+  var gameRoot = document.querySelector(conf.element);
+  fetch(uriHtml).then(function (r) {
+    return r.text();
+  }).then(function (screens) {
+    fetchCss(uriCss);
+    gameRoot.innerHTML = screens;
+  }).then(function () {
+    var screensNodeList = document.querySelectorAll(conf.screenClass);
+    screensNodeList.forEach(function (screen) {
+      var styles = {
+        display: 'none',
+        width: '100%',
+        height: '100%'
+      };
+      Object.assign(screen.style, styles);
+      /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
+
+      screen.setAttribute("displayOld", screen.style.display);
+      vnjs.screenList[screen.id] = screen;
+    });
+    callback();
+  }).catch(function (error) {
+    return console.error(error);
+  });
 };
 
 vnjs.init = function (conf) {
   var _this = this;
 
   Object.assign(vnjs.conf, conf);
-  this.emit('getScreens');
-  this.on('screensLoaded', function () {
+  this.getScreens(null, function () {
     _this.parse({
       jump: conf.entryPoint
     });
+
+    _this.emit('init');
   });
-  this.emit('init');
   return true;
 };
 

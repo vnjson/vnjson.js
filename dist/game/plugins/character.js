@@ -1,8 +1,8 @@
 vnjs.on('game-action', function(){
 
-function print1(str, callback){
+function print(str, callback){
 var el =  document.querySelector('.reply');
-var typeSpeed = 40;
+var typeSpeed = 30;
 
 var arr = str.split('')
 
@@ -61,11 +61,11 @@ vnjs.on('character', function(data){
     /*
      * pr: ['1', '2'] Вы водить текст не заново а продолжить
      */
-       print1(data.reply[0], ()=>{
+       print(data.reply[0], ()=>{
           dBox.addEventListener('click', handler);
        })
    }else{
-    print1(data.reply, ()=>{
+    print(data.reply, ()=>{
        dBox.addEventListener('click', handler);
     })
    }

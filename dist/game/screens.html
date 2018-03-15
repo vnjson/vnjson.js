@@ -4,28 +4,24 @@
 	<div id="percents" style="font-size: 42pt"></div>
 </section>
 
-<section class="screen" id="game-menu">
-	<ul id="game-menu-el">
-		<li>Пункт меню 1</li>
-		<li>Пункт меню 2</li>
-		<li>Пункт меню 3</li>
-		<li>Пункт меню 4</li>
-		<li>Пункт меню 5</li>
-		<li>Пункт меню 6</li>
-		<li>Пункт меню 7</li>
-		<li>Пункт меню 8</li>
-		<li>Пункт меню 9</li>
-		<li>Пункт меню 10</li>
-	</ul>
 
-</section>
 
 <section class="screen" id="about">
 	<h3 style='color: cyan'>About</h3>
 </section>
 
 <section class="screen" id="settings">
-	<img src="/game/assets/settings.png"/>
+	<section>
+		<label>Скорость вывода текста</label>
+			<input type="range" name="">
+	</section>
+	<section>
+		<label>Громкость аудио</label>
+		<input type="range" name="">
+	</section>
+
+	<label>Чек бокс</label>
+	<input type="checkbox" name="">
 </section>
 
 <section class="screen" id="main-menu">
@@ -47,14 +43,16 @@
 </section>
 
 <section class="screen" id="game-action">
-	<h3 style='color: gold'>action</h3>
+	<div class='game-menu' hidden>
+
+	</div>
 	
 	<div class="dialog-box">
 		<div class='name-box'>{name}</div>
 		<div class='face-box'></div>
 		<div class='text-box'>
 			<div class='reply'>{reply}</div>
-			<div class="signal">*</div>
+			<div class="signal">+</div>
 		</div>
 	</div>
 </section>

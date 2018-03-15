@@ -8,7 +8,7 @@ vnjs.on('init', function(){
 on('character', data=>{
   let { param , reply } = data;
 
-   console.log(`%c${param.name}: %c${reply} `, `color: ${param.color}`)
+   console.log(`%c${param.name}: %c ${reply} `, `color: ${param.color}`, 'color: #999')
 })
 
 on('parse', ctx=>{

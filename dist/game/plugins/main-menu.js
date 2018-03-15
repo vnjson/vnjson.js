@@ -20,6 +20,9 @@ document
 document
   .getElementById('settings-action')
   .addEventListener('click', e=>vnjs.parse({screen:'settings'}))
+vnjs.on('settings', e=>{
+  vnjs.parse({scene: 'settings'})
+})
 
 document
   .getElementById('memory-card-action')

@@ -1,9 +1,9 @@
 {
   "assets": [
     {
-      "id": "dialog-box1",
+      "id": "bg-code",
       "type": "image",
-      "path": "/game/assets/dialog-box1.png"
+      "path": "/game/assets/bg-code.jpg"
     }
   ],
   "chapter1": [
@@ -14,11 +14,7 @@
     },
     {
       "al": "Да уж, давненько.",
-      "right": "lusil",
-      "menu": {
-        "Погнали в лабараторию": "lab/start",
-        "Перейти к главе 2": "chapter2"
-      }
+      "right": "lusil"
     },
     {
       "al": "Лагдно пошли в лабараторию"

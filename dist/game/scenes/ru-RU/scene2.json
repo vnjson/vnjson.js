@@ -1,19 +1,15 @@
 {
   "assets": [
-    {
-      "id": "purple",
-      "type": "image",
-      "path": "/game/assets/bg-purple.png"
-    },
+
     {
       "id": "yellow",
       "type": "image",
       "path": "/game/assets/bg-yellow.png"
     },
     {
-      "id": "settings",
-      "type": "image",
-      "path": "/game/assets/settings.png"
+      "id": "z-pam",
+      "type": "audio",
+      "path": "/game/assets/MNOGOZNAAL-Z-PAM.mp3"
     }
   ],
   "chapter1": [
@@ -34,7 +30,13 @@
 
       "menu": {
         "Погнали в лабараторию": "lab/start",
-        "Перейти к главе 2": "chapter2"
+        "Перейти к главе 2": "chapter2",
+        "Отправляемся на палубу": {
+            "jump": "scene3/chapter2",
+            "point": "+10"
+        },
+        "Проверка прыжков из меню": "menuTest",
+        "Переход в другую сцену": "another/start"
       }
     },
     {
@@ -74,5 +76,8 @@
         "color": "red"
       }
     }
+  ],
+  "menuTest": [
+    {"al": "Привет из менюТест"}
   ]
 }

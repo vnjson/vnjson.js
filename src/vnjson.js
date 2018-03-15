@@ -119,21 +119,71 @@ vnjs.parse = function (obj){
 
 
 vnjs.next = function (){
-  this.parse();
+ 
   this.state.index++;
-  this.emit('next', this.state.index)
-  return '-------------------------';
+  this.parse();
+
+};
+
+vnjs.getScreens = function(param=null, callback){
+const { conf, DEBUG, emit } = this;
+
+function fetchCss(filename) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = filename
+    var h = document.getElementsByTagName('head')[0];
+    h.appendChild(l);
+};
+
+
+
+  
+  let uriHtml = `${conf.gameDir}/screens.html`;
+  let uriCss = `${conf.gameDir}/screens.css`;
+  let gameRoot = document.querySelector(conf.element);
+  fetch(uriHtml)
+    .then(r=>r.text())
+    
+    .then(screens=>{
+      fetchCss(uriCss);
+      gameRoot.innerHTML = screens;
+    })
+    .then(()=>{
+      let screensNodeList = document.querySelectorAll(conf.screenClass);
+            screensNodeList.forEach((screen)=>{
+
+             let styles = {
+                    display: 'none',
+                    width: '100%',
+                    height: '100%'
+                  };
+             Object.assign(screen.style, styles);
+
+             /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
+      screen.setAttribute("displayOld", screen.style.display)
+             
+
+            vnjs.screenList[screen.id] = screen;
+
+            
+            });
+
+          callback()
+    })
+   .catch(error=>console.error(error))
+
 };
 
 
 vnjs.init = function (conf){
   Object.assign(vnjs.conf, conf);
-  this.emit('getScreens')
-  this.on('screensLoaded', ()=>{
-   
+  this.getScreens(null, ()=>{
      this.parse( { jump: conf.entryPoint } )
+     this.emit('init')
   })
-  this.emit('init')
+
+ 
   return true;
 };
 

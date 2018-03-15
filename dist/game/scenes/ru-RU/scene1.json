@@ -1,14 +1,12 @@
 {
   "assets": [
-    { "id": "dialog-box", "type": "image", "path": "/game/assets/dialog-box1.png" },
-    { "id": "background", "type": "image", "path": "/game/assets/background.png" },
-    { "id": "BackBackX", "type": "audio", "path": "/game/assets/BackBackX.mp3" },
-
     {
-      "id": "z-pam",
-      "type": "audio",
-      "path": "/game/assets/MNOGOZNAAL-Z-PAM.mp3"
-    },
+      "id": "settings",
+      "type": "image",
+      "path": "/game/assets/settings.png"
+    },    
+    { "id": "background", "type": "image", "path": "/game/assets/background.png" },
+    
     {
       "id": "Ultimate",
       "type": "audio",
