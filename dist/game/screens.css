@@ -12,6 +12,7 @@
   width: 100%;
   height: 190px;
   background-image: url('/game/assets/dialog-box2.png');
+  background-repeat: no-repeat;
   /*margin-top: 85%;*/
   position: absolute;
   top: 60%;
@@ -38,7 +39,9 @@
   font-family: 'Comic Sans MS';
 }
 
-
+#preloader{
+  background: black;
+}
 .signal{
   position: absolute;
   top: 88%;

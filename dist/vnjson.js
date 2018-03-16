@@ -243,45 +243,6 @@ vnjs.log = {
   }
 };
 vnjs.log.index();
-vnjs.on('getScreens', function () {
-  var conf = this.conf,
-      DEBUG = this.DEBUG,
-      emit = this.emit;
-
-  function fetchCss(filename) {
-    var l = document.createElement('link');
-    l.rel = 'stylesheet';
-    l.href = filename;
-    var h = document.getElementsByTagName('head')[0];
-    h.appendChild(l);
-  }
-
-  ;
-  var uriHtml = "".concat(conf.gameDir, "/screens.html");
-  var uriCss = "".concat(conf.gameDir, "/screens.css");
-  var gameRoot = document.querySelector(conf.element);
-  fetch(uriHtml).then(function (r) {
-    return r.text();
-  }).then(function (screens) {
-    fetchCss(uriCss);
-    gameRoot.innerHTML = screens;
-  }).then(function () {
-    var screensNodeList = document.querySelectorAll(conf.screenClass);
-    screensNodeList.forEach(function (screen) {
-      var styles = {
-        display: 'none',
-        width: '100%',
-        height: '100%'
-      };
-      Object.assign(screen.style, styles);
-      /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
-
-      screen.setAttribute("displayOld", screen.style.display);
-      vnjs.screenList[screen.id] = screen; //   DEBUG&&console.log(screen);
-    });
-    emit('screensLoaded');
-  }); //.catch(function(error) { console.error(error); })
-});
 vnjs.on('jump', function (pathname) {
   var parse = this.parse,
       emit = this.emit,
