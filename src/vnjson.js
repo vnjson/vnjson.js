@@ -77,24 +77,38 @@ vnjs.current = {
       screen: function(){
         //> DOM<
         return document.getElementById(`${vnjs.conf.prefix}${vnjs.state.screen}`)
-      }
+      },
+      //character
 };
 
 
 vnjs.setScene = function (name, body){
   this.TREE[name] = body;
   this.state.scene = name;
+  if("characters" in body){
+
 
   body.characters.map(character=>{
     let aliase = Object.keys(character)[0];
 
     vnjs.on(aliase, function(reply){
-          vnjs.emit('character', {aliase, param: character[aliase], reply } );
-
+      let obj = {aliase, param: character[aliase], reply };
+          vnjs.emit('character', obj );
+          vnjs.current.character = function(){
+            return obj;
+          }
     });
 
-});
-  this.emit('load', body.assets);
+  });//.map
+
+ };
+
+if("assets" in body){
+   this.emit('load', body.assets);
+}else{
+  emit('postload');
+}
+ 
  
 };
 
@@ -187,31 +201,6 @@ vnjs.init = function (conf){
   return true;
 };
 
-
-vnjs.progressSave = function(id='default'){
-  let { conf } = this;
-let serialState = JSON.stringify(this.state); 
-    localStorage.setItem(conf.prefix+id, serialState); 
-    this.emit('progressSave', { id })
-};
-
-vnjs.progressLoad = function(id='default'){
-  let { conf } = this;
-  let { screen, scene, label, index } = this.state;
-  vnjs.state = JSON.parse(localStorage.getItem(conf.prefix+id));
-
-  this.emit('progressLoad', { id });
-  this.parse({ screen })
-  this.parse({
-      jump: [ scene, label, index].join('/')
-    })
-}
-
-vnjs.progressDelete = function(id){
-  let { conf } = this;
-  delete localStorage[conf.prefix+id];
-  this.emit('progressDelete', { id });
-};
 
 
 

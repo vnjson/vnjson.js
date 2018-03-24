@@ -21,7 +21,6 @@ var gameMenu = document.querySelector('.game-menu')
     for(let key in menu){
       if(typeof menu[key]==='object'){
          gameMenu.innerHTML += `<div data-jump="${menu[key].jump}" data-point="${menu[key].point}" class='${className}'>${key}</div>`;
-         console.log(key)
       }else{
           gameMenu.innerHTML += `<div data-jump="${menu[key]}"  class='${className}'>${key}</div>`;
 

@@ -82,23 +82,39 @@ vnjs.current = {
   screen: function screen() {
     //> DOM<
     return document.getElementById("".concat(vnjs.conf.prefix).concat(vnjs.state.screen));
-  }
+  } //character
+
 };
 
 vnjs.setScene = function (name, body) {
   this.TREE[name] = body;
   this.state.scene = name;
-  body.characters.map(function (character) {
-    var aliase = Object.keys(character)[0];
-    vnjs.on(aliase, function (reply) {
-      vnjs.emit('character', {
-        aliase: aliase,
-        param: character[aliase],
-        reply: reply
+
+  if ("characters" in body) {
+    body.characters.map(function (character) {
+      var aliase = Object.keys(character)[0];
+      vnjs.on(aliase, function (reply) {
+        var obj = {
+          aliase: aliase,
+          param: character[aliase],
+          reply: reply
+        };
+        vnjs.emit('character', obj);
+
+        vnjs.current.character = function () {
+          return obj;
+        };
       });
-    });
-  });
-  this.emit('load', body.assets);
+    }); //.map
+  }
+
+  ;
+
+  if ("assets" in body) {
+    this.emit('load', body.assets);
+  } else {
+    emit('postload');
+  }
 };
 
 vnjs.parse = function (obj) {
@@ -183,44 +199,6 @@ vnjs.init = function (conf) {
   return true;
 };
 
-vnjs.progressSave = function () {
-  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-  var conf = this.conf;
-  var serialState = JSON.stringify(this.state);
-  localStorage.setItem(conf.prefix + id, serialState);
-  this.emit('progressSave', {
-    id: id
-  });
-};
-
-vnjs.progressLoad = function () {
-  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-  var conf = this.conf;
-  var _state = this.state,
-      screen = _state.screen,
-      scene = _state.scene,
-      label = _state.label,
-      index = _state.index;
-  vnjs.state = JSON.parse(localStorage.getItem(conf.prefix + id));
-  this.emit('progressLoad', {
-    id: id
-  });
-  this.parse({
-    screen: screen
-  });
-  this.parse({
-    jump: [scene, label, index].join('/')
-  });
-};
-
-vnjs.progressDelete = function (id) {
-  var conf = this.conf;
-  delete localStorage[conf.prefix + id];
-  this.emit('progressDelete', {
-    id: id
-  });
-};
-
 vnjs.log = {
   error: function error(msg) {
     console.log("%c Error %c ".concat(msg), "color: white; background: red; font-size:12px;", "color: red; font-size:12px;");
@@ -243,6 +221,54 @@ vnjs.log = {
   }
 };
 vnjs.log.index();
+/*   filter: blur(5px);
+ -webkit-filter: blur(5px);*/
+vnjs.on('blur', function (data) {
+  var target = data.target,
+      size = data.size,
+      duration = data.duration;
+  var elem = document.querySelector("." + target);
+  Object.assign(elem.style, {
+    'filter': "blur(".concat(size, "px)"),
+    '-webkit-filter': "blur(".concat(size, "px)"),
+    'transition': "".concat(duration, "s filter linear"),
+    '-webkit-transition': "".concat(duration, "s  -webkit-filter linear")
+  });
+});
+vnjs.on('contrast', function (data) {
+  var target = data.target,
+      size = data.size,
+      duration = data.duration;
+
+  try {
+    var elem = document.querySelector("." + target);
+    Object.assign(elem.style, {
+      'filter': "contrast(".concat(size, ")"),
+      '-webkit-filter': "contrast(".concat(size, ")"),
+      'transition': "".concat(duration, "s filter linear"),
+      '-webkit-transition': "".concat(duration, "s  -webkit-filter linear")
+    });
+  } catch (e) {
+    console.error("\u042D\u043B\u0435\u043C\u0435\u043D\u0442 [ ".concat(target, " ] \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D "), e);
+  }
+});
+vnjs.on('grayscale', function (data) {
+  var target = data.target,
+      size = data.size,
+      duration = data.duration;
+  var elem = document.querySelector("." + target);
+
+  try {
+    Object.assign(elem.style, {
+      'filter': "grayscale(".concat(size, ")"),
+      '-webkit-filter': "grayscale(".concat(size, ")"),
+      'transition': "".concat(duration, "s filter linear"),
+      '-webkit-transition': "".concat(duration, "s  -webkit-filter linear")
+    });
+  } catch (e) {
+    console.error("\u042D\u043B\u0435\u043C\u0435\u043D\u0442 [ ".concat(target, " ] \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D "), e);
+  }
+});
 vnjs.on('jump', function (pathname) {
   var parse = this.parse,
       emit = this.emit,
@@ -322,6 +348,43 @@ vnjs.on('jump', function (pathname) {
     parse();
   }
 });
+vnjs.progressSave = function () {
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+  var conf = this.conf;
+  var serialState = JSON.stringify(this.state);
+  localStorage.setItem(conf.prefix + id, serialState);
+  this.emit('progressSave', {
+    id: id
+  });
+};
+
+vnjs.progressLoad = function () {
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+  var conf = this.conf;
+  var _state = this.state,
+      screen = _state.screen,
+      scene = _state.scene,
+      label = _state.label,
+      index = _state.index;
+  vnjs.state = JSON.parse(localStorage.getItem(conf.prefix + id));
+  this.emit('progressLoad', {
+    id: id
+  });
+  this.parse({
+    screen: screen
+  });
+  this.parse({
+    jump: [scene, label, index].join('/')
+  });
+};
+
+vnjs.progressDelete = function (id) {
+  var conf = this.conf;
+  delete localStorage[conf.prefix + id];
+  this.emit('progressDelete', {
+    id: id
+  });
+};
 /**
 
 
@@ -406,6 +469,44 @@ vnjs.on('screen', function (id) {
 
   vnjs.state.screen = id;
   show(vnjs.screenList[id]);
+});
+vnjs.on('left', function (data) {
+  var el = document.querySelector('.left');
+  el.style.backgroundImage = "url(game/assets/".concat(data, ".png)"); //el.styl
+
+  show(el);
+});
+vnjs.on('center', function (data) {
+  var el = document.querySelector('.center');
+  el.style.backgroundImage = "url(/game/assets/".concat(data, ".png)");
+  show(el);
+});
+vnjs.on('right', function (data) {
+  var el = document.querySelector('.right');
+  el.style.backgroundImage = "url(/game/assets/".concat(data, ".png)");
+  show(el);
+});
+function hasClass(el, className) {
+  if (el.classList) return el.classList.contains(className);else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+}
+
+function addClass(el, className) {
+  if (el.classList) el.classList.add(className);else if (!hasClass(el, className)) el.className += " " + className;
+}
+
+function removeClass(el, className) {
+  if (el.classList) el.classList.remove(className);else if (hasClass(el, className)) {
+    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+    el.className = el.className.replace(reg, ' ');
+  }
+}
+
+vnjs.on('swing', function () {
+  var el = document.querySelector('.dialog-box');
+  addClass(el, 'swing');
+  setTimeout(function () {
+    removeClass(el, 'swing');
+  }, 1000);
 });
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 

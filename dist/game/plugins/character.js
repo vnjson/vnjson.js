@@ -10,7 +10,10 @@ var i = 0;
 if(typeof str!='object'){
   el.innerHTML = "";
 }
-
+if(typeof str==='object'){
+  el.innerHTML += str[1];
+  vnjs.state.index = vnjs.state.index--;
+}
 function int(){
   if(i>=arr.length-1){
     clearInterval(tId);
@@ -28,17 +31,22 @@ var tId = setInterval(()=>{
 }, typeSpeed);
 
 
-
+hide(signal)
 dBox.removeEventListener('click', handler)
 
 }
 
 function handler(e){
+
+
+
   vnjs.next();
 }
 
 
+let signal = document.querySelector('.signal');
 
+      
 
 
 var dBox = document.querySelector('.dialog-box')
@@ -66,6 +74,9 @@ vnjs.on('character', function(data){
        })
    }else{
     print(data.reply, ()=>{
+      let signal = document.querySelector('.signal');
+
+      show(signal)
        dBox.addEventListener('click', handler);
     })
    }

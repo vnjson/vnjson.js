@@ -28,3 +28,5 @@ vnjs.on('audio', function(data){
 //var sound = self.playlist[self.index].howl;
 
 });
+
+

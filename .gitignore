@@ -1,8 +1,6 @@
 /node_modules
 /bower_components
-*.mp3
-*.png
-*.jpg
+
 npm-debug.log
 package-lock.json
 vnjson-js.sublime-project

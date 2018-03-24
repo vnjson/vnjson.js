@@ -13,13 +13,30 @@
     }
   ],
   "chapter1": [
-    {"al": "Он пробуждается!!", "scene": "yellow"},
+    {
+      "al": "Он пробуждается!!", 
+      "scene": "yellow", 
+      "left": "alice",
+      "grayscale": {
+        "target": "left",
+        "size": -135,
+        "duration": 3
+      }
+    },
+    
+
     {
       "pr": [
         "Хм! И правда", 
         " Давно я подобного не встречал"
       ],
-     
+      "blur": {
+        "target": "right",
+        "size": "5",
+        "duration": "1"
+      },
+      "swing": "",
+      "right": "proff",
       "audio": {
           "id": "Ultimate", 
           "action": "pause"
@@ -27,7 +44,7 @@
     },
     {
       "al": "Да уж, давненько.",
-
+      "center": "seira",
       "menu": {
         "Погнали в лабараторию": "lab/start",
         "Перейти к главе 2": "chapter2",
@@ -59,7 +76,7 @@
       "al": "Лагдно пошли в лабараторию"
     },
     {
-      "jump": "scene3/chapter3/3"
+      "jump": "scene3/chapter1"
     }
   ],
   "characters": [
