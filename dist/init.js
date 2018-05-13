@@ -3,7 +3,7 @@ vnjs.DEBUG = true;
 
 
 
-
+//viewport: document.querySelector('.viewport') 
 vnjs.init({
 	prefix: '',
 	element: '.gameElement',

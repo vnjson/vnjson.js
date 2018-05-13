@@ -30,8 +30,8 @@ var tId = setInterval(()=>{
   int()
 }, typeSpeed);
 
+ $('.signal').hide()
 
-hide(signal)
 dBox.removeEventListener('click', handler)
 
 }
@@ -44,7 +44,7 @@ function handler(e){
 }
 
 
-let signal = document.querySelector('.signal');
+
 
       
 
@@ -74,9 +74,9 @@ vnjs.on('character', function(data){
        })
    }else{
     print(data.reply, ()=>{
-      let signal = document.querySelector('.signal');
 
-      show(signal)
+
+      $('.signal').show()
        dBox.addEventListener('click', handler);
     })
    }

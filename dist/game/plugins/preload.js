@@ -4,7 +4,7 @@
 vnjs.on('preload', function(data){
  // vnjs.parse({ screen: 'preloader' })
 
-  show(document.getElementById('preloader'))
+  $('#preloader').show()
   
 })
 
@@ -15,7 +15,7 @@ vnjs.on('asset', (asset)=>{
 
 vnjs.on('postload', function(){
   setTimeout(_=>{
-    hide(document.getElementById('preloader'))
+    $('#preloader').hide()
     vnjs.parse();
   }, 2000)
 

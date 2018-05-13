@@ -122,11 +122,9 @@ vnjs.parse = function (obj){
   }else{
     ctx = vnjs.current.object();
   };
-
-  for(let event in ctx){
-
-        vnjs.emit(event, ctx[event]);
-
+  
+  for(let [ event, data] of Object.entries(ctx)){
+      vnjs.emit(event, data)
   };
   this.emit('parse', ctx)
 };
@@ -174,9 +172,7 @@ function fetchCss(filename) {
                   };
              Object.assign(screen.style, styles);
 
-             /*Код кантораЮ необходимо для работы 'Правильлного show/hide'*/
-      screen.setAttribute("displayOld", screen.style.display)
-             
+    
 
             vnjs.screenList[screen.id] = screen;
 
