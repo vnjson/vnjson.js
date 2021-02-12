@@ -1,42 +1,56 @@
-class Vnjson {
-	scene = {};
-	index = 0;
-	ctx = {};
-	currentLabelName = "";
-	plugins = {
-		jump: function(label){
-				this.index = 0;
-				this.currentLabelName = label;
-				this.parse();
-			}
-	};
 
+class Vnjson {
 
 	constructor (){
+			this.index = 0;
+			this.ctx = {};
+			this.currentLabelName = "";
+			this.currentSceneName = "";
+			this.plugins = {};
+			this.TREE = {};
+			this.plugins.jump =  function(pathname){
+							let path = pathname.split('.');
+							this.index = 0;
+							//label
+							if(path.length===1){
+								this.currentLabelName = path[0];
+								this.parse();
+							}
+							//scene.label
+							if(path.length===2){
+									this.currentSceneName = path[0];
+									this.currentLabelName = path[1];
+									let { scenes, order, loader } = this.sceneLoadConfig;
+									if(order==='once'){
+										var arr = scenes.filter(item=>{ return item.name===path[0];})
+										loader(arr[0], _=>{
+						
+												this.parse();
+										});
+									}else{
+												this.parse();
+									};
+							};
+						};//jump
+	}	
 
+	getCurrentLabelBody (){
+		return this.TREE[this.currentSceneName][this.currentLabelName];
 	}
+	getCtx (){
+		return this.getCurrentLabelBody()[vnjs.index];
+	}
+	setScene (name, body){
+		this.TREE[name] = body;
+		if(body.characters){
+					body.characters.forEach((character)=>{
+						//Делаем события из индификаторов персонажей
+						this.on(character.id, (reply)=>{
 
-	setScene (scene){
-		this.scene = scene;
-		if('characters' in this.scene){
-			let { characters } = this.scene;
-
-			characters.forEach((character)=>{
-				/*
-				 * Вешаем обработчики на id персонажей из списка персонажей
-				 * указанного внутри сцены
-				 */
-				this.on(character.id, (reply)=>{
-					/**
-					 * Когда обработчик поймает событие в тексте новеллы
-					 * то вызовет плагин 'character' и передаст в него
-					 * реплику персонажа полученную из новеллы.
-					 */
-					this.emit('character', character, reply);
-				})
-			});
+							this.emit('character', character, reply);
+						})
+					});
 		}
-
 	}
 
 	on (event, handler){
@@ -56,7 +70,7 @@ class Vnjson {
 	}
 	parse (ctx){
 		//Получаем текущий объект контекста
-		this.ctx = ctx || this.scene[this.currentLabelName][this.index];
+		this.ctx = ctx||this.getCtx();
 		this.emit('parse', this.ctx);
 		if(typeof this.ctx === 'string'){
 					this.emit('print', this.ctx);
@@ -77,22 +91,40 @@ class Vnjson {
 
 	}
 
-	start (entryLabel){
-		this.currentLabelName = entryLabel;
-		this.index = 0;
-		this.parse(); 
-	};
+
 	next (){
 
-		if(this.ctx === undefined){
-			console.log("Конец метки. Нет выхода");
-			this.index--;
+		if(this.getCurrentLabelBody().length-2<this.index){
+			console.warn("[ label end ]");
+			this.index = this.index;
 		}else{
 			this.index++;
 			this.parse();
 		}
+	};
+
+	getScenes (sceneLoadConfig){
+		let { scenes, order, loader } = sceneLoadConfig;
+			this.sceneLoadConfig = sceneLoadConfig
+			var i = 0;
+			if(order==='once'){
+
+					loader(scenes[i], _=>{
+						this.emit('ready');
+					});
+			}
+			else if(order==='all'){
+				
+				var next = ()=>{
+
+					if(scenes.length!==++i){
+								loader(scenes[i], next);
+					}else{
+						this.emit('ready');
+					}
+				};
+				loader(scenes[i], next);
+			}
 	}
-
-
 };
 
