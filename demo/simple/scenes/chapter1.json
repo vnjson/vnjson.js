@@ -1,8 +1,16 @@
 {
   "assets": [
     {
-      "id": "excalibur",
-      "path": "assets/Excalibur_Portrait.jpg"
+      "name": "alice",
+      "url": "/assets/alice.png"
+    },
+    {
+      "name": "kserks",
+      "url": "/assets/kserks.png"
+    },
+    {
+      "name": "serj",
+      "url": "/assets/serj.png"
     }
   ],
   "characters": [
