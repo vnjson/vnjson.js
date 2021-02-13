@@ -38,8 +38,8 @@ vnjs.on('*', e=>{
  *
  */
 const __scenes = [
-		{ name: 'chapter1', path: '/scenes/chapter1.json'},
-		{ name: 'chapter2', path: '/scenes/chapter2.json'}
+		{ name: 'chapter1', path: './scenes/chapter1.json'},
+		{ name: 'chapter2', path: './scenes/chapter2.json'}
 	]
 vnjs.getScenes(__scenes, function(scene, next){
 
