@@ -8,13 +8,14 @@ class Vnjson {
 			this.currentSceneName = "";
 			this.plugins = {};
 			this.TREE = {};
+			this.assetsPath = [];
 			this.plugins.jump =  function(pathname){
 							let path = pathname.split('.');
 							this.index = 0;
 							//label
 							if(path.length===1){
 								this.currentLabelName = path[0];
-								this.parse();
+								this.exec();
 							}
 							//scene.label
 							if(path.length===2){
@@ -25,10 +26,10 @@ class Vnjson {
 										var arr = scenes.filter(item=>{ return item.name===path[0];})
 										loader(arr[0], _=>{
 						
-												this.parse();
+												this.exec();
 										});
 									}else{
-												this.parse();
+												this.exec();
 									};
 							};
 						};//jump
@@ -50,6 +51,12 @@ class Vnjson {
 							this.emit('character', character, reply);
 						})
 					});
+		};
+		if(body.assets){
+				body.assets.forEach(item=>{
+							this.assetsPath.push(item);
+				})
+			
 		}
 	}
 
@@ -68,10 +75,10 @@ class Vnjson {
 		}
 
 	}
-	parse (ctx){
+	exec (ctx){
 		//Получаем текущий объект контекста
 		this.ctx = ctx||this.getCtx();
-		this.emit('parse', this.ctx);
+		this.emit('exec', this.ctx);
 		if(typeof this.ctx === 'string'){
 					this.emit('print', this.ctx);
 		}else{
@@ -99,32 +106,29 @@ class Vnjson {
 			this.index = this.index;
 		}else{
 			this.index++;
-			this.parse();
+			this.exec();
 		}
 	};
 
-	getScenes (sceneLoadConfig){
-		let { scenes, order, loader } = sceneLoadConfig;
-			this.sceneLoadConfig = sceneLoadConfig
+	getScenes (scenes, loader){
 			var i = 0;
-			if(order==='once'){
-
-					loader(scenes[i], _=>{
-						this.emit('ready');
-					});
-			}
-			else if(order==='all'){
-				
-				var next = ()=>{
-
-					if(scenes.length!==++i){
-								loader(scenes[i], next);
-					}else{
-						this.emit('ready');
+				var next = order=>{
+					this.sceneLoadConfig = { order, loader, scenes}
+					if(order==='once'){
+						loader(scenes[i], _=>this.emit('ready'))
 					}
-				};
-				loader(scenes[i], next);
-			}
+					else{
+							if(scenes.length!==++i){
+								loader(scenes[i], next);
+							}else{
+								this.emit('ready');
+							}
+								
+					};
+
+				}
+				loader(scenes[i], next)
+
 	}
 };
 

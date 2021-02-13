@@ -22,7 +22,7 @@ function handlerEvent(e){
 	 * понял
 	 */
 	menuEl.style.display = "none";
-	vnjs.parse({'jump': e.target.dataset.label});
+	vnjs.exec({'jump': e.target.dataset.label});
 	menuEl.removeEventListener('mousedown', handlerEvent, false)
 
 };
