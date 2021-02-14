@@ -1,10 +1,10 @@
-function print(text){
-	dialogBox.innerHTML = text;
+function print(reply){
+	dialogBox.innerHTML = reply;
 
 };
 
 function character (character, reply){
-	dialogBox.innerHTML = `${character.name}: ${reply}`;
+	dialogBox.innerHTML = `${character.text}: ${reply}`;
 
 
 };
