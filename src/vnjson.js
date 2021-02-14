@@ -46,7 +46,7 @@ class Vnjson {
 		if(body.characters){
 					body.characters.forEach((character)=>{
 						//Делаем события из индификаторов персонажей
-						this.on(character.id, (reply)=>{
+						this.on(character.name, (reply)=>{
 
 							this.emit('character', character, reply);
 						})
