@@ -39,7 +39,7 @@ class Vnjson {
 		return this.TREE[this.currentSceneName][this.currentLabelName];
 	}
 	getCtx (){
-		return this.getCurrentLabelBody()[vnjs.index];
+		return this.getCurrentLabelBody()[this.index];
 	}
 	setScene (name, body){
 		this.TREE[name] = body;
@@ -78,7 +78,6 @@ class Vnjson {
 	exec (ctx){
 		//Получаем текущий объект контекста
 		this.ctx = ctx||this.getCtx();
-		this.emit('exec', this.ctx);
 		if(typeof this.ctx === 'string'){
 					this.emit('print', this.ctx);
 		}else{
@@ -95,7 +94,7 @@ class Vnjson {
 				this.emit(event, data);
 			}
 		}/*else*/
-
+		this.emit('exec', this.ctx);
 	}
 
 
@@ -119,6 +118,7 @@ class Vnjson {
 					}
 					else{
 							if(scenes.length!==++i){
+
 								loader(scenes[i], next);
 							}else{
 								this.emit('ready');
