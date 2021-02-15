@@ -5,13 +5,13 @@ function menu(menu){
 menuItemEl.innerHTML = "";
 menuEl.style.display = "block";
 
-	for(let [label, menuItem ] of Object.entries(menu)){
+	for(var [label, menuItem ] of Object.entries(menu)){
 		
 		if(label==='?'){
 			dialogBox.innerHTML = menuItem;
 		}else{
 
-			let strmenu = `<div data-label="${ label }" class="menu-item">${menuItem}</div>`;
+			let strmenu = `<div data-label="${ label }" class="menu-item">${ menuItem }</div>`;
 			menuItemEl.innerHTML +=strmenu;
 		}
 	}
