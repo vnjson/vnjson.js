@@ -1,5 +1,5 @@
 body {
-  background-image: url(./assets/background.png);
+  background-image: url(assets/background.png);
   background-color: rgba(0, 30, 30, 0.7);
   font-family: "Comic Sans MS", "sans-serif";
 }
@@ -111,7 +111,7 @@ body {
 main menu
  */
 .screen__main-menu {
-  background-image: url(./assets/main.menu.jpg);
+  background-image: url(assets/main.menu.jpg);
   color: #607D8B;
 }
 
@@ -149,7 +149,7 @@ dialog box
   height: 120px;
   padding: 5px;
   border: none;
-  background-image: url("./assets/dialog-box.png");
+  background-image: url(assets/dialog-box.png);
   background-repeat: no-repeat;
   position: absolute;
   top: 245px;
