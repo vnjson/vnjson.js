@@ -4,8 +4,6 @@
 @import 'main-menu';
 @import 'dialog-box';
 
-
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -39,7 +37,6 @@ button{
   margin: auto;
   transition: 2s;
   box-shadow:  3px 3px 3px rgba(0, 0, 0, 0.7);
-
 }
 #pixi{
 	position: absolute;

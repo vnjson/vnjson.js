@@ -7,9 +7,9 @@
     "lib": "lib"
   },
   "scripts": {
-    "scenes": "stj ./_src/scenes ./_dist/scenes --url ./scenes/assets/",
+    "scenes": "stj ./_src/scenes ./scenes --url ./scenes/assets/",
     "screens": "webpack --mode=development",
-    "styles": "sass --watch ./_src/styles:./_dist/css",
+    "styles": "sass --watch ./_src/styles:./css",
     "build": "webpack --mode=production",
     "start": "hs ./_dist -c-1 -p9090"
   },
