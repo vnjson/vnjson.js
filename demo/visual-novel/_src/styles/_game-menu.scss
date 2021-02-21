@@ -1,0 +1,29 @@
+.game-menu{
+	width: 100%;
+	position: absolute;
+	top: 80px;
+	left: 0;
+}
+#quetion{
+	background: black;
+	color: white;
+	font-weight: bold;
+	font-size: 1.3em;
+	color: gold;
+	padding: 5px;
+	border-bottom: 2px solid yellow;
+}
+.menu-item{
+	
+	background-color: rgba(0, 0, 0, 0.7);
+	margin: 3px;
+	font-size: 1.3em;
+	color: white;
+	padding: 5px;
+}
+
+.menu-item:hover {
+	background-color: rgba(11, 90, 175, 0.7);
+	color: white;
+	cursor: pointer;
+}

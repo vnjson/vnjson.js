@@ -1,0 +1,14 @@
+[
+	{ "audio": "main-theme"},
+	{ "audio": "stop" },
+	{ "audio": "pause" },
+	{ 
+		"audio": {
+			"name": "main-theme",
+			"action": "play",
+			"loop": true,
+			"volume": 30,
+			"speed": 0.3
+		}
+	}
+]

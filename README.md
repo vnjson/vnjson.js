@@ -6,7 +6,9 @@
 [__`vnjson/scheme`__](https://github.com/vnjson/scheme)
 
 ## Demo
-[__`simple-text-quest`__](https://vnjson.github.io/vnjson.js/demo/simple-text-quest/)
+[__`Text quest`__](https://vnjson.github.io/vnjson.js/demo/simple-text-quest/)
+[__`Visual novel`__](https://vnjson.github.io/vnjson.js/demo/visual-novel/_dist/)
+
 ## Synopsis
 ```js
 

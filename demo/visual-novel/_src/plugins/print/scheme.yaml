@@ -1,0 +1,5 @@
+- Some reply # Принимает пустую строку и вызывает [- print: ]
+- print: Привет Мир!
+- al: Hello World! # character say [ Hello World! ]
+- dm: some reply
+- Another reply

@@ -1,0 +1,9 @@
+[
+	"Some reply", 
+	{ "print": "Привет Мир!" },
+	{ "al": "Hello World!" }
+	{ "dm": "some reply" },
+	"Another reply"
+]
+
+

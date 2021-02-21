@@ -1,0 +1,15 @@
+
+- center: Alice # asset name
+- left: Alice
+- right: Alice
+
+ # hide character texture   
+- center: clear 
+- left: clear
+- right: clear
+
+
+- show:
+    name: Alice
+    x: 240
+    y: 20

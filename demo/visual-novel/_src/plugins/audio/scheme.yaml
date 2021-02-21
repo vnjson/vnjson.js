@@ -1,0 +1,11 @@
+- audio: main-theme #play
+- audio: stop
+- audio: pause
+
+
+- audio: 
+    name: main-theme 
+    action: play #[pause] #[stop]  #defalt=[play]
+    loop: true #[false]
+    volume: 30 #normal=100
+    speed: 0.3 #normal=1

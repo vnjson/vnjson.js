@@ -1,0 +1,13 @@
+/node_modules
+/bower_components
+
+npm-debug.log
+package-lock.json
+vnjson-js.sublime-project
+vnjson-js.sublime-workspace
+
+.babelrc
+
+/__game
+/spec
+/docs

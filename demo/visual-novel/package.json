@@ -1,0 +1,32 @@
+{
+  "name": "pixi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "scenes": "stj ./_src/scenes ./_dist/scenes --url ./scenes/assets/",
+    "screens": "webpack --mode=development",
+    "styles": "sass --watch ./_src/styles:./_dist/css",
+    "build": "webpack --mode=production",
+    "start": "hs ./_dist -c-1 -p9090"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^5.0.2",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^11.0.1",
+    "style-loader": "^2.0.0",
+    "vue-loader": "^15.9.6",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.22.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-concat-files-plugin": "^0.5.1"
+  },
+  "dependencies": {}
+}

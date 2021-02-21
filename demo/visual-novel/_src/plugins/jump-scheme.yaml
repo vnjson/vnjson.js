@@ -1,0 +1,6 @@
+- jump: label
+
+- jump: scene2.label1
+
+
+- jump: scene3.label1

@@ -1,0 +1,32 @@
+/*
+main menu
+ */
+.screen__main-menu{
+	background-image: url(/assets/main.menu.jpg);
+	color: $screenColor;
+}
+.main-menu__wrapper{
+	height: 100%;
+	width: 200px;
+	background-color: rgba(0, 0, 0, 0.9);
+	float: right;
+}
+.main-menu{
+	position: absolute;
+	top: 100px;
+	right: 10px;
+	font-size: 1.5em;
+
+	font-weight: bold;
+}
+
+.main-menu__item {
+		color: grey;
+		padding: 5px;
+		width: 100%;
+}
+.main-menu__item:hover{
+		color: white;
+		cursor: pointer;
+}
+

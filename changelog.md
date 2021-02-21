@@ -1,4 +1,9 @@
 ## CHANGELOG
+
+1.3.0 / 2021-02-21
+------------------
+* [Refactor] getScenes, jump, umd
+
 1.1.2 / 2021-02-14
 ------------------
 * [Refactor] Поменял метод `parse` на `exec`

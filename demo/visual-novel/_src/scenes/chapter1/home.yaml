@@ -1,0 +1,5 @@
+- scene: home2 
+  print: Не самое мудрое решение
+  clear: show
+- = Game Over =
+- screen: main-menu
