@@ -9,8 +9,8 @@ module.exports = {
     './_src/screens/main.js'
   ],
   output: {
-    path: resolve(__dirname, './_dist/app'),
-    publicPath: '/_dist/app',
+    path: resolve(__dirname, './app'),
+    publicPath: '/app',
     filename: 'screens.js'
   },
   module: {
@@ -33,7 +33,7 @@ module.exports = {
   new WebpackConcatPlugin({
         bundles: [
           {
-            dest: './_dist/app/plugins.js',
+            dest: './app/plugins.js',
             src: './_src/plugins/**/*.js'
           },
         ],
