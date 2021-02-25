@@ -10,7 +10,8 @@
 [__`Visual novel`__](https://vnjson.github.io/vpv-tpl/dist/)
 
 ## Utils
-[__`vpv-tpl`__](https://github.com/vnjson/vpv-tpl) - 
+> vnjson-pixi-vue
+[__`vpv-tpl`__](https://github.com/vnjson/vpv-tpl) - bolerplate
 
 ## Synopsis
 ```js
