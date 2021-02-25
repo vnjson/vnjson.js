@@ -11,12 +11,53 @@
 	'use strict';
 
 class Vnjson {
+	debug = false;
+	//store ui elemenents
 	$ = {};
-	//position in current label
-	index = 0;
+	//current object
 	ctx = {};
-	currentLabelName = "";
-	currentSceneName = "";
+	//loaded scenes
+	TREE = {};
+	//scenes.assets store
+	assetsPath = [];
+	/**
+	 * Plugins store
+	 */
+	plugins = {};
+	/**
+	 * Необходимо хранить персонажей отдельно
+	 * так как потом я сравнить [ ctx ] на предмет
+	 * совпадения с персонажами и получить текущего
+	 * Что бы получить доступ к пользовательским 
+	 * свойствам персонажа character.age
+	 */
+	characters = [];
+	/**
+	 * Состояние игры.
+	 * Необходимо для загрузки и сохранения
+	 * А так же во время дебага, что бы при обновлении
+	 * ничего не терялось
+	 */
+	current = {
+		index: 0,
+		labelName: 'label',
+		sceneName: 'scene',
+		characterName: undefined,
+		layer: {
+			audio: undefined,
+			scene: undefined, //bg
+			show: {}//left right center show
+		},
+		conf: {
+			typespeed: 30,
+			volume: 100,
+			zoom: 100
+		},
+		data: {
+			points: 0
+		} //userData
+	};
+
 	/**
 	 * .getScenes(scenes, loader) 
 	 * 	need for [ jump ]
@@ -27,52 +68,35 @@ class Vnjson {
 		scenes: undefined,
 		loader: undefined 
 	};
-	TREE = {};
-	assetsPath = [];
-	plugins = {
-		jump: [ pathname=>{
-
-				let path = pathname.split('.');
-
-				this.index = 0;
-				//label
-				if(!/\./i.test(pathname)){
-					this.currentLabelName = path[0];
-					this.emit('jump.label', pathname)
-				}
-				//scene.label
-				if(/\./i.test(pathname)){
-						this.currentSceneName = path[0];
-						this.currentLabelName = path[1];
-					
-						if(this.sceneLoader.mode==='once'){
-							//this.assetsPath = []
-							var arr = this.sceneLoader.scenes.filter(item=>{ return item.name===path[0];})
-							let next = ()=>{
-										this.emit('sceneLoad', {name: arr[0].name, assets: this.assetsPath});
-										this.on('postload', ()=>{
-											this.emit('jump.scene', pathname)
-										})
-							}
-							this.assetsPath = [];
-							this.sceneLoader.loader(arr[0], next);
-						}
-						else{
-								this.emit('jump.scene', pathname)
-						};
-				};
-			}]//jump
-	};
-
+	/**
+	 * Get a character who speaks a line
+	 * @return {object} current character
+	 */
+	getCurrentCharacter (){
+		return this.characters.filter(character=>{
+				return character.name === this.current.characterName;
+		}).pop();
+	}
 	getCurrentLabelBody (){
-		return this.TREE[this.currentSceneName][this.currentLabelName];
+		return this.TREE[this.current.sceneName][this.current.labelName];
+	}
+	/**
+	 * Get a character that has already been loaded
+	 * @param  {string} name character id
+	 * @return {object}
+	 */
+	getCharacterByName (name){
+		return this.characters.filter(character=>{
+				return character.name === name;
+		}).pop();
 	}
 	getCtx (){
-		return this.getCurrentLabelBody()[this.index];
+		return this.getCurrentLabelBody()[this.current.index];
 	}
 	setScene (name, body){
 		this.TREE[name] = body;
 		if(body.characters){
+					this.characters = this.characters.concat(body.characters)
 					body.characters.forEach((character)=>{
 						//{al: 'hello world'}
 						//.on('al')
@@ -134,36 +158,23 @@ class Vnjson {
 
 	next (){
 
-		if(this.getCurrentLabelBody().length-2<this.index){
+		if(this.getCurrentLabelBody().length-2<this.current.index){
 			console.warn("[ label end ]");
-			this.index = this.index;
+			this.current.index = this.current.index;
 		}else{
-			this.index++;
+			this.current.index++;
 			this.exec();
 		}
 	};
 
-	getScenes (scenes, loader){
-			this.sceneLoader.loader = loader; 
-			this.sceneLoader.scenes = scenes;
-			var i = 0;
-
-			var next = ()=>{
-				
-					if(scenes.length!==++i){
-							loader(scenes[i], next);
-					}else{
-							this.emit('sceneLoad', {name: 'assets', assets: this.assetsPath});
-					}
-					
-				};
-				if(this.sceneLoader.mode!=='once'){
-						loader(scenes[i], next)
-				}
-			
-
-	};
-
+	use (plugin){
+				plugin.call(this);	
+	}
+	nextTick (fn){
+			setTimeout(()=>{
+					fn();
+			}, 0);
+	}
 };
 
 return Vnjson;
