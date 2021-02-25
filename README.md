@@ -19,7 +19,6 @@
 const vnjs = new Vnjson();
 
 // plugins
-
 function notFound(){
 	this.on('*', e=>{
 		console.error(`Plugin ${e} not found`)
@@ -29,8 +28,8 @@ function notFound(){
 vnjs.use(notFound);
 
 vnjs.use(function (){
-	this.on('alert', msg=>{
-		alert(msg);
+	this.on('print', msg=>{
+		console(msg);
 	})
 });
 
@@ -72,13 +71,13 @@ vnjs.setScene('scene_2', scene_2)
 
 //vnjs.emit('jump', 'scene_1.label_1')
 vnjs.exec({
-			jump: 'scene_1.label_1'
+			jump: 'scene_1.label_1' //entry
 		})
 
 document.body.addEventListener('mousedown', e=>{
 			vnjs.next();
 });
-//entry-point
+
 
 
 ```
