@@ -11,15 +11,14 @@
 	'use strict';
 
 class Vnjson {
-	debug = false;
+
 	//store ui elemenents
 	$ = {};
 	//current object
 	ctx = {};
 	//loaded scenes
 	TREE = {};
-	//scenes.assets store
-	assetsPath = [];
+
 	/**
 	 * Plugins store
 	 */
@@ -48,26 +47,28 @@ class Vnjson {
 			scene: undefined, //bg
 			show: {}//left right center show
 		},
-		conf: {
+		options: {
 			typespeed: 30,
 			volume: 100,
 			zoom: 100
 		},
-		data: {
+		data: { //userData
 			points: 0
-		} //userData
+		} 
 	};
 
+	conf = {
+		debug: false,
+		entry: "scene.label",
+		mode: "once",//all
+		scenes: undefined
+	}
 	/**
 	 * .getScenes(scenes, loader) 
 	 * 	need for [ jump ]
 	 */
-	sceneLoader = {
-		entry: "scene.label",
-		mode: "once",//all//lazy
-		scenes: undefined,
-		loader: undefined 
-	};
+	sceneLoader = undefined;
+	assetsPath = [];
 	/**
 	 * Get a character who speaks a line
 	 * @return {object} current character
@@ -157,7 +158,6 @@ class Vnjson {
 
 
 	next (){
-
 		if(this.getCurrentLabelBody().length-2<this.current.index){
 			console.warn("[ label end ]");
 			this.current.index = this.current.index;
@@ -171,7 +171,7 @@ class Vnjson {
 				plugin.call(this);	
 	}
 	nextTick (fn){
-			setTimeout(()=>{
+			setTimeout(_=>{
 					fn();
 			}, 0);
 	}
