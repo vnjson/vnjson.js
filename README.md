@@ -4,8 +4,9 @@
 
 ## Demo
 
-![api v1.5.0](https://img.shields.io/badge/api-v1.5.0-brightgreen?style=flat-square) [__`Text quest`__](https://vnjson.github.io/vtq-tpl/dist/)
-![api v1.3.6](https://img.shields.io/badge/api-v1.3.6-brightgreen?style=flat-square) [__`Visual novel`__](https://vnjson.github.io/vpv-tpl/dist/)
+![api v1.5.0](https://img.shields.io/badge/api-v1.5.0-brightgreen?style=flat-square) [__`Text Quest`__](https://vnjson.github.io/vtq-tpl/dist/)
+
+![api v1.3.6](https://img.shields.io/badge/api-v1.3.6-brightgreen?style=flat-square) [__`Visual Novel`__](https://vnjson.github.io/vpv-tpl/dist/)
 
 ## Discription
 [__`vnjson/scheme`__](https://github.com/vnjson/scheme)
