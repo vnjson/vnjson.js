@@ -2,9 +2,15 @@
   "name": "vnjson.js",
   "version": "1.5.0",
   "description": "Vnjson Scripting language interpreter",
-  "author": "Kasin Sergey <bakakasin@gmail.com>",
-
+  "main": "./src/vnjson.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vnjson/vnjson.js.git"
+  },
+  "author": "",
   "license": "MIT",
-
-  "dependencies": {}
+  "bugs": {
+    "url": "https://github.com/vnjson/vnjson.js/issues"
+  },
+  "homepage": "https://github.com/vnjson/vnjson.js#readme"
 }
