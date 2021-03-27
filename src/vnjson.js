@@ -11,7 +11,7 @@
 	'use strict';
 
 class Vnjson {
-
+	version = '1.5.0';
 	//store ui elemenents
 	$ = {};
 	//current object
@@ -24,14 +24,6 @@ class Vnjson {
 	 */
 	plugins = {};
 	/**
-	 * Необходимо хранить персонажей отдельно
-	 * так как потом я сравнить [ ctx ] на предмет
-	 * совпадения с персонажами и получить текущего
-	 * Что бы получить доступ к пользовательским 
-	 * свойствам персонажа character.age
-	 */
-	characters = [];
-	/**
 	 * Состояние игры.
 	 * Необходимо для загрузки и сохранения
 	 * А так же во время дебага, что бы при обновлении
@@ -41,7 +33,7 @@ class Vnjson {
 		index: 0,
 		labelName: 'label',
 		sceneName: 'scene',
-		characterName: undefined,
+		character: {name: '$', text: 'Norrator'},
 		layer: {
 			audio: undefined,
 			scene: undefined, //bg
@@ -54,65 +46,82 @@ class Vnjson {
 		},
 		data: { //userData
 			points: 0
-		} 
+		},
+		tree: [],
+		assets: []
 	};
 
-	conf = {
-		debug: false,
-		entry: "scene.label",
-		mode: "once",//all
-		scenes: undefined
+
+	setAllAssets(){
+
+		for(let [scene, body] of Object.entries(this.TREE)){
+
+				if(scene!=='characters'){
+
+					this.current.assets = this.current.assets.concat(body.assets);
+
+				}
+		}
+		this.emit('setAllAssets');
 	}
-	/**
-	 * .getScenes(scenes, loader) 
-	 * 	need for [ jump ]
-	 */
-	sceneLoader = undefined;
-	assetsPath = [];
-	/**
-	 * Get a character who speaks a line
-	 * @return {object} current character
-	 */
-	getCurrentCharacter (){
-		return this.characters.filter(character=>{
-				return character.name === this.current.characterName;
-		}).pop();
+	getAssetByName (name){
+		return this.current.assets.filter(asset=>{
+											return asset.name===name;
+					 })[0]
+		
 	}
 	getCurrentLabelBody (){
-		return this.TREE[this.current.sceneName][this.current.labelName];
+		let labelBody = this.TREE[this.current.sceneName][this.current.labelName];
+		if(labelBody){
+			return labelBody;
+		}
+		else{
+			console.warn('{ menu } or { jump } leads nowhere');
+			return [''];
+		}
 	}
-	/**
-	 * Get a character that has already been loaded
-	 * @param  {string} name character id
-	 * @return {object}
-	 */
-	getCharacterByName (name){
-		return this.characters.filter(character=>{
-				return character.name === name;
+	getCurrentCharacter (){
+		/*
+		return this.TREE.characters.filter(character=>{
+			
+			var prop = this.ctx.hasOwnProperty(character.id);
+				if(prop){
+					return  true;
+				}else if(typeof this.ctx==='string'){
+					console.log(typeof this.ctx==='string')
+					return true;
+				}
+			
+			
+		})//.pop();
+		*/
+	}
+	getCharacterById (id){
+		return this.TREE.characters.filter(character=>{
+				return character.id === id;
 		}).pop();
 	}
 	getCtx (){
 		return this.getCurrentLabelBody()[this.current.index];
 	}
-	setScene (name, body){
-		this.TREE[name] = body;
-		if(body.characters){
-					this.characters = this.characters.concat(body.characters)
-					body.characters.forEach((character)=>{
-						//{al: 'hello world'}
-						//.on('al')
-						this.on(character.name, (reply)=>{
+	setTree (tree){
+		this.TREE = tree;
+		if(this.TREE.characters){
+					
+					this.TREE.characters.forEach((character)=>{
+						/**
+						 * 
+						 */
+						this.on(character.id, (reply)=>{
 
 							this.emit('character', character, reply);
+							this.on('character', character=>{
+								this.current.character = character;
+							})
 						})
 					});
 		};
-		if(body.assets){
-				body.assets.forEach(item=>{
-							this.assetsPath.push(item);
-				})
-			
-		}
+
 	}
 
 	on (event, handler){
@@ -122,6 +131,7 @@ class Vnjson {
       this.plugins[event].push(handler);
 	}
 	emit (event, ...args){
+		setTimeout(_=>{
 			if (Array.isArray(this.plugins[event])) {
       	this.plugins[event].forEach(handler =>{
       		handler.call(this, ...args);
@@ -130,6 +140,7 @@ class Vnjson {
     	else {
 				this.emit('*', event);
 			}
+		}, 0)
 	}
 	off (event){
 		 delete this.plugins[event]
@@ -138,7 +149,7 @@ class Vnjson {
 		//Получаем текущий объект контекста
 		this.ctx = ctx||this.getCtx();
 		if(typeof this.ctx === 'string'){
-					this.emit('print', this.ctx);
+					this.emit('$', this.ctx);
 		}else{
 			/**
 			 * Преобразуем объект контекста [this.ctx] в массив 
@@ -159,8 +170,9 @@ class Vnjson {
 
 	next (){
 		if(this.getCurrentLabelBody().length-2<this.current.index){
-			console.warn("[ label end ]");
+			
 			this.current.index = this.current.index;
+			console.warn(`No way out of the label [ ${this.current.labelName} ]`)
 		}else{
 			this.current.index++;
 			this.exec();

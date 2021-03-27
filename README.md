@@ -2,12 +2,13 @@
 # vnjson.js
 > Vnjson Scripting language interpreter
 
-## Discription
-[__`vnjson/scheme`__](https://github.com/vnjson/scheme)
-
 ## Demo
 
-[__`Visual novel`__](https://vnjson.github.io/vpv-tpl/dist/)
+![api v1.5.0](https://img.shields.io/badge/api-v1.5.0-brightgreen?style=flat-square) [__`Text quest`__](https://vnjson.github.io/vtq-tpl/dist/)
+![api v1.3.6](https://img.shields.io/badge/api-v1.3.6-brightgreen?style=flat-square) [__`Visual novel`__](https://vnjson.github.io/vpv-tpl/dist/)
+
+## Discription
+[__`vnjson/scheme`__](https://github.com/vnjson/scheme)
 
 ## Utils
 > vnjson-pixi-vue
@@ -18,63 +19,76 @@
 
 const vnjs = new Vnjson();
 
-// plugins
+/**
+ *  plugins
+ */
 function notFound(){
 	this.on('*', e=>{
 		console.error(`Plugin ${e} not found`)
-	})
+	});
 }
 
 vnjs.use(notFound);
 
 vnjs.use(function (){
-	this.on('print', msg=>{
-		console(msg);
+	this.on('character', (character, reply)=>{
+		console(character.name, reply);
 	})
 });
 
+/**
+ * The jump plugin is required to navigate
+ * between scenes and labels
+ * https://github.com/vnjson/vnjson-jump
+ */
+vnjs.use(jumpVnjson);
 
-const scene_1 = {
-	assets: [
-		{name: 'bg', url: './assets/background.jpg'}
-	],
-	characters: [
-		{name: 'al', text: 'Alice', color: 'darkcyan', age: 24 }
-	],
-	label_1: [
-		"hello", //narrator
-		{print: 'world'}, //narrator
-		{al: 'Some reply', audio: 'main-theme', scene: 'bg'}, //charcter reply
-		{
-			menu: {
-				'?': 'Some quetion',
-				'menu item 1': 'label_2'
-			}
-		},
-		label_2: [
-			{jump: 'scene2.label_1'}
+const TREE = {
+	$root: {
+		pacakge: {entry: 'scene_1.entry'},
+		characters: [
+			{id: 'a', name: 'Alice'}
 		]
-	]
+	}, 
+	scene_1: {
+		assets: [],
+		entry: [
+			"Some reply",
+			{jump: 'label_2'}
+		],
+		label_2: [
+			{jump: 'scene_2.start'}
+		]
+	},
+	scene_2: {
+		start: []
+	}
 };
 
-const scene_2 = {
-	assets: [],
-	characters: [],
-	label_1: []
-}
+
+vnjs.setTree(TREE);
+
 /**
- * sceneName
- * sceneBody
+ * Set first label
  */
-vnjs.setScene('scene_1', scene_1)
-vnjs.setScene('scene_2', scene_2)
+vnjs.emit('jump', TREE.$root.package.entry)
+/**
+ * Called after the scene or label 
+ * has been initialized
+ */
+vnjs.on('init', scene=>{
+	if(scene){
+		console.log('isScene')
+	}
+	//Execute first ctx object
+	vnjs.exec();
+})
 
-//vnjs.emit('jump', 'scene_1.label_1')
-vnjs.exec({
-			jump: 'scene_1.label_1' //entry
-		})
-
-document.body.addEventListener('mousedown', e=>{
+/**
+ * Each time it is pressed,
+ * the float moves down the tree
+ */
+document.body.addEventListener('click', e=>{
 			vnjs.next();
 });
 
@@ -100,27 +114,24 @@ document.body.addEventListener('mousedown', e=>{
 .getCurrentLabelBody()//return label Array
 .getCtx()// return current Object
 .getCurrentCharacter()
-.getCharacterByName(name)
+.getCharacterById(id)
 
-.setScene(sceneName, sceneBody)
+.setTree(TREE)
 
 .current: {
 	index: 0, //Position in current label
 	labelName: 'string',
-	sceneName: 'string',
-	characterName: 'sting',
+	sceneName: 'string'
 }
 ```
 
 ## System plugins
 
 ```js
-.on('jump') //Handles script navigation [ scene.label ||label ] exec({jump: 'label'})
+
 .emit('character', character, 'reply') // {al: 'Hello world'} character.id == 'al'
-.emit('print', 'reply') // if ctx == "string"
 .emit('*') // not found event
 .emit('exec') // emit after the execution  [ ctx ]
-.emit('ready') // scenes loaded
 
 ```
 
