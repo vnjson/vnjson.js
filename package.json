@@ -1,14 +1,17 @@
 {
   "name": "vnjson.js",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Vnjson Scripting language interpreter",
-  "main": "./src/vnjson.js",
+  "main": "./dist/vnjson.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vnjson/vnjson.js.git"
   },
   "author": "",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "bugs": {
     "url": "https://github.com/vnjson/vnjson.js/issues"
   },

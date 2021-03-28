@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+1.6.0 / 2021-03-29
+------------------
+* [Refactor] Переписал api под scenes-to-json@0.7.0
+* [Refactor] Поместил плагин jump, renderTree в внутрь библиотеки
+
+
 1.4.3 / 2021-02-25
 ------------------
 * [Refactor] Переписал plugins api `use`

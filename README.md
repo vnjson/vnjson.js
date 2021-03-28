@@ -2,24 +2,36 @@
 # vnjson.js
 > Vnjson Scripting language interpreter
 
-## Demo
-
-![api v1.5.0](https://img.shields.io/badge/api-v1.5.0-brightgreen?style=flat-square) [__`Text Quest`__](https://vnjson.github.io/vtq-tpl/dist/)
-
-![api v1.3.6](https://img.shields.io/badge/api-v1.3.6-brightgreen?style=flat-square) [__`Visual Novel`__](https://vnjson.github.io/vpv-tpl/dist/)
-
 ## Discription
 [__`vnjson/scheme`__](https://github.com/vnjson/scheme)
 
+## Install
+
+### Browser
+[__`<script src="https://unpkg.com/vnjson.js/dist/vnjson.js"></script>`__](https://unpkg.com/vnjson.js/dist/vnjson.js)
+
+### NodeJS
+```bash
+npm install vnjson.js
+```
+
+## Demo
+
+[__`Text Quest`__](https://vnjson.github.io/vtq-tpl/dist/)
+
+[__`Visual Novel`__](https://vnjson.github.io/vpv-tpl/dist/)
+
+
 ## Utils
-> vnjson-pixi-vue
-[__`vpv-tpl`__](https://github.com/vnjson/vpv-tpl) - bolerplate
+
+[__`vtq-tpl`__](https://github.com/vnjson/vtq-tpl) - Text quest template
+
+[__`vpv-tpl`__](https://github.com/vnjson/vpv-tpl) - Visual novel template
+
 
 ## Synopsis
 ```js
-
 const vnjs = new Vnjson();
-
 /**
  *  plugins
  */
@@ -37,13 +49,6 @@ vnjs.use(function (){
 	})
 });
 
-/**
- * The jump plugin is required to navigate
- * between scenes and labels
- * https://github.com/vnjson/vnjson-jump
- */
-vnjs.use(jumpVnjson);
-
 const TREE = {
 	$root: {
 		pacakge: {entry: 'scene_1.entry'},
@@ -55,6 +60,7 @@ const TREE = {
 		assets: [],
 		entry: [
 			"Some reply",
+			{"a": "Alice say hello world"}
 			{jump: 'label_2'}
 		],
 		label_2: [
@@ -66,9 +72,7 @@ const TREE = {
 	}
 };
 
-
 vnjs.setTree(TREE);
-
 /**
  * Set first label
  */
@@ -84,7 +88,6 @@ vnjs.on('init', scene=>{
 	//Execute first ctx object
 	vnjs.exec();
 })
-
 /**
  * Each time it is pressed,
  * the float moves down the tree
@@ -97,7 +100,6 @@ document.body.addEventListener('click', e=>{
 
 ```
 
-
 ## API
 ```js
 //execute current obect
@@ -108,10 +110,7 @@ document.body.addEventListener('click', e=>{
 		alert(ctx)
 })
 .emit('event', ...args)//emit event
-
 .next() //execute next sting in script
-
-.getCurrentSceneBody()// return current scene object
 .getCurrentLabelBody()//return label Array
 .getCtx()// return current Object
 .getCurrentCharacter()
@@ -124,16 +123,6 @@ document.body.addEventListener('click', e=>{
 	labelName: 'string',
 	sceneName: 'string'
 }
-```
-
-## System plugins
-
-```js
-
-.emit('character', character, 'reply') // {al: 'Hello world'} character.id == 'al'
-.emit('*') // not found event
-.emit('exec') // emit after the execution  [ ctx ]
-
 ```
 
 ## Community

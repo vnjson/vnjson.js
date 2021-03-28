@@ -11,13 +11,15 @@
 	'use strict';
 
 class Vnjson {
-	version = '1.5.0';
-	//store ui elemenents
-	$ = {};
+	version = '1.6.0';
 	//current object
 	ctx = {};
 	//loaded scenes
 	TREE = {};
+	constructor (){
+		this.initJumpPlugin();
+		this.treeVnjson();
+	}
 
 	/**
 	 * Plugins store
@@ -44,7 +46,7 @@ class Vnjson {
 			volume: 100,
 			zoom: 100
 		},
-		data: { //userData
+		data: { 
 			points: 0
 		},
 		tree: [],
@@ -55,20 +57,14 @@ class Vnjson {
 	setAllAssets(){
 
 		for(let [scene, body] of Object.entries(this.TREE)){
-
-				if(scene!=='characters'){
-
-					this.current.assets = this.current.assets.concat(body.assets);
-
-				}
-		}
+				this.current.assets = this.current.assets.concat(body.assets);
+		};
 		this.emit('setAllAssets');
 	}
 	getAssetByName (name){
 		return this.current.assets.filter(asset=>{
 											return asset.name===name;
-					 })[0]
-		
+					 })[0];
 	}
 	getCurrentLabelBody (){
 		let labelBody = this.TREE[this.current.sceneName][this.current.labelName];
@@ -81,23 +77,11 @@ class Vnjson {
 		}
 	}
 	getCurrentCharacter (){
-		/*
-		return this.TREE.characters.filter(character=>{
-			
-			var prop = this.ctx.hasOwnProperty(character.id);
-				if(prop){
-					return  true;
-				}else if(typeof this.ctx==='string'){
-					console.log(typeof this.ctx==='string')
-					return true;
-				}
-			
-			
-		})//.pop();
-		*/
+
+		return this.current.character;
 	}
 	getCharacterById (id){
-		return this.TREE.characters.filter(character=>{
+		return this.TREE.$root.characters.filter(character=>{
 				return character.id === id;
 		}).pop();
 	}
@@ -106,19 +90,19 @@ class Vnjson {
 	}
 	setTree (tree){
 		this.TREE = tree;
-		if(this.TREE.characters){
+		if(this.TREE.$root.characters){
 					
-					this.TREE.characters.forEach((character)=>{
+					this.TREE.$root.characters.forEach((character)=>{
 						/**
+						 * Навешиваем слушатель на id персонажа
 						 * 
 						 */
 						this.on(character.id, (reply)=>{
 
+							this.current.character = character;
 							this.emit('character', character, reply);
-							this.on('character', character=>{
-								this.current.character = character;
-							})
 						})
+
 					});
 		};
 
@@ -131,6 +115,7 @@ class Vnjson {
       this.plugins[event].push(handler);
 	}
 	emit (event, ...args){
+
 		setTimeout(_=>{
 			if (Array.isArray(this.plugins[event])) {
       	this.plugins[event].forEach(handler =>{
@@ -149,7 +134,7 @@ class Vnjson {
 		//Получаем текущий объект контекста
 		this.ctx = ctx||this.getCtx();
 		if(typeof this.ctx === 'string'){
-					this.emit('$', this.ctx);
+					this.emit('character', this.getCharacterById('$'), this.ctx);
 		}else{
 			/**
 			 * Преобразуем объект контекста [this.ctx] в массив 
@@ -164,9 +149,8 @@ class Vnjson {
 				this.emit(event, data);
 			}
 		}/*else*/
-		this.emit('exec', this.ctx);
+		this.emit('exec', this.ctx)
 	}
-
 
 	next (){
 		if(this.getCurrentLabelBody().length-2<this.current.index){
@@ -187,7 +171,58 @@ class Vnjson {
 					fn();
 			}, 0);
 	}
-};
+
+	initJumpPlugin (){
+		function jumpHandler(pathname){
+
+				let path = pathname.split('.');
+				this.current.index = 0;
+				//label
+				if(!/\./i.test(pathname)){		
+					this.current.labelName = path[0];
+					this.emit('init', false);
+				}
+				//scene.label
+				if(/\./i.test(pathname)){
+						this.current.sceneName = path[0];
+						this.current.labelName = path[1];
+						this.emit('init', true);
+				};
+			}
+			this.on('jump', jumpHandler);
+	}
+	/**
+	 * Для дебага дерево прыжков строим
+ 	 */
+		treeVnjson (){
+			/**
+ 			* Строим дерево наших похождений
+ 			* Это нужно для дебага и может потом
+ 			* реализуют .pref но это не точно.
+ 			*/
+			var sceneNode;
+			function progressTreeBuilding  (isScene){
+					var scene = this.current.sceneName;
+					var label = this.current.labelName
+					if(isScene){
+								sceneNode = {
+												name: scene,
+												children: new Array()
+										};
+							//Добавляю узел в глобальное рисунок дерева
+							this.current.tree.push(sceneNode);
+					}
+					//Определяю индекс свежесозданного узла внутри дерева
+					let indexInTree = this.current.tree.indexOf(sceneNode);
+					//Получаю доступ к текущему узлу
+					var sceneObject = this.current.tree[indexInTree];
+					//добавляю в текущую сцену все label по которым
+					//перешел пользователь 
+					sceneObject.children.push(label);	
+			};
+			this.on('init', progressTreeBuilding)
+		};
+	};
 
 return Vnjson;
 });
