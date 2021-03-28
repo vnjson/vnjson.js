@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Simple</title>
+
+	<style type="text/css">
+		.game{  width: 50vw; height: 50vh; background: #334; color: white; padding: 5px; user-select: none; font-size: 2em; font-family: 'Tahoma', sans-serif}
+		#characterName{ width: 35%; height: 5vh; background: #556; margin: 10px; padding: 5px; }
+		#characterReply{ width: 95%; height: 20vh;  background: #556; margin: 10px; cursor: pointer; padding: 5px; }
+		#characterReply:hover{ background: #445; }
+	</style>
+
+	<script src="https://unpkg.com/vnjson.js@1.6.0/dist/vnjson.js"></script>
+	<script src="./tree.js"></script>
+</head>
+<body>
+
+<div class="game">
+		<div class="dialog-box">
+			<div id="characterName"></div>
+			<div id="characterReply"></div>
+			<div id="gameMenu"></div>
+		</div>
+</div>
+
+<script>
+
+function elem (id){
+	return document.getElementById(id);
+}
+
+/**
+ * Create plugins
+ */
+function notFound(){
+	this.on('*', e=>{
+		if(e!=='exec')
+					console.log(`Плагин [ ${e} ] не зарегестрирован`)
+	})
+};
+
+function logVnjson(){
+	this.on('log', e=>console.log(e))
+};
+
+function alertVnjson(){
+	this.on('alert', e=>console.warn(e))
+}
+
+function characterVnjson (){
+
+	this.on('character', (character, reply)=>{
+		elem('characterName').innerHTML = character.name;
+		elem('characterName').style.color = character.color;
+		elem('characterReply').innerHTML = reply;
+		elem('characterReply').style.color = character.color;
+	})
+}
+
+
+const vnjs = new Vnjson();
+
+
+/**
+ * Init plugins
+ */
+vnjs.use(notFound)
+vnjs.use(logVnjson)
+vnjs.use(alertVnjson)
+vnjs.use(characterVnjson)
+/**
+ * setTree
+ */
+vnjs.setTree(tree);
+/**
+ * entry point
+ */
+vnjs.emit('jump', tree.$root.package.entry)
+
+/**
+ * scene or label init
+ */
+
+vnjs.on('init', function (scene){
+	if(scene){
+		console.warn(this.current.sceneName)
+	}
+	this.exec();
+});
+
+
+elem('characterReply').addEventListener('mousedown', function (e){
+
+	vnjs.next();
+})
+
+
+</script>
+
+</body>
+</html>
