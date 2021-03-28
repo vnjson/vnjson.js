@@ -2,8 +2,17 @@
 # vnjson.js
 > Vnjson Scripting language interpreter
 
-## Discription
+## Description
 [__`vnjson/scheme`__](https://github.com/vnjson/scheme)
+
+
+
+## Demo
+
+[__`Text Quest`__](https://vnjson.github.io/vtq-tpl/dist/)
+
+[__`Visual Novel`__](https://vnjson.github.io/vpv-tpl/dist/)
+
 
 ## Install
 
@@ -13,13 +22,8 @@
 ### NodeJS
 ```bash
 npm install vnjson.js
+npm install scenes-to-json -D
 ```
-
-## Demo
-
-[__`Text Quest`__](https://vnjson.github.io/vtq-tpl/dist/)
-
-[__`Visual Novel`__](https://vnjson.github.io/vpv-tpl/dist/)
 
 
 ## Utils
