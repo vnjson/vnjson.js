@@ -8,7 +8,7 @@
 ## Install
 
 ### Browser
-[__`<script src="https://unpkg.com/vnjson.js/dist/vnjson.js"></script>`__](https://unpkg.com/vnjson.js/dist/vnjson.js)
+[__`<script src="https://unpkg.com/vnjson.js@1.6.0/dist/vnjson.js"></script>`__](https://unpkg.com/vnjson.js@1.6.0/dist/vnjson.js)
 
 ### NodeJS
 ```bash
