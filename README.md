@@ -9,7 +9,7 @@
 
 ## Demo
 
-[__`Text Quest`__](https://vnjson.github.io/vtq-tpl/dist/)
+[__`Text Quest`__](https://vnjson.github.io/vtq-tpl/game/dist/)
 
 [__`Visual Novel`__](https://vnjson.github.io/vpv-tpl/dist/)
 

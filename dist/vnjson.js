@@ -11,7 +11,7 @@
 	'use strict';
 
 class Vnjson {
-	version = '1.6.0';
+	version = '1.6.2';
 	//current object
 	ctx = {};
 	//loaded scenes
@@ -33,10 +33,11 @@ class Vnjson {
 	 */
 	current = {
 		index: 0,
-		labelName: 'label',
-		sceneName: 'scene',
-		character: {name: '$', text: 'Norrator'},
-		layer: {
+		labelName: 'entry',
+		sceneName: '$root',
+		character: {id: '$', name: 'Norrator'},
+		render: {
+			screen: undefined,
 			audio: undefined,
 			scene: undefined, //bg
 			show: {}//left right center show
@@ -50,17 +51,15 @@ class Vnjson {
 			points: 0
 		},
 		tree: [],
+		allAssets: [],
 		assets: []
 	};
+	/**
+	 * Preloaded images and audio object
+	 */
+	$store = {};
 
 
-	setAllAssets(){
-
-		for(let [scene, body] of Object.entries(this.TREE)){
-				this.current.assets = this.current.assets.concat(body.assets);
-		};
-		this.emit('setAllAssets');
-	}
 	getAssetByName (name){
 		return this.current.assets.filter(asset=>{
 											return asset.name===name;
@@ -72,7 +71,7 @@ class Vnjson {
 			return labelBody;
 		}
 		else{
-			console.warn('{ menu } or { jump } leads nowhere');
+			this.emit('pathNotFound')
 			return [''];
 		}
 	}
@@ -86,7 +85,9 @@ class Vnjson {
 		}).pop();
 	}
 	getCtx (){
-		return this.getCurrentLabelBody()[this.current.index];
+		let ctx = this.getCurrentLabelBody()[this.current.index];
+		return ctx;
+
 	}
 	setTree (tree){
 		this.TREE = tree;
@@ -105,7 +106,7 @@ class Vnjson {
 
 					});
 		};
-
+		this.emit('setTree')
 	}
 
 	on (event, handler){
@@ -156,7 +157,7 @@ class Vnjson {
 		if(this.getCurrentLabelBody().length-2<this.current.index){
 			
 			this.current.index = this.current.index;
-			console.warn(`No way out of the label [ ${this.current.labelName} ]`)
+			this.emit('labelEnd');
 		}else{
 			this.current.index++;
 			this.exec();
@@ -166,12 +167,6 @@ class Vnjson {
 	use (plugin){
 				plugin.call(this);	
 	}
-	nextTick (fn){
-			setTimeout(_=>{
-					fn();
-			}, 0);
-	}
-
 	initJumpPlugin (){
 		function jumpHandler(pathname){
 
@@ -181,6 +176,7 @@ class Vnjson {
 				if(!/\./i.test(pathname)){		
 					this.current.labelName = path[0];
 					this.emit('init', false);
+
 				}
 				//scene.label
 				if(/\./i.test(pathname)){
@@ -188,7 +184,7 @@ class Vnjson {
 						this.current.labelName = path[1];
 						this.emit('init', true);
 				};
-			}
+			};
 			this.on('jump', jumpHandler);
 	}
 	/**
