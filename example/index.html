@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Vnjson example</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .screen{
+            width: 600px;
+            height: 400px;
+            background-color: #334;
+            position: relative;
+        }
+        .dialog-box{
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            font-size: 20px;
+            font-weight: 600;
+            font-family: Consolas, Arial;
+            user-select: none;
+        }
+        .dialog-box__name{
+            width: 200px;
+            background-color: black;
+            color: deepskyblue;
+            height: 40px;
+            padding: 10px;
+        }
+        .dialog-box__reply{
+            margin-top: 10px;
+            background-color: black;
+            width: 100%;
+            height: 120px;
+            cursor: pointer;
+            padding: 10px;
+            color: wheat;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="screen">
+
+        <div class="dialog-box">
+            <div class="dialog-box__name"></div>
+            <div class="dialog-box__reply"></div>
+        </div>
+    </div>
+    <script type="module" src='init.js'></script> 
+</body>
+</html>

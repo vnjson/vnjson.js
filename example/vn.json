@@ -1,0 +1,42 @@
+{
+    "$root": {
+        "assets": [{ "name": "bg1", "url": "assets/bg1.png" }],
+        "characters": [
+            {
+                "id": "$",
+                "name": "Author",
+                "nameColor": "orange",
+                "replyColor": "wheat"
+            },
+            {
+                "id": "al",
+                "name": "Alice",
+                "nameColor": "deepskyblue",
+                "replyColor": "skyblue"
+            }
+        ],
+        "$init": [
+            { 
+                "$": "У лукоморья дуб", 
+                "log": 0, 
+                "scene": false 
+            },
+            { "+": "зеленый", "log": 1 },
+            {
+                "al": "Златая цепь на",
+                "log": 2,
+                "scene": "bg1"
+            },
+            { "al": "дубе том", "log": 4 },
+            { "jump": "chapter_1" }
+        ],
+        "chapter_1": [
+            "И днём и ночью кот ученый",
+            "Все ходит по цепи кругом",
+            { "jump": "vol_2.$init" }
+        ]
+    },
+    "vol_2": {
+        "$init": [{ "al": "Том 2" }, { "jump": "$root.$init" }]
+    }
+}
