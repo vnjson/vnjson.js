@@ -65,7 +65,7 @@ var knot = function knot() {
 const emitter = knot();
 
 class Vnjson {
-  version = "2.0.0";
+  version = "2.0.1";
   ctx = null;
   tree = null;
   package = null;
@@ -254,11 +254,6 @@ class Vnjson {
   }
 
   use(plugin) {
-    if (typeof plugin === "object") {
-      plugin.mount();
-      return;
-    }
-
     plugin.call(this, this.tree);
   }
 
